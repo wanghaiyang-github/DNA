@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.MarkerInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.MarkerInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="PANEL_ID" jdbcType="INTEGER" property="panelId" />
+    <result column="MARKER_NAME" jdbcType="VARCHAR" property="markerName" />
+    <result column="MARKER_ALIAS" jdbcType="VARCHAR" property="markerAlias" />
+    <result column="MARKER_ORDER" jdbcType="INTEGER" property="markerOrder" />
+    <result column="MARKER_DESC" jdbcType="VARCHAR" property="markerDesc" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    m.ID, m.PANEL_ID, m.MARKER_NAME, m.MARKER_ALIAS, m.MARKER_ORDER, m.MARKER_DESC
+  </sql>
+
+  <select id="selectAllMarkerInfoList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from marker_info
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from marker_info m
+    where m.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectRepeatQuery" parameterType="com.bazl.hslims.manager.model.po.MarkerInfo" resultType="int">
+    select count(*) from marker_info m
+    <where>
+      <if test="markerName !=null">
+        m.MARKER_NAME = #{markerName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectMarkerInfoByName"  parameterType="com.bazl.hslims.manager.model.po.MarkerInfo" resultMap="BaseResultMap">
+    select * from marker_info m where m.MARKER_NAME = #{markerName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectMarkerInfoList" resultMap="BaseResultMap">
+    select * from marker_info m
+    <where>
+      <if test="markerName !=null">
+        m.MARKER_NAME like CONCAT('%',#{markerName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="markerAlias !=null">
+        and  m.MARKER_ALIAS like CONCAT('%',#{markerAlias,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="markerOrder !=null">
+        and  m.MARKER_ORDER like CONCAT('%',#{markerOrder,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="markerDesc !=null">
+        and  m.MARKER_DESC like CONCAT('%',#{markerDesc,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    order by m.ID
+  </select>
+
+  <select id="selectListByPanelName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from marker_info m, panel_info p
+    where m.PANEL_ID=p.ID and p.PANEL_NAME=#{panelName, jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from marker_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.MarkerInfo">
+    insert into marker_info (ID, PANEL_ID, MARKER_NAME, 
+      MARKER_ALIAS, MARKER_ORDER, MARKER_DESC
+      )
+    values (#{id,jdbcType=INTEGER}, #{panelId,jdbcType=INTEGER}, #{markerName,jdbcType=VARCHAR}, 
+      #{markerAlias,jdbcType=VARCHAR}, #{markerOrder,jdbcType=INTEGER}, #{markerDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.MarkerInfo">
+    update marker_info
+    set PANEL_ID = #{panelId,jdbcType=INTEGER},
+      MARKER_NAME = #{markerName,jdbcType=VARCHAR},
+      MARKER_ALIAS = #{markerAlias,jdbcType=VARCHAR},
+      MARKER_ORDER = #{markerOrder,jdbcType=INTEGER},
+      MARKER_DESC = #{markerDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

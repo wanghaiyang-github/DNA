@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!--下载路径 -->
+	<entry key="DownloadPath">d:\\download\\</entry>
+
+	<!--压缩包名-->
+	<entry key="ZipName">myfile</entry>
+
+	<!--鉴定书路径-->
+	<entry key="identifyBookPath">d:\identifyBookFile\</entry>
+
+	<!--生成鉴定书文件夹-->
+	<entry key="rebuildPath">rebuildFile</entry>
+
+	<!--上传鉴定书文件夹-->
+	<entry key="uploadPath">uploadFile</entry>
+
+	<!--上传样本照片文件夹-->
+	<entry key="uploadPhotoPath">d:\uploadPhotoPath\</entry>
+
+	<!-- 民族 -->
+	<entry key="populationId">1</entry>
+	<entry key="populationName">中国汉族</entry>
+	<!-- 匹配下限 -->
+	<entry key="minSameCount">12</entry>
+	<!-- 容差 -->
+	<entry key="maxDiffCount">1</entry>
+
+	<!--标题名称-->
+	<entry key="loginTitleName">毕节市公安局DNA实验室信息管理系统</entry>
+	<!--登录页英文标题名称-->
+	<entry key="loginEnglishTitleName">Public security judicial appraisal center of the 3rd division of the corps</entry>
+
+	<entry key="xkAdress">http://127.0.0.1:8089/XKWebService/xk/getCaseInfoXk.html?caseXkNo=</entry>
+
+	<!--市局现堪登录账号和密码（祝大的账号）-->
+	<entry key="SJloginName">035571</entry>
+	<entry key="SJpassword">035571</entry>
+
+	<!--七星关现堪登录账号和密码-->
+	<entry key="QXJloginName">023079</entry>
+	<entry key="QXJpassword">023079</entry>
+
+	<!--大方现堪登录账号和密码-->
+	<entry key="DFloginName">023502</entry>
+	<entry key="DFpassword">023502</entry>
+
+	<!--黔西现堪登录账号和密码-->
+	<entry key="QXloginName">023797</entry>
+	<entry key="QXpassword">023797</entry>
+
+	<!--金沙现堪登录账号和密码-->
+	<entry key="JSloginName">039251</entry>
+	<entry key="JSpassword">039251</entry>
+
+	<!--织金现堪登录账号和密码-->
+	<entry key="ZJloginName">039312</entry>
+	<entry key="ZJpassword">039312</entry>
+
+	<!--赫章现堪登录账号和密码-->
+	<entry key="HZloginName">030962</entry>
+	<entry key="HZpassword">030962</entry>
+
+	<!--威宁现堪登录账号和密码-->
+	<entry key="WNloginName">025641</entry>
+	<entry key="WNpassword">025641</entry>
+
+	<!--百里杜鹃现堪登录账号和密码-->
+	<entry key="BLloginName">052018</entry>
+	<entry key="BLpassword">554414</entry>
+
+	<!--金海湖现堪登录账号和密码-->
+	<entry key="JHHloginName">052154</entry>
+	<entry key="JHHpassword">wl76555</entry>
+
+</properties>

@@ -1,0 +1,87 @@
+group 'com.bazl.hslims'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/release" }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'dom4j', name: 'dom4j', version:'1.6.1'
+    //compile project(':DNAService')
+
+    compile fileTree(dir: 'src/main/webapp/WEB-INF/lib', include: ['*.jar'])
+
+    //slf4j
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.22'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.22'
+
+    //jackson
+    compile group: 'com.fasterxml.jackson.core',name: 'jackson-core', version:'2.8.1'
+    compile group: 'com.fasterxml.jackson.core',name: 'jackson-databind', version:'2.8.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.8.1'
+    compile group: 'com.fasterxml.jackson.dataformat',name: 'jackson-dataformat-xml', version:'2.8.1'
+
+    //javax
+    compile group:'javax.servlet',name:'javax.servlet-api', version:'3.0.1'
+    compile group: 'javax.faces', name: 'jsf-api', version:'1.2_04'
+    compile group: 'javax.servlet', name: 'jstl', version:'1.2'
+    compile group: 'javax.servlet.jsp', name: 'jsp-api', version:'2.1'
+    compile group: 'javax.faces', name: 'jsf-impl', version:'1.2_04'
+
+    //springframework
+    compile group: 'org.springframework', name: 'spring-context', version:'4.3.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'4.3.5.RELEASE'
+
+    //mybatis
+    compile 'org.mybatis:mybatis:3.4.0'
+    compile 'org.mybatis:mybatis-spring:1.3.0'
+
+    //shiro
+    compile group: 'org.apache.shiro', name: 'shiro-core', version:'1.2.2'
+    compile group: 'org.apache.shiro', name: 'shiro-web', version:'1.2.2'
+    compile group: 'org.apache.shiro', name: 'shiro-ehcache', version:'1.2.2'
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version:'1.2.2'
+
+    //freemarker
+    compile group: 'org.freemarker', name:'freemarker',version:'2.3.22'
+
+    //webservice
+    compile group: 'org.springframework.ws', name: 'spring-ws-core', version:'2.2.0.RELEASE'
+    compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version:'3.0.0'
+    compile group: 'org.apache.cxf', name: 'cxf-rt-transports-http', version:'3.0.0'
+
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version:'1.2.1'
+    compile group: 'commons-io', name: 'commons-io', version:'1.3.2'
+    compile group: 'commons-lang', name: 'commons-lang', version:'2.3'
+
+    //json-lib
+    compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier:'jdk15'
+
+    //tomcat jdbc
+    compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version:'8.0.33'
+
+    compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    //redis
+    compile group: 'redis.clients', name: 'jedis', version: '2.7.2'
+    compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.5.0'
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.6.0.RELEASE'
+
+    compile group: 'org.apache.xmlbeans', name: 'xmlbeans', version:'2.6.0'
+    compile group: 'org.apache.poi', name: 'poi-ooxml-schemas', version:'3.15'
+    compile group: 'org.apache.poi', name: 'openxml4j', version:'1.0-beta'
+    compile group: 'org.apache.poi', name: 'poi', version:'3.15'
+    compile group: 'org.apache.poi', name: 'poi-scratchpad', version:'3.15'
+
+    //json-lib
+    compile group: 'com.alibaba', name:'fastjson', version:'1.2.41'
+
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+
+}

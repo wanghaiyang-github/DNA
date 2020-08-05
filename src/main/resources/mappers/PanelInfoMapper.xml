@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.PanelInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.PanelInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="PANEL_NAME" jdbcType="VARCHAR" property="panelName" />
+    <result column="PANEL_VERSION" jdbcType="VARCHAR" property="panelVersion" />
+    <result column="PANEL_PRODUCER" jdbcType="VARCHAR" property="panelProducer" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+  </resultMap>
+
+  
+  
+  
+  <resultMap id="PanelBaseResultMap" type="com.bazl.hslims.manager.model.po.Panel">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="GENE_INFO_ID" jdbcType="INTEGER" property="geneInfoId" />
+    <id column="PANEL_INFO_ID" jdbcType="INTEGER" property="panelInfoId" />
+    <result column="MARKER_INFO_ID" jdbcType="INTEGER" property="markerInfoId" />
+    <result column="PANEL_NAME" jdbcType="VARCHAR" property="panelName" />
+    <result column="MARKER_NAME" jdbcType="VARCHAR" property="markerName" />
+    <result column="GENE_INFO" jdbcType="VARCHAR" property="geneInfo" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, PANEL_ID, MARKER_NAME,MARKER_ALIAS,MARKER_ORDER,MARKER_DESC
+  </sql>
+
+  <select id="selectPanelInfoRepeatQuery" parameterType="com.bazl.hslims.manager.model.po.PanelInfo" resultType="int">
+    select count(*) from panel_info p where p.PANEL_NAME = #{panelName,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectPanelInfoList" resultMap="BaseResultMap">
+    select * from panel_info p
+    <where>
+      <if test="id !=null">
+        p.ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="panelName !=null">
+        and p.PANEL_NAME like CONCAT('%',#{panelName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="panelVersion !=null">
+        and  p.PANEL_VERSION like CONCAT('%',#{panelVersion,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="panelProducer !=null">
+        and  p.PANEL_PRODUCER like CONCAT('%',#{panelProducer,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="createPerson !=null">
+        and  p.CREATE_PERSON like CONCAT('%',#{createPerson,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    order by p.ID
+  </select>
+
+  <select id="selectQueryList" resultMap="BaseResultMap">
+    select * from panel_info p
+    <where>
+      <if test="id !=null">
+        p.ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="panelName !=null">
+        and p.PANEL_NAME = #{panelName,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by p.ID
+  </select>
+
+  <select id="selectPanelList" resultMap="PanelBaseResultMap">
+    select * from panel p
+    <where>
+      <if test="panelInfoId !=null">
+        p.PANEL_INFO_ID = #{panelInfoId,jdbcType=INTEGER}
+      </if>
+      <if test="panelName !=null and panelName!=''">
+        and p.PANEL_NAME = #{panelName,jdbcType=VARCHAR}
+      </if>
+      <if test="markerName !=null and markerName!=''">
+        and p.MARKER_NAME = #{markerName,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by p.ID
+  </select>
+
+  <select id="selectGenePanelList" resultMap="PanelBaseResultMap">
+    select lsg.GENE_INFO as GENE_INFO,lsg.id,p.* from panel p left join lims_sample_gene lsg on p.PANEL_INFO_ID=lsg.PANEL_ID
+    <where>
+      <if test="id !=null">
+        p.ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="panelInfoId !=null">
+        and p.PANEL_INFO_ID = #{panelInfoId,jdbcType=INTEGER}
+      </if>
+      <if test="geneInfoId !=null">
+        and lsg.id = #{geneInfoId,jdbcType=INTEGER}
+      </if>
+      <if test="panelName !=null">
+        and p.PANEL_NAME = #{panelName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from panel_info where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deletePanel" parameterType="java.lang.Integer">
+   delete from panel where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.PanelInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into panel_info (PANEL_NAME,PANEL_VERSION,PANEL_PRODUCER,CREATE_PERSON)
+    values
+    ( #{panelName,jdbcType=VARCHAR},#{panelVersion,jdbcType=VARCHAR}, #{panelProducer,jdbcType=VARCHAR},#{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="addPanel" parameterType="com.bazl.hslims.manager.model.po.Panel" useGeneratedKeys="true" keyProperty="id">
+    insert into panel (PANEL_INFO_ID,MARKER_INFO_ID,PANEL_NAME,MARKER_NAME)
+    values
+    ( #{panelInfoId,jdbcType=INTEGER},#{markerInfoId,jdbcType=INTEGER}, #{panelName,jdbcType=VARCHAR},#{markerName,jdbcType=VARCHAR})
+  </insert>
+
+</mapper>

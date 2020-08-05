@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsPersonSample">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsPersonSample">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ENTRUSTMENT_ID" jdbcType="INTEGER" property="entrustmentId" />
+    <result column="CASE_INFORMATION_ID" jdbcType="INTEGER" property="caseInformationId" />
+    <result column="PERSON_NAME" jdbcType="VARCHAR" property="personName" />
+    <result column="SAMPLE_NO" jdbcType="VARCHAR" property="sampleNo" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="SAMPLE_TYPE" jdbcType="VARCHAR" property="sampleType" />
+    <result column="ONESELF_CONTACT" jdbcType="VARCHAR" property="oneselfContact" />
+    <result column="SAMPLE_LABORATORY_NO" jdbcType="VARCHAR" property="sampleLaboratoryNo" />
+    <result column="PERSON_TYPE" jdbcType="VARCHAR" property="personType" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="ACCEPTANCE_TYPE" jdbcType="VARCHAR" property="acceptanceType" />
+    <result column="DELETE_FLAG" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    p.ID, p.ENTRUSTMENT_ID,p.CASE_INFORMATION_ID, p.PERSON_NAME, p.SAMPLE_NAME,P.SAMPLE_TYPE, p.ONESELF_CONTACT, p.SAMPLE_LABORATORY_NO,
+    p.PERSON_TYPE, p.CREATE_DATETIME,p.ACCEPTANCE_TYPE, p.DELETE_FLAG, p.REMARK
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_person_sample p
+    where p.ID = #{id,jdbcType=INTEGER} and p.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListByEntrustmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_person_sample p
+    where p.ENTRUSTMENT_ID=#{entrustmentId,jdbcType=INTEGER} and p.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListByCaseInformationId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_person_sample p
+    where p.CASE_INFORMATION_ID=#{caseInformationId,jdbcType=INTEGER} and p.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListBySampleLaboratoryNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_person_sample p
+    where p.SAMPLE_LABORATORY_NO=#{sampleLaboratoryNo,jdbcType=VARCHAR} and p.DELETE_FLAG='0'
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lims_person_sample
+    set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsPersonSample" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_person_sample (ENTRUSTMENT_ID, CASE_INFORMATION_ID,PERSON_NAME,
+      SAMPLE_NAME, SAMPLE_TYPE, ONESELF_CONTACT, SAMPLE_LABORATORY_NO,
+      PERSON_TYPE, CREATE_DATETIME, ACCEPTANCE_TYPE,DELETE_FLAG)
+    values (#{entrustmentId,jdbcType=INTEGER}, #{caseInformationId,jdbcType=INTEGER},#{personName,jdbcType=VARCHAR},
+      #{sampleName,jdbcType=VARCHAR}, #{sampleType,jdbcType=VARCHAR}, #{oneselfContact,jdbcType=VARCHAR}, #{sampleLaboratoryNo,jdbcType=VARCHAR},
+      #{personType,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, #{acceptanceType,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsPersonSample">
+    update lims_person_sample
+    set ENTRUSTMENT_ID = #{entrustmentId,jdbcType=INTEGER},
+      CASE_INFORMATION_ID = #{caseInformationId,jdbcType=INTEGER},
+      PERSON_NAME = #{personName,jdbcType=INTEGER},
+      SAMPLE_NAME = #{sampleName,jdbcType=VARCHAR},
+      SAMPLE_TYPE = #{sampleType,jdbcType=VARCHAR},
+      ONESELF_CONTACT = #{oneselfContact,jdbcType=VARCHAR},
+      SAMPLE_LABORATORY_NO = #{sampleLaboratoryNo,jdbcType=VARCHAR},
+      PERSON_TYPE = #{personType,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      ACCEPTANCE_TYPE = #{acceptanceType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

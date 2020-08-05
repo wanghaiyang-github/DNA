@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.CriminalPersonInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.CriminalPersonInfo">
+    <id column="ID" property="id" jdbcType="INTEGER" javaType="int"/>
+    <result column="PERSON_NO" property="personNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="PERSON_TYPE" property="personType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="PERSON_NAME" property="personName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="IDCARD_NO" property="idcardNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="RACE" property="race" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="DOMICILE" property="domicile" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="HEIGHT" property="height" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="WEIGHT" property="weight" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="COLLECT_ORG_ID" property="collectOrgId" jdbcType="INTEGER" javaType="int" />
+    <result column="COLLECT_ORG_NAME" property="collectOrgName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="COLLECT_DATETIME" property="collectDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="COLLECT_PERSON" property="collectPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="COLLECTOR_PHONE" property="collectorPhone" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" javaType="int"/>
+    <result column="IS_DELETED" property="isDeleted" jdbcType="TINYINT" javaType="int"/>
+    <result column="SAMPLE_TYPE" property="sampleType" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="CREATE_DATETIME" property="createDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="CREATE_PERSON" property="createPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="UPDATE_DATETIME" property="updateDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="UPDATE_PERSON" property="updatePerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+  </resultMap>
+
+  <resultMap id="VoBaseResultMap" type="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo">
+    <id column="ID" property="entity.id" jdbcType="INTEGER" javaType="int"/>
+    <result column="PERSON_NO" property="entity.personNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="PERSON_TYPE" property="entity.personType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="PERSON_NAME" property="entity.personName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="IDCARD_NO" property="entity.idcardNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="GENDER" property="entity.gender" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="RACE" property="entity.race" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="DOMICILE" property="entity.domicile" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="HEIGHT" property="entity.height" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="WEIGHT" property="entity.weight" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="COLLECT_ORG_ID" property="entity.collectOrgId" jdbcType="INTEGER" javaType="int" />
+    <result column="COLLECT_ORG_NAME" property="entity.collectOrgName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="COLLECT_DATETIME" property="entity.collectDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="COLLECT_PERSON" property="entity.collectPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="COLLECTOR_PHONE" property="entity.collectorPhone" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="STATUS" property="entity.status" jdbcType="TINYINT" javaType="int"/>
+    <result column="IS_DELETED" property="entity.isDeleted" jdbcType="TINYINT" javaType="int"/>
+    <result column="SAMPLE_TYPE" property="entity.sampleType" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="REMARK" property="entity.remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="CREATE_DATETIME" property="entity.createDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="CREATE_PERSON" property="entity.createPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="UPDATE_DATETIME" property="entity.updateDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="UPDATE_PERSON" property="entity.updatePerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+    <result column="PERSON_TYPE_NAME" property="personTypeName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="GENDER_NAME" property="genderName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="RACE_NAME" property="raceName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="STATUS_NAME" property="statusName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="SCANED_DATETIME" property="scanedDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="SCANED_PERSON" property="scanedPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="PERSON_NO" property="personNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+    <result column="SAMPLE_GENE_ID" property="sampleGeneId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="GENE_INFO" property="geneInfo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="GENE_CREATE_DATETIME" property="geneCreateDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="INSTORED_FLAG" property="instoredFlag" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="GENE_COUNT" property="geneCount" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    p.ID, p.PERSON_NO, p.PERSON_TYPE, p.PERSON_NAME, p.IDCARD_NO, p.GENDER, p.RACE, p.DOMICILE, p.HEIGHT, p.WEIGHT,
+    p.COLLECT_ORG_ID, p.COLLECT_ORG_NAME, p.COLLECT_DATETIME, p.COLLECT_PERSON, p.COLLECTOR_PHONE, p.STATUS, p.SAMPLE_TYPE, p.REMARK,
+    p.CREATE_DATETIME, p.CREATE_PERSON, p.UPDATE_DATETIME, p.UPDATE_PERSON,p.IS_DELETED
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="int">
+    update CRIMINAL_PERSON
+    set IS_DELETED='1'
+    where ID=#{_parameter, jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from CRIMINAL_PERSON p where  p.IS_DELETED = 0 AND p.ID = #{_parameter, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPersonNo" parameterType="com.bazl.hslims.manager.model.po.CriminalPersonInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CRIMINAL_PERSON p
+    where  p.IS_DELETED = 0 AND p.PERSON_NO = #{personNo, jdbcType=VARCHAR}
+  </select>
+
+  <sql id="WhereClause">
+    <where>
+      <if test="personNo != null">
+        p.PERSON_NO=#{personNo, jdbcType=VARCHAR}
+      </if>
+      <if test="personName != null">
+        and p.PERSON_NAME=#{personName, jdbcType=VARCHAR}
+      </if>
+      <if test="idcardNo != null">
+        and p.IDCARD_NO=#{idcardNo, jdbcType=VARCHAR}
+      </if>
+      AND  IS_DELETED = 0
+    </where>
+  </sql>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.CriminalPersonInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CRIMINAL_PERSON p
+    <if test="_parameter != null">
+      <include refid="WhereClause"/>
+    </if>
+    <if test="_parameter == null">
+      WHERE IS_DELETED = 0
+    </if>
+  </select>
+
+  <select id="selectCount" parameterType="com.bazl.hslims.manager.model.po.CriminalPersonInfo" resultType="int">
+    select count(p.ID)
+    from CRIMINAL_PERSON p
+    where 1=1
+    <if test="_parameter != null">
+      <include refid="WhereClause"/>
+    </if>
+    <if test="_parameter == null">
+      WHERE IS_DELETED = 0
+    </if>
+  </select>
+
+  <!--查询有基因型的样本-->
+  <select id="selectGenePersonList" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo" resultMap="VoBaseResultMap">
+    select <include refid="Base_Column_List" />,lsg.GENE_COUNT,di.DICT_NAME as PERSON_TYPE_NAME,lsg.ID as SAMPLE_GENE_ID
+    from lims_sample_gene lsg
+    left join CRIMINAL_PERSON p on lsg.CRIMINAL_PERSON_ID = p.ID
+    left join dict_item di on di.DICT_CODE = p.person_type and di.DICT_TYPE_CODE = 'PERSON_TYPE'
+    WHERE p.IS_DELETED = 0
+      <if test="entity.personNo != null">
+       and p.PERSON_NO like CONCAT('%',#{entity.personNo, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="entity.personName != null">
+        and p.PERSON_NAME like CONCAT('%',#{entity.personName, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="entity.idcardNo != null">
+        and p.IDCARD_NO like CONCAT('%',#{entity.idcardNo, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="entity.personType != null">
+        and p.PERSON_TYPE =#{entity.personType, jdbcType=VARCHAR}
+      </if>
+      <if test="entity.collectOrgId != 0">
+        and p.COLLECT_ORG_ID =#{entity.collectOrgId, jdbcType=INTEGER}
+      </if>
+    order by lsg.CREATE_DATETIME desc
+    limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectGenePersonCount" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo" resultType="int">
+    select count(distinct lsg.CRIMINAL_PERSON_NO)
+    from lims_sample_gene lsg
+    left join CRIMINAL_PERSON p on lsg.CRIMINAL_PERSON_ID = p.ID
+    WHERE p.IS_DELETED = 0
+    <if test="entity.personNo != null">
+      and p.PERSON_NO like CONCAT('%',#{entity.personNo, jdbcType=VARCHAR},'%')
+    </if>
+    <if test="entity.personName != null">
+      and p.PERSON_NAME like CONCAT('%',#{entity.personName, jdbcType=VARCHAR},'%')
+    </if>
+    <if test="entity.idcardNo != null">
+      and p.IDCARD_NO like CONCAT('%',#{entity.idcardNo, jdbcType=VARCHAR},'%')
+    </if>
+    <if test="entity.personType != null">
+      and p.person_type =#{entity.personType, jdbcType=VARCHAR}
+    </if>
+    <if test="entity.collectOrgId != 0">
+      and p.COLLECT_ORG_ID =#{entity.collectOrgId, jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectByIdcardNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from CRIMINAL_PERSON p
+    where  p.IS_DELETED = 0 AND p.IDCARD_NO=#{idcardNo, jdbcType=VARCHAR}
+  </select>
+
+  <sql id="Query_Where_Clause">
+    <where>
+      <if test="entity.personNo != null">
+        p.PERSON_NO like CONCAT('%',#{entity.personNo, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="entity.personName != null">
+        and p.PERSON_NAME like CONCAT('%',#{entity.personName, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="entity.idcardNo != null">
+        and p.IDCARD_NO like CONCAT('%',#{entity.idcardNo, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="collectDatetimeStart != null">
+        and p.COLLECT_DATETIME &gt;= #{collectDatetimeStart, jdbcType=TIMESTAMP}
+      </if>
+      <if test="collectDatetimeEnd != null">
+        and p.COLLECT_DATETIME &lt;= #{collectDatetimeEnd, jdbcType=TIMESTAMP}
+      </if>
+      <if test="collectOrgIdList != null">
+        and p.collect_org_id in (
+        <foreach collection="collectOrgIdList" item="item" separator=",">
+          #{item, jdbcType=INTEGER}
+        </foreach>
+        )
+      </if>
+
+      <if test="scanedDatetimeStart != null">
+        and lsg.CREATE_DATETIME &gt;= #{scanedDatetimeStart, jdbcType=TIMESTAMP}
+      </if>
+      <if test="scanedDatetimeEnd != null">
+        and lsg.CREATE_DATETIME &lt;= #{scanedDatetimeEnd, jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="personNoStart != null">
+        and p.PERSON_NO &gt;= #{personNoStart, jdbcType=VARCHAR}
+      </if>
+      <if test="personNoEnd != null">
+        and p.PERSON_NO &lt;= #{personNoEnd, jdbcType=VARCHAR}
+      </if>
+      <if test="codisFileName != null">
+        and lsg.CODIS_FILE_NAME = #{codisFileName, jdbcType=VARCHAR}
+      </if>
+      AND p.IS_DELETED = 0
+    </where>
+  </sql>
+
+  <sql id="VoWhereClause">
+    <where>
+      <if test="personNo != null">
+       p.PERSON_NO like CONCAT('%',#{personNo, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="personName != null">
+        and p.PERSON_NAME like CONCAT('%',#{personName, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="idcardNo != null">
+        and p.IDCARD_NO like CONCAT('%',#{idcardNo, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="collectDatetimeStart != null">
+        and p.COLLECT_DATETIME &gt;= #{collectDatetimeStart, jdbcType=TIMESTAMP}
+      </if>
+      <if test="collectDatetimeEnd != null">
+        and p.COLLECT_DATETIME &lt;= #{collectDatetimeEnd, jdbcType=TIMESTAMP}
+      </if>
+      <if test="collectOrgId != 0">
+        and p.COLLECT_ORG_ID = #{collectOrgId, jdbcType=INTEGER}
+      </if>
+      <if test="acceptOrgId &gt; 0">
+        and p.collect_org_id in (select id from delegate_org do where do.id=#{acceptOrgId, jdbcType=INTEGER} or do.parent_id=#{acceptOrgId, jdbcType=INTEGER})
+      </if>
+
+      AND p.IS_DELETED = 0
+    </where>
+  </sql>
+
+  <select id="selectVoPaginationList" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultMap="VoBaseResultMap">
+        select DISTINCT
+        <include refid="Base_Column_List"/>, d1.dict_desc as PERSON_TYPE_NAME,
+        d2.dict_name as GENDER_NAME, d3.dict_name as RACE_NAME, d4.dict_name as STATUS_NAME
+        from CRIMINAL_PERSON p
+          left join dict_item d1 on d1.dict_code=p.PERSON_TYPE and d1.dict_type_code='CRIMINAL_PERSON_TYPE'
+          left join dict_item d2 on d2.dict_code=p.GENDER and d2.dict_type_code='PERSON_GENDER'
+          left join dict_item d3 on d3.dict_code=p.RACE and d3.dict_type_code='PERSON_RACE'
+          left join dict_item d4 on d4.dict_code=p.STATUS and d4.dict_type_code='CRIMINAL_PERSON_STATUS'
+
+        <if test="_parameter != null">
+          <include refid="Query_Where_Clause"/>
+          AND p.IS_DELETED = 0 AND p.STATUS=2
+        </if>
+        limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectGenePaginationList" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultMap="VoBaseResultMap">
+    select DISTINCT
+    <include refid="Base_Column_List"/>, d1.dict_desc as PERSON_TYPE_NAME,
+    d2.dict_name as GENDER_NAME, d3.dict_name as RACE_NAME, d4.dict_name as STATUS_NAME,
+    lsg.ID as SAMPLE_GENE_ID,lsg.GENE_INFO,lsg.CREATE_DATETIME as GENE_CREATE_DATETIME,
+    lsg.INSTORED_FLAG
+    from CRIMINAL_PERSON p
+    left join dict_item d1 on d1.dict_code=p.PERSON_TYPE and d1.dict_type_code='CRIMINAL_PERSON_TYPE'
+    left join dict_item d2 on d2.dict_code=p.GENDER and d2.dict_type_code='PERSON_GENDER'
+    left join dict_item d3 on d3.dict_code=p.RACE and d3.dict_type_code='PERSON_RACE'
+    left join dict_item d4 on d4.dict_code=p.STATUS and d4.dict_type_code='CRIMINAL_PERSON_STATUS'
+    left join lims_sample_gene lsg on lsg.CRIMINAL_PERSON_ID=p.ID
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+      AND p.IS_DELETED = 0 AND p.STATUS=2 and lsg.INSTORED_FLAG ='1'
+      ORDER BY lsg.CREATE_DATETIME DESC
+    </if>
+    limit #{offset}, #{rows}
+  </select>
+
+
+  <select id="selectPersonInfoList" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultMap="VoBaseResultMap">
+    select DISTINCT
+    <include refid="Base_Column_List"/>, d1.dict_desc as PERSON_TYPE_NAME,
+    d2.dict_name as GENDER_NAME, d3.dict_name as RACE_NAME, d4.dict_name as STATUS_NAME
+    from CRIMINAL_PERSON p
+    left join dict_item d1 on d1.dict_code=p.PERSON_TYPE and d1.dict_type_code='CRIMINAL_PERSON_TYPE'
+    left join dict_item d2 on d2.dict_code=p.GENDER and d2.dict_type_code='PERSON_GENDER'
+    left join dict_item d3 on d3.dict_code=p.RACE and d3.dict_type_code='PERSON_RACE'
+    left join dict_item d4 on d4.dict_code=p.STATUS and d4.dict_type_code='CRIMINAL_PERSON_STATUS'
+    left join criminal_accept_info cai on p.id=cai.pid
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+    </if>
+    <if test="_parameter == null">
+      WHERE IS_DELETED = 0
+    </if>
+  </select>
+
+  <select id="selectVoStatusCount" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultType="int">
+    select count(DISTINCT p.ID)
+    from CRIMINAL_PERSON p
+    left join criminal_accept_info cai on p.id=cai.pid
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+    </if>
+    <if test="_parameter == null">
+      WHERE IS_DELETED = 0
+    </if>
+  </select>
+
+  <select id="selectVoCount" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultType="int">
+    select count(DISTINCT p.PERSON_NO)
+    from CRIMINAL_PERSON p
+    left join criminal_accept_info cai on cai.pid=p.id
+    left join lims_sample_gene lsg on lsg.CRIMINAL_PERSON_ID=p.ID
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+      AND p.IS_DELETED = 0 AND p.STATUS=2 and lsg.INSTORED_FLAG ='1'
+    </if>
+  </select>
+
+  <select id="selectDelegatedCountByOrgId" parameterType="int" resultType="int">
+    select count(p.ID) from CRIMINAL_PERSON p where p.STATUS&gt;0 and IS_DELETED = 0
+    <if test="_parameter > 0">
+      and p.COLLECT_ORG_ID=#{_parameter, jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectListBetweenPersonNo" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultMap="VoBaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from CRIMINAL_PERSON p
+    <if test="_parameter != null">
+      <where>
+      <if test="personNoStart != null">
+       p.PERSON_NO between #{personNoStart, jdbcType=VARCHAR}
+      </if>
+      <if test="personNoEnd != null">
+        and #{personNoEnd, jdbcType=VARCHAR}
+      </if>
+        and p.IS_DELETED = 0
+      </where>
+    </if>
+  </select>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.CriminalPersonInfo"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into CRIMINAL_PERSON (
+      PERSON_NO, PERSON_TYPE, PERSON_NAME, IDCARD_NO, GENDER, RACE, DOMICILE, HEIGHT, WEIGHT,
+      COLLECT_ORG_ID, COLLECT_ORG_NAME, COLLECT_DATETIME, COLLECT_PERSON, COLLECTOR_PHONE, STATUS,IS_DELETED, SAMPLE_TYPE, REMARK,
+      CREATE_DATETIME, CREATE_PERSON, UPDATE_PERSON
+    ) values (
+      #{personNo,jdbcType=VARCHAR}, #{personType,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR},
+      #{idcardNo,jdbcType=VARCHAR},#{gender,jdbcType=VARCHAR}, #{race,jdbcType=VARCHAR}, #{domicile,jdbcType=VARCHAR},
+      #{height,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{collectOrgId,jdbcType=INTEGER}, #{collectOrgName,jdbcType=VARCHAR},
+      #{collectDatetime, jdbcType=TIMESTAMP},
+      #{collectPerson, jdbcType=VARCHAR}, #{collectorPhone, jdbcType=VARCHAR}, #{status, jdbcType=TINYINT},0,
+      #{sampleType, jdbcType=VARCHAR}, #{remark, jdbcType=VARCHAR}, #{createDatetime, jdbcType=TIMESTAMP},
+      #{createPerson, jdbcType=VARCHAR}, #{updatePerson, jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.CriminalPersonInfo">
+    update CRIMINAL_PERSON
+    set
+      PERSON_NO=#{personNo, jdbcType=VARCHAR},
+      PERSON_TYPE=#{personType, jdbcType=VARCHAR},
+      PERSON_NAME=#{personName, jdbcType=VARCHAR},
+      IDCARD_NO=#{idcardNo, jdbcType=VARCHAR},
+      GENDER=#{gender, jdbcType=VARCHAR},
+      RACE=#{race, jdbcType=VARCHAR},
+      DOMICILE=#{domicile, jdbcType=VARCHAR},
+      HEIGHT=#{height, jdbcType=VARCHAR},
+      WEIGHT=#{weight, jdbcType=VARCHAR},
+      COLLECT_ORG_ID=#{collectOrgId,jdbcType=INTEGER},
+      COLLECT_ORG_NAME=#{collectOrgName,jdbcType=VARCHAR},
+      COLLECT_DATETIME=#{collectDatetime, jdbcType=TIMESTAMP},
+      COLLECT_PERSON=#{collectPerson, jdbcType=VARCHAR},
+      COLLECTOR_PHONE=#{collectorPhone, jdbcType=VARCHAR},
+      STATUS=#{status, jdbcType=TINYINT},
+      SAMPLE_TYPE=#{sampleType, jdbcType=VARCHAR},
+      REMARK=#{remark, jdbcType=VARCHAR},
+      UPDATE_PERSON=#{updatePerson, jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPersonNo" parameterType="java.lang.String">
+    update CRIMINAL_PERSON
+    set IS_DELETED = 1
+    WHERE PERSON_NO = #{personNo, jdbcType=VARCHAR}
+  </update>
+
+  <select id="countCriminalPersonByNo" parameterType="java.lang.String" resultType="int">
+    select count(1)
+    from CRIMINAL_PERSON p
+      WHERE STATUS = 0 AND PERSON_NO=#{personNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectDataStatsForFenju" parameterType="java.util.HashMap" resultType="com.bazl.hslims.manager.model.vo.CriminalPersonDataStats">
+    select o.id as orgId, o.org_name as orgName,
+        ifnull(t1.collected_count,0) as collectedCount,
+        ifnull(t2.pending_count,0) as pendingCount,
+        ifnull(t3.delegated_count,0) as delegatedCount,
+        ifnull(t4.refused_count,0) as refusedCount,
+        ifnull(t5.accepted_count,0) as acceptedCount,
+        ifnull(concat(left(t5.accepted_count/t1.collected_count*100,5),'%'),'0.00%') as songjianLv
+    from delegate_org o
+    left join (
+      select collect_org_id, count(id) as collected_count from criminal_person
+      <where>
+        <if test="collectDateStart != null"> collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+        <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+        and IS_DELETED = 0
+      </where>
+      group by collect_org_id
+    ) t1 on t1.collect_org_id=o.id
+    left join (
+      select collect_org_id, count(id) as pending_count from criminal_person where status=0 and IS_DELETED = 0
+        <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+        <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+      group by collect_org_id
+    ) t2  on t2.collect_org_id=o.id
+    left join (
+      select collect_org_id, count(id) as delegated_count from criminal_person where status in (1,2) and IS_DELETED = 0
+      <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+      <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+      group by collect_org_id
+    ) t3 on t3.collect_org_id=o.id
+    left join (
+      select collect_org_id, count(id) as refused_count from criminal_person where status=1 and IS_DELETED = 0
+      <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+      <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+      group by collect_org_id
+    ) t4 on t4.collect_org_id=o.id
+    left join (
+      select collect_org_id, count(id) as accepted_count from criminal_person where status=2 and IS_DELETED = 0
+      <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+      <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+      group by collect_org_id
+    ) t5 on t5.collect_org_id=o.id
+    where o.PARENT_ID=#{collectOrgId, jdbcType=INTEGER} or o.id=#{collectOrgId, jdbcType=INTEGER}
+    order by o.org_code
+  </select>
+
+  <select id="selectDataStats" parameterType="java.util.HashMap" resultType="com.bazl.hslims.manager.model.vo.CriminalPersonDataStats">
+    select o.id as orgId, o.org_name as orgName,
+    ifnull(t1.collected_count,0) as collectedCount,
+    ifnull(t2.pending_count,0) as pendingCount,
+    ifnull(t3.delegated_count,0) as delegatedCount,
+    ifnull(t4.refused_count,0) as refusedCount,
+    ifnull(t5.accepted_count,0) as acceptedCount,
+    ifnull(concat(left(t5.accepted_count/t1.collected_count*100,5),'%'),'0.00%') as songjianLv
+    from delegate_org o
+    left join (
+    select collect_org_id, count(id) as collected_count from criminal_person
+    <where>
+      <if test="collectDateStart != null"> collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+      <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+      and IS_DELETED = 0
+    </where>
+    group by collect_org_id
+    ) t1 on t1.collect_org_id=o.id
+    left join (
+    select collect_org_id, count(id) as pending_count from criminal_person where status=0 and IS_DELETED = 0
+    <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+    <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+    group by collect_org_id
+    ) t2  on t2.collect_org_id=o.id
+    left join (
+    select collect_org_id, count(id) as delegated_count from criminal_person where status in (1,2) and IS_DELETED = 0
+    <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+    <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+    group by collect_org_id
+    ) t3 on t3.collect_org_id=o.id
+    left join (
+    select collect_org_id, count(id) as refused_count from criminal_person where status=1 and IS_DELETED = 0
+    <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+    <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+    group by collect_org_id
+    ) t4 on t4.collect_org_id=o.id
+    left join (
+    select collect_org_id, count(id) as accepted_count from criminal_person where status=2 and IS_DELETED = 0
+    <if test="collectDateStart != null"> and collect_datetime&gt;=#{collectDateStart,jdbcType=TIMESTAMP}</if>
+    <if test="collectDateEnd != null"> and collect_datetime&lt;=#{collectDateEnd,jdbcType=TIMESTAMP}</if>
+    group by collect_org_id
+    ) t5 on t5.collect_org_id=o.id
+    <if test="collectOrgId != null">
+      where o.PARENT_ID=#{collectOrgId, jdbcType=INTEGER} or o.id=#{collectOrgId, jdbcType=INTEGER}
+    </if>
+    order by o.org_code
+  </select>
+
+  <select id="selectAllCountForAcceptor" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultType="int">
+    select count(DISTINCT p.id) from criminal_person p, delegate_org o
+    where p.collect_org_id=o.id and IS_DELETED = 0
+    <if test="collectOrgIdList != null">
+      and p.collect_org_id in (
+      <foreach collection="collectOrgIdList" item="item" separator=",">
+        #{item, jdbcType=INTEGER}
+      </foreach>
+      )
+    </if>
+  </select>
+
+  <select id="selectAllDelegatedCountForAcceptor" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultType="int">
+    select count(DISTINCT p.id) from criminal_person p, delegate_org o
+    where p.collect_org_id=o.id and p.status in (1,2) and IS_DELETED = 0
+    <if test="collectOrgIdList != null">
+      and p.collect_org_id in (
+      <foreach collection="collectOrgIdList" item="item" separator=",">
+        #{item, jdbcType=INTEGER}
+      </foreach>
+      )
+    </if>
+  </select>
+
+  <select id="selectAllAcceptedCountForAcceptor" parameterType="com.bazl.hslims.manager.model.vo.CriminalPersonInfoVo"
+          resultType="int">
+    select count(DISTINCT p.id) from criminal_person p, delegate_org o
+    where p.collect_org_id=o.id and p.status=2 and IS_DELETED = 0
+    <if test="collectOrgIdList != null">
+      and p.collect_org_id in (
+      <foreach collection="collectOrgIdList" item="item" separator=",">
+        #{item, jdbcType=INTEGER}
+      </foreach>
+      )
+    </if>
+  </select>
+
+</mapper>

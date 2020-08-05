@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.DictInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.DictInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DICT_TYPE_CODE" jdbcType="VARCHAR" property="dictTypeCode" />
+    <result column="DICT_TYPE_NAME" jdbcType="VARCHAR" property="dictTypeName" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, DICT_TYPE_CODE, DICT_TYPE_NAME, CREATE_DATETIME, CREATE_PERSON
+  </sql>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.DictInfo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from dict_info
+    <if test="_parameter != null">
+      <where>
+        <if test="id != null">
+          and ID=#{id, jdbcType=VARCHAR}
+        </if>
+        <if test="dictTypeCode != null">
+          and DICT_TYPE_CODE=#{dictTypeCode, jdbcType=VARCHAR}
+        </if>
+        <if test="dictTypeName != null">
+          and DICT_TYPE_NAME like '%' ||#{dictTypeName, jdbcType=VARCHAR}||'%'
+        </if>
+        <if test="createDatetime != null">
+          and CREATE_DATETIME=#{createDatetime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createPerson != null">
+          and CREATE_PERSON like '%' ||#{createPerson, jdbcType=VARCHAR}||'%'
+        </if>
+      </where>
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dict_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dict_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByDictTypeCode" parameterType="java.lang.String">
+    delete from dict_info
+    where DICT_TYPE_CODE = #{dictTypeCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.DictInfo">
+    insert into dict_info (ID, DICT_TYPE_CODE, DICT_TYPE_NAME, 
+      CREATE_DATETIME, CREATE_PERSON)
+    values (#{id,jdbcType=INTEGER}, #{dictTypeCode,jdbcType=VARCHAR}, #{dictTypeName,jdbcType=VARCHAR}, 
+      #{createDatetime,jdbcType=TIMESTAMP}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.DictInfo">
+    update dict_info
+    set DICT_TYPE_CODE = #{dictTypeCode,jdbcType=VARCHAR},
+      DICT_TYPE_NAME = #{dictTypeName,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

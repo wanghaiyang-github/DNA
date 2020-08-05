@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.StorageInfo">
+      <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.StorageInfo">
+          <id column="ID" jdbcType="INTEGER" property="id" />
+          <result column="REAGENT_SUPPLIES_INFO_ID" jdbcType="INTEGER" property="reagentSuppliesInfoId" />
+          <result column="STORAGE_NUM" jdbcType="INTEGER" property="storageNum"/>
+          <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+          <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime"/>
+      </resultMap>
+
+      <sql id="Base_Column_List">
+        s.ID, s.REAGENT_SUPPLIES_INFO_ID, s.STORAGE_NUM, s.CREATE_DATETIME, s.UPDATE_DATETIME
+      </sql>
+
+    <select id="selectStorageInfoByReagentSuppliesInfoId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from STORAGE_INFO s
+        where s.REAGENT_SUPPLIES_INFO_ID = #{reagentSuppliesInfoId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.StorageInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into STORAGE_INFO(REAGENT_SUPPLIES_INFO_ID, STORAGE_NUM)
+        values (#{reagentSuppliesInfoId,jdbcType=INTEGER},#{storageNum,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.StorageInfo">
+        update STORAGE_INFO
+        set
+        REAGENT_SUPPLIES_INFO_ID = #{reagentSuppliesInfoId,jdbcType=INTEGER},
+        STORAGE_NUM = #{storageNum,jdbcType=INTEGER}
+        where ID = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

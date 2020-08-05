@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.RaceInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.RaceInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="RACE_NAME" jdbcType="VARCHAR" property="raceName" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="COMMENTS" jdbcType="VARCHAR" property="comments" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, RACE_NAME, CREATE_PERSON,CREATE_DATETIME,COMMENTS
+  </sql>
+
+  <select id="selectAllRaceInfoList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from race
+  </select>
+
+  <select id="selectRaceInfoList" parameterType="com.bazl.hslims.manager.model.po.RaceInfo" resultMap="BaseResultMap">
+    select * from race r
+    <where>
+      <if test="raceName !=null">
+        and r.RACE_NAME like CONCAT('%',#{raceName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="createPerson !=null">
+        and  r.CREATE_PERSON like CONCAT('%',#{createPerson,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="comments !=null">
+        and  r.COMMENTS like CONCAT('%',#{comments,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="selectRaceInfoRepeatQueryList" parameterType="com.bazl.hslims.manager.model.po.RaceInfo" resultMap="BaseResultMap">
+    select * from race r
+    <where>
+      <if test="raceName !=null">
+        and r.RACE_NAME=#{raceName,jdbcType=VARCHAR}
+      </if>
+      <if test="createPerson !=null">
+        and  r.CREATE_PERSON=#{createPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="comments !=null">
+        and  r.COMMENTS=#{comments,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from race where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.RaceInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into race (RACE_NAME,CREATE_PERSON,COMMENTS)
+    values
+    ( #{raceName,jdbcType=VARCHAR},#{createPerson,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.RaceInfo">
+    update race
+    set RACE_NAME = #{raceName,jdbcType=VARCHAR},
+    CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+    COMMENTS = #{comments,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

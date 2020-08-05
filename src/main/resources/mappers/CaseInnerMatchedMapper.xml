@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.CaseInnerMatched">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.CaseInnerMatched">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="GROUP_ID" jdbcType="INTEGER" property="groupId" />
+    <result column="MATCHED_MODE" jdbcType="INTEGER" property="matchedMode" />
+    <result column="SAMPLE1_ID" jdbcType="INTEGER" property="sample1Id" />
+    <result column="SAMPLE2_ID" jdbcType="INTEGER" property="sample2Id" />
+    <result column="SAMPLE3_ID" jdbcType="INTEGER" property="sample3Id" />
+    <result column="SAME_COUNT" jdbcType="INTEGER" property="sameCount" />
+    <result column="DIFF_COUNT" jdbcType="INTEGER" property="diffCount" />
+    <result column="TOTAL_PROBABILITY" jdbcType="VARCHAR" property="totalProbability" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, CASE_ID,GROUP_ID, MATCHED_MODE, SAMPLE1_ID, SAMPLE2_ID, SAMPLE3_ID, SAME_COUNT, DIFF_COUNT,TOTAL_PROBABILITY,
+    CREATE_DATETIME, CREATE_PERSON
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from case_inner_matched
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListSampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from case_inner_matched
+    where SAMPLE1_ID = #{sample1Id,jdbcType=INTEGER} or SAMPLE2_ID = #{sample2Id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from case_inner_matched
+    where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from case_inner_matched where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="delete" parameterType="com.bazl.hslims.manager.model.po.CaseInnerMatched">
+    delete from case_inner_matched where CASE_ID = #{caseId,jdbcType=INTEGER}
+    and SAMPLE1_ID = #{sample1Id,jdbcType=INTEGER} and SAMPLE2_ID = #{sample2Id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.CaseInnerMatched">
+    insert into case_inner_matched (CASE_ID,GROUP_ID, MATCHED_MODE,
+      SAMPLE1_ID, SAMPLE2_ID, SAMPLE3_ID, 
+      SAME_COUNT, DIFF_COUNT, TOTAL_PROBABILITY, CREATE_PERSON)
+    values (#{caseId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{matchedMode,jdbcType=INTEGER},
+      #{sample1Id,jdbcType=INTEGER}, #{sample2Id,jdbcType=INTEGER}, #{sample3Id,jdbcType=INTEGER}, 
+      #{sameCount,jdbcType=INTEGER}, #{diffCount,jdbcType=INTEGER}, #{totalProbability,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.CaseInnerMatched">
+    update case_inner_matched
+    set CASE_ID = #{caseId,jdbcType=INTEGER},
+      GROUP_ID = #{groupId,jdbcType=INTEGER},
+      MATCHED_MODE = #{matchedMode,jdbcType=INTEGER},
+      SAMPLE1_ID = #{sample1Id,jdbcType=INTEGER},
+      SAMPLE2_ID = #{sample2Id,jdbcType=INTEGER},
+      SAMPLE3_ID = #{sample3Id,jdbcType=INTEGER},
+      SAME_COUNT = #{sameCount,jdbcType=INTEGER},
+      DIFF_COUNT = #{diffCount,jdbcType=INTEGER},
+      TOTAL_PROBABILITY = #{totalProbability,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsSyRecord">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsSyRecord">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="SY_TASK_NO" jdbcType="VARCHAR" property="syTaskNo" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="BOARD_NO" jdbcType="VARCHAR" property="boardNo" />
+    <result column="START_DATETIME" jdbcType="TIMESTAMP" property="startDatetime" />
+    <result column="END_DATETIME" jdbcType="TIMESTAMP" property="endDatetime" />
+    <result column="OPERATE_PERSON_ID1" jdbcType="INTEGER" property="operatePersonId1" />
+    <result column="OPERATE_PERSON_NAME1" jdbcType="VARCHAR" property="operatePersonName1" />
+    <result column="OPERATE_PERSON_ID2" jdbcType="INTEGER" property="operatePersonId2" />
+    <result column="OPERATE_PERSON_NAME2" jdbcType="VARCHAR" property="operatePersonName2" />
+    <result column="CHANWU_FLAG" jdbcType="VARCHAR" property="chanwuFlag" />
+    <result column="JIAXIANAN_FLAG" jdbcType="VARCHAR" property="jiaxiananFlag" />
+    <result column="NEIBIAO_UL_FLAG" jdbcType="VARCHAR" property="neibiaoUlFlag" />
+    <result column="NEIBIAO_FLAG" jdbcType="VARCHAR" property="neibiaoFlag" />
+    <result column="ELEC_INSTRUMENT" jdbcType="VARCHAR" property="elecInstrument" />
+    <result column="ELEC_INSTRUMENT_NAME" jdbcType="VARCHAR" property="elecInstrumentName" />
+    <result column="SAMPLE_COUNT" jdbcType="INTEGER" property="sampleCount" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON_ID" jdbcType="VARCHAR" property="createPersonId" />
+    <result column="CREATE_PERSON_NAME" jdbcType="VARCHAR" property="createPersonName" />
+    <result column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+  </resultMap>
+
+  <resultMap id="LimsSyRecordSampleResultMap" type="com.bazl.hslims.manager.model.po.LimsSyRecordSample">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="LIMS_SY_RECORD_ID" jdbcType="INTEGER" property="limsSyRecordId" />
+    <result column="SAMPLE_ID" jdbcType="INTEGER" property="sampleId" />
+    <result column="SAMPLE_NO" jdbcType="VARCHAR" property="sampleNo" />
+    <result column="BOARD_NO" jdbcType="VARCHAR" property="boardNo" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="SAMPLE_TYPE_NAME" jdbcType="VARCHAR" property="sampleTypeName" />
+    <result column="SAMPLE_POSTION" jdbcType="VARCHAR" property="samplePosition" />
+    <result column="STANDARD_FLAG" jdbcType="CHAR" property="standardFlag" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, SY_TASK_NO, CASE_ID, BOARD_NO, START_DATETIME, END_DATETIME, OPERATE_PERSON_ID1, OPERATE_PERSON_NAME1, OPERATE_PERSON_ID2, OPERATE_PERSON_NAME2,
+    CHANWU_FLAG, JIAXIANAN_FLAG, NEIBIAO_UL_FLAG, NEIBIAO_FLAG, ELEC_INSTRUMENT, SAMPLE_COUNT, CREATE_DATETIME,
+    CREATE_PERSON_NAME,TASK_ID
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_sy_record
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <sql id="Query_Where_Clause">
+    <where>
+      <if test="entity.syTaskNo != null">
+        SY_TASK_NO=#{entity.syTaskNo, jdbcType=VARCHAR}
+      </if>
+      <if test="sampleNo != null">
+        AND ID IN (select LIMS_SY_RECORD_ID from lims_sy_record_sample where SAMPLE_NO = #{sampleNo, jdbcType=VARCHAR})
+      </if>
+      <if test="sampleId != null">
+        AND ID IN (select LIMS_SY_RECORD_ID from lims_sy_record_sample where SAMPLE_ID = #{sampleId, jdbcType=INTEGER})
+      </if>
+      <if test="entity.boardNo != null">
+        AND BOARD_NO=#{entity.boardNo, jdbcType=VARCHAR}
+      </if>
+      <if test="entity.operatePersonId != null">
+        and OPERATE_PERSON_ID=#{entity.operatePersonId, jdbcType=INTEGER}
+      </if>
+      <if test="entity.operatePersonName != null">
+        and OPERATE_PERSON_NAME=#{entity.operatePersonName, jdbcType=VARCHAR}
+      </if>
+
+      <if test="syDatetimeStartAt != null">
+        <![CDATA[ and START_DATETIME>=#{syDatetimeStartAt, jdbcType=TIMESTAMP}  ]]>
+      </if>
+      <if test="syDatetimeEndAt != null">
+        <![CDATA[ and END_DATETIME<=#{syDatetimeEndAt, jdbcType=TIMESTAMP}  ]]>
+      </if>
+
+    </where>
+  </sql>
+
+  <select id="selectPaginationList" parameterType="com.bazl.hslims.manager.model.vo.LimsSyRecordVO" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lims_sy_record
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+    </if>
+    limit #{offset}, #{rows}
+  </select>
+
+
+  <select id="selectCount" parameterType="com.bazl.hslims.manager.model.vo.LimsSyRecordVO" resultType="int">
+    SELECT count(ID) from lims_sy_record
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="selectSampleListBySyRecordId" parameterType="java.lang.Integer" resultMap="LimsSyRecordSampleResultMap">
+   select lsr.BOARD_NO as BOARD_NO,lsi.SAMPLE_NAME,d.DICT_NAME as SAMPLE_TYPE_NAME,lsrs.ID, lsrs.LIMS_SY_RECORD_ID, lsrs.SAMPLE_ID, lsrs.SAMPLE_NO,
+   lsrs.SAMPLE_POSTION, lsrs.STANDARD_FLAG, lsrs.CREATE_PERSON, lsrs.CREATE_DATETIME
+   from lims_sy_record_sample lsrs left join
+   (lims_sample_info lsi left join dict_item d on lsi.SAMPLE_TYPE=d.DICT_CODE and d.DICT_TYPE_CODE='SAMPLE_TYPE') on lsrs.SAMPLE_ID=lsi.ID
+   left join lims_sy_record lsr on lsrs.LIMS_SY_RECORD_ID = lsr.ID
+   where lsrs.LIMS_SY_RECORD_ID=#{limsSyRecordId,jdbcType=INTEGER} order by lsi.SAMPLE_FLAG desc, lsrs.SAMPLE_NO asc
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    *,t.EQUIPMENT_NAME AS ELEC_INSTRUMENT_NAME
+    from lims_sy_record
+    left join (select eni.ID,eni.EQUIPMENT_NO,eni.EQUIPMENT_NAME from equipment_name_info eni left join equipment_type_info eti on eti.ID = eni.EQUIPMENT_TYPE_ID where eti.EQUIPMENT_TYPE_NO='DYY') t on t.ID = ELEC_INSTRUMENT
+    where CASE_ID=#{caseId,jdbcType=INTEGER} order by END_DATETIME desc
+  </select>
+
+  <select id="selectCountByCaseId" parameterType="java.lang.Integer" resultType="int">
+    select COUNT(id) from lims_sy_record where CASE_ID=#{caseId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectCountBySampleNo" parameterType="java.lang.String" resultType="int">
+    select count(distinct lsr.TASK_ID) from lims_sy_record_sample lsrs
+    left join lims_sy_record lsr on lsrs.LIMS_SY_RECORD_ID = lsr.ID
+    where lsrs.SAMPLE_NO like CONCAT('%', #{sampleNo,jdbcType=VARCHAR}, '%') AND lsr.TASK_ID!=''
+  </select>
+
+  <select id="selectListBySampleNo" parameterType="java.lang.String" resultMap="LimsSyRecordSampleResultMap">
+    select * from lims_sy_record_sample lsrs
+    left join lims_sy_record lsr on lsrs.LIMS_SY_RECORD_ID = lsr.ID
+    where lsrs.SAMPLE_NO like CONCAT('%', #{sampleNo,jdbcType=VARCHAR}, '%') AND lsr.TASK_ID!=''
+  </select>
+
+
+  <select id="selectSampleNoByTaskId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select distinct lsr.* from lims_sy_record_sample lsrs
+    left join lims_sy_record lsr on lsrs.LIMS_SY_RECORD_ID = lsr.ID
+    where lsrs.SAMPLE_NO like CONCAT('%', #{sampleNo,jdbcType=VARCHAR}, '%') AND lsr.TASK_ID!=''
+  </select>
+
+
+  <select id="selectByTaskId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from lims_sy_record
+    where TASK_ID = #{taskId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lims_sy_record
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsSyRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_sy_record (SY_TASK_NO, CASE_ID, BOARD_NO, START_DATETIME,
+      END_DATETIME, OPERATE_PERSON_ID1, OPERATE_PERSON_NAME1, OPERATE_PERSON_ID2, OPERATE_PERSON_NAME2,
+      CHANWU_FLAG, JIAXIANAN_FLAG, NEIBIAO_UL_FLAG, 
+      NEIBIAO_FLAG, ELEC_INSTRUMENT, SAMPLE_COUNT,
+      CREATE_PERSON_NAME)
+    values (#{syTaskNo,jdbcType=VARCHAR}, #{caseId,jdbcType=INTEGER}, #{boardNo,jdbcType=VARCHAR}, #{startDatetime,jdbcType=TIMESTAMP},
+      #{endDatetime,jdbcType=TIMESTAMP}, #{operatePersonId1,jdbcType=INTEGER}, #{operatePersonName1,jdbcType=VARCHAR},
+      #{operatePersonId2,jdbcType=INTEGER}, #{operatePersonName2,jdbcType=VARCHAR},
+      #{chanwuFlag,jdbcType=VARCHAR}, #{jiaxiananFlag,jdbcType=VARCHAR}, #{neibiaoUlFlag,jdbcType=VARCHAR}, 
+      #{neibiaoFlag,jdbcType=VARCHAR}, #{elecInstrument,jdbcType=VARCHAR}, #{sampleCount,jdbcType=INTEGER},
+      #{createPersonName,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertLimsSyRecordSample" parameterType="com.bazl.hslims.manager.model.po.LimsSyRecordSample">
+    insert into lims_sy_record_sample (LIMS_SY_RECORD_ID, SAMPLE_ID, SAMPLE_NO,
+    SAMPLE_POSTION, STANDARD_FLAG, CREATE_PERSON)
+    values (#{limsSyRecordId,jdbcType=INTEGER}, #{sampleId,jdbcType=INTEGER},
+    #{sampleNo,jdbcType=VARCHAR}, #{samplePosition,jdbcType=VARCHAR}, #{standardFlag,jdbcType=VARCHAR},
+    #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+
+  <update id="updateLimsSyRecordSample" parameterType="com.bazl.hslims.manager.model.po.LimsSyRecordSample">
+    update lims_sy_record_sample
+    set LIMS_SY_RECORD_ID = #{limsSyRecordId,jdbcType=INTEGER},
+    SAMPLE_ID = #{sampleId,jdbcType=INTEGER},
+    SAMPLE_NO = #{sampleNo,jdbcType=VARCHAR},
+    SAMPLE_POSTION = #{samplePosition,jdbcType=VARCHAR},
+    STANDARD_FLAG = #{standardFlag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteLimsSyRecordSample" parameterType="com.bazl.hslims.manager.model.po.LimsSyRecordSample">
+    delete from lims_sy_record_sample
+    where LIMS_SY_RECORD_ID=#{limsSyRecordId,jdbcType=INTEGER} and ID=#{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteLimsSyRecordSamplesByRecordId" parameterType="java.lang.Integer">
+    delete from lims_sy_record_sample where LIMS_SY_RECORD_ID=#{limsSyRecordId,jdbcType=INTEGER}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsSyRecord">
+    update lims_sy_record
+    set BOARD_NO = #{boardNo,jdbcType=VARCHAR},
+      START_DATETIME = #{startDatetime,jdbcType=TIMESTAMP},
+      END_DATETIME = #{endDatetime,jdbcType=TIMESTAMP},
+      OPERATE_PERSON_ID1 = #{operatePersonId1,jdbcType=INTEGER},
+      OPERATE_PERSON_NAME1 = #{operatePersonName1,jdbcType=VARCHAR},
+      OPERATE_PERSON_ID2 = #{operatePersonId2,jdbcType=INTEGER},
+      OPERATE_PERSON_NAME2 = #{operatePersonName2,jdbcType=VARCHAR},
+      CHANWU_FLAG = #{chanwuFlag,jdbcType=VARCHAR},
+      JIAXIANAN_FLAG = #{jiaxiananFlag,jdbcType=VARCHAR},
+      NEIBIAO_UL_FLAG = #{neibiaoUlFlag,jdbcType=VARCHAR},
+      NEIBIAO_FLAG = #{neibiaoFlag,jdbcType=VARCHAR},
+      ELEC_INSTRUMENT = #{elecInstrument,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      CREATE_PERSON_NAME = #{createPersonName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.CriminalAcceptInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.CriminalAcceptInfo">
+    <id column="ID" property="id" jdbcType="INTEGER" javaType="int"/>
+    <result column="PID" property="pid" jdbcType="INTEGER" javaType="int" />
+    <result column="PERSON_NO" property="personNo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="ORG_ID" property="orgId" jdbcType="INTEGER" javaType="int" />
+    <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="SCANED_DATETIME" property="scanedDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="SCANED_PERSON" property="scanedPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="TYPE" property="type" jdbcType="CHAR" javaType="java.lang.String" />
+    <result column="TYPE_DESC" property="typeDesc" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="ERROR_TYPE_CODE" property="errorTypeCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="ERROR_TYPE_NAME" property="errorTypeName" jdbcType="INTEGER" javaType="int" />
+    <result column="ERROR_RECORD_PERSON" property="errorRecordPerson" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="ERROR_RECORD_DATETIME" property="errorRecordDatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    t.ID,t.PID,t.PERSON_NO,t.ORG_ID,t.ORG_NAME,t.SCANED_DATETIME,t.SCANED_PERSON,
+    t.TYPE,t.TYPE_DESC,t.ERROR_TYPE_CODE,t.ERROR_TYPE_NAME,t.ERROR_RECORD_PERSON,t.ERROR_RECORD_DATETIME
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="int">
+    delete from CRIMINAL_ACCEPT_INFO where ID=#{_parameter, jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from CRIMINAL_ACCEPT_INFO t where t.ID = #{_parameter, jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.CriminalAcceptInfo"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into CRIMINAL_ACCEPT_INFO (
+      PID,PERSON_NO,ORG_ID,ORG_NAME,SCANED_DATETIME,SCANED_PERSON,
+      TYPE,TYPE_DESC,ERROR_TYPE_CODE,ERROR_TYPE_NAME,ERROR_RECORD_PERSON,ERROR_RECORD_DATETIME
+    ) values (
+      #{pid,jdbcType=INTEGER}, #{personNo,jdbcType=VARCHAR},
+      #{orgId,jdbcType=INTEGER},#{orgName,jdbcType=VARCHAR}, #{scanedDatetime,jdbcType=TIMESTAMP}, #{scanedPerson,jdbcType=VARCHAR},
+      #{type,jdbcType=CHAR}, #{typeDesc,jdbcType=VARCHAR}, #{errorTypeCode,jdbcType=VARCHAR}, #{errorTypeName,jdbcType=VARCHAR},
+      #{errorRecordPerson, jdbcType=VARCHAR}, #{errorRecordDatetime, jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+</mapper>

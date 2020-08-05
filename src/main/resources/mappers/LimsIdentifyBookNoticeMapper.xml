@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsIdentifyBookNotice">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsIdentifyBookNotice">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="IDENTIFY_BOOK_ID" jdbcType="INTEGER" property="identifyBookId" />
+    <result column="NOTICE_CONTENT" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON_ID" jdbcType="VARCHAR" property="createPersonId" />
+    <result column="CREATE_PERSON_NAME" jdbcType="VARCHAR" property="createPersonName" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CASE_ID, IDENTIFY_BOOK_ID, NOTICE_CONTENT, CREATE_DATETIME, CREATE_PERSON_ID, 
+    CREATE_PERSON_NAME, DELETE_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_identify_book_notice
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lims_identify_book_notice
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByCaseId" parameterType="java.lang.Integer">
+    delete from lims_identify_book_notice where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsIdentifyBookNotice">
+    insert into lims_identify_book_notice (CASE_ID, IDENTIFY_BOOK_ID,
+      NOTICE_CONTENT, CREATE_PERSON_ID,CREATE_PERSON_NAME)
+    values (#{caseId,jdbcType=INTEGER}, #{identifyBookId,jdbcType=INTEGER},
+      #{noticeContent,jdbcType=VARCHAR}, #{createPersonId,jdbcType=VARCHAR},
+      #{createPersonName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsIdentifyBookNotice">
+    update lims_identify_book_notice
+    set CASE_ID = #{caseId,jdbcType=INTEGER},
+      IDENTIFY_BOOK_ID = #{identifyBookId,jdbcType=INTEGER},
+      NOTICE_CONTENT = #{noticeContent,jdbcType=VARCHAR},
+      CREATE_PERSON_ID = #{createPersonId,jdbcType=VARCHAR},
+      CREATE_PERSON_NAME = #{createPersonName,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

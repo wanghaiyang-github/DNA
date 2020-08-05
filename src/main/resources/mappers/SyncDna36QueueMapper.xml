@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.SyncDna36Queue">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.SyncDna36Queue">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="SAMPLE_ID" jdbcType="INTEGER" property="sampleId" />
+    <result column="OPERATE_TYPE" jdbcType="VARCHAR" property="operateType" />
+    <result column="OPERATE_DATE" jdbcType="TIMESTAMP" property="operateDate" />
+    <result column="OPERATE_PERSON" jdbcType="VARCHAR" property="operatePerson" />
+    <result column="SYNC_FAILED_FLAG" jdbcType="CHAR" property="syncFailedFlag" />
+    <result column="SYNC_FAILED_MSG" jdbcType="VARCHAR" property="syncFailedMsg" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    ID, CASE_ID, SAMPLE_ID, OPERATE_TYPE, OPERATE_DATE, OPERATE_PERSON, SYNC_FAILED_FLAG, SYNC_FAILED_MSG
+  </sql>
+
+
+  <select id="selectPendingCaseIdList" resultType="int">
+    select CASE_ID
+    from sync_dna36_queue
+    where SYNC_FAILED_FLAG='0'
+  </select>
+
+  <select id="selectFailedCaseIdList" resultType="int">
+    select CASE_ID
+    from sync_dna36_queue
+    where SYNC_FAILED_FLAG='1'
+  </select>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.SyncDna36Queue" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sync_dna36_queue
+    <if test="_parameter != null">
+      <where>
+        <if test="syncFailedFlag != null">
+          SYNC_FAILED_FLAG=#{syncFailedFlag, jdbcType=CHAR}
+        </if>
+        <if test="caseId != null">
+          AND CASE_ID=#{caseId, jdbcType=INTEGER}
+        </if>
+        <if test="sampleId != null">
+          AND SAMPLE_ID=#{sampleId, jdbcType=INTEGER}
+        </if>
+      </where>
+    </if>
+    order by case_id, operate_type
+  </select>
+
+  <select id="selectBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sync_dna36_queue where SAMPLE_ID=#{sampleId, jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="int">
+    delete from sync_dna36_queue where ID=#{id, jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByCaseId" parameterType="int">
+    delete from sync_dna36_queue where CASE_ID=#{caseId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.SyncDna36Queue"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into sync_dna36_queue (
+    CASE_ID, OPERATE_TYPE, OPERATE_DATE, OPERATE_PERSON, SYNC_FAILED_FLAG, SYNC_FAILED_MSG
+    ) values (
+    #{caseId,jdbcType=INTEGER}, #{operateType,jdbcType=VARCHAR},
+    #{operateDate, jdbcType=TIMESTAMP}, #{operatePerson,jdbcType=VARCHAR},
+    #{syncFailedFlag,jdbcType=CHAR}, #{syncFailedMsg,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <insert id="insertQueue" parameterType="com.bazl.hslims.manager.model.po.SyncDna36Queue">
+    insert into sync_dna36_queue (
+      CASE_ID,SAMPLE_ID, OPERATE_TYPE, OPERATE_PERSON
+    ) values (
+      #{caseId,jdbcType=INTEGER},#{sampleId,jdbcType=INTEGER}, #{operateType,jdbcType=VARCHAR},
+      #{operatePerson,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.SyncDna36Queue">
+    update sync_dna36_queue
+    set
+      CASE_ID=#{caseId,jdbcType=INTEGER},
+      SAMPLE_ID=#{sampleId,jdbcType=INTEGER},
+      OPERATE_TYPE=#{operateType,jdbcType=VARCHAR},
+      OPERATE_DATE=#{operateDate, jdbcType=TIMESTAMP},
+      OPERATE_PERSON=#{operatePerson,jdbcType=VARCHAR},
+      SYNC_FAILED_FLAG=#{syncFailedFlag,jdbcType=CHAR},
+      SYNC_FAILED_MSG=#{syncFailedMsg,jdbcType=VARCHAR}
+    where ID=#{id, jdbcType=VARCHAR}
+  </update>
+
+</mapper>

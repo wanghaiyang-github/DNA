@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsSampleGene">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsSampleGene">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="SAMPLE_ID" jdbcType="INTEGER" property="sampleId" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="PANEL_ID" jdbcType="INTEGER" property="panelId" />
+    <result column="SAMPLE_NO" jdbcType="VARCHAR" property="sampleNo" />
+    <result column="GENE_TYPE" jdbcType="VARCHAR" property="geneType" />
+    <result column="REAGENT_NAME" jdbcType="VARCHAR" property="reagentName" />
+    <result column="GENE_INFO" jdbcType="VARCHAR" property="geneInfo" />
+    <result column="GENE_IMG_PATH" jdbcType="VARCHAR" property="geneImgPath" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="AUDIT_PERSON" jdbcType="VARCHAR" property="auditPerson" />
+    <result column="AUDIT_DATETIME" jdbcType="TIMESTAMP" property="auditDatetime" />
+    <result column="AUDIT_DENIED_REASON" jdbcType="VARCHAR" property="auditDeniedReason" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="instoredFlag" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+
+    <result column="REF_PERSON_ID" jdbcType="INTEGER" property="refPersonId" />
+    <result column="REF_PERSON_NAME" jdbcType="VARCHAR" property="refPersonName" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="SAMPLE_TYPE" jdbcType="VARCHAR" property="sampleType" />
+    <result column="SAMPLE_FLAG" jdbcType="CHAR" property="sampleFlag" />
+    <result column="SAMPLE_TYPE_NAME" jdbcType="VARCHAR" property="sampleTypeName" />
+
+    <result column="CODIS_FILE_NAME" jdbcType="VARCHAR" property="codisFileName" />
+    <result column="GENE_COUNT" jdbcType="VARCHAR" property="geneCount" />
+    <result column="CRIMINAL_PERSON_ID" jdbcType="INTEGER" property="criminalPersonId" />
+    <result column="CRIMINAL_PERSON_NO" jdbcType="VARCHAR" property="criminalPersonNo" />
+  </resultMap>
+
+
+  <resultMap id="VOBaseResultMap" type="com.bazl.hslims.manager.model.vo.LimsSampleGeneVO">
+    <result column="ID" jdbcType="INTEGER" property="entity.id" />
+    <result column="SAMPLE_ID" jdbcType="INTEGER" property="entity.sampleId" />
+    <result column="PANEL_ID" jdbcType="INTEGER" property="entity.panelId" />
+    <result column="SAMPLE_NO" jdbcType="VARCHAR" property="entity.sampleNo" />
+    <result column="GENE_TYPE" jdbcType="VARCHAR" property="entity.geneType" />
+    <result column="REAGENT_NAME" jdbcType="VARCHAR" property="entity.reagentName" />
+    <result column="GENE_INFO" jdbcType="VARCHAR" property="entity.geneInfo" />
+    <result column="GENE_IMG_PATH" jdbcType="VARCHAR" property="entity.geneImgPath" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="entity.auditStatus" />
+    <result column="AUDIT_PERSON" jdbcType="VARCHAR" property="entity.auditPerson" />
+    <result column="AUDIT_DATETIME" jdbcType="TIMESTAMP" property="entity.auditDatetime" />
+    <result column="AUDIT_DENIED_REASON" jdbcType="VARCHAR" property="entity.auditDeniedReason" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="entity.instoredFlag" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="entity.deleteFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="entity.createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="entity.createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="entity.updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="entity.updatePerson" />
+
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="SAMPLE_TYPE" jdbcType="VARCHAR" property="entity.sampleType" />
+    <result column="SAMPLE_FLAG" jdbcType="CHAR" property="entity.sampleFlag" />
+    <result column="CASE_NO" jdbcType="VARCHAR" property="caseNo" />
+    <result column="CASE_NAME" jdbcType="VARCHAR" property="caseName" />
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List">
+    lsg.ID, lsg.PANEL_ID,lsg.SAMPLE_ID,lsg.SAMPLE_NO, lsg.GENE_TYPE, lsg.REAGENT_NAME, lsg.GENE_INFO, lsg.GENE_IMG_PATH, lsg.AUDIT_STATUS, lsg.AUDIT_PERSON,
+    lsg.AUDIT_DATETIME, lsg.AUDIT_DENIED_REASON, lsg.INSTORED_FLAG, lsg.DELETE_FLAG, lsg.CREATE_DATETIME,
+    lsg.CREATE_PERSON, lsg.UPDATE_DATETIME, lsg.UPDATE_PERSON,lsg.CODIS_FILE_NAME,lsg.GENE_COUNT,lsg.CRIMINAL_PERSON_ID,
+    lsg.CRIMINAL_PERSON_NO
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_sample_gene lsg
+    where lsg.ID = #{id,jdbcType=INTEGER} and lsg.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+        lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID = lsi.ID and lsg.SAMPLE_ID=#{sampleId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAuditStatusBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+    lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID = lsi.ID and lsg.AUDIT_STATUS = '1' and lsg.SAMPLE_ID=#{sampleId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByCriminalId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lims_sample_gene lsg
+    where lsg.CRIMINAL_PERSON_ID=#{sampleId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByCriminalPersonId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lims_sample_gene lsg
+    where lsg.CRIMINAL_PERSON_ID=#{sampleId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByGeneId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+      lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID=lsi.ID AND lsg.ID=#{id, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListGeneId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lims_sample_gene lsg
+    where lsg.ID=#{id, jdbcType=INTEGER} and lsg.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectGeneInfoList" parameterType="com.bazl.hslims.manager.model.po.LimsSampleGene" resultMap="BaseResultMap">
+   SELECT
+    <include refid="Base_Column_List" />,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.REF_PERSON_ID as REF_PERSON_ID, lsi.REF_PERSON_NAME as REF_PERSON_NAME,
+    lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+        lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID=lsi.ID
+      <if test="caseId != null">
+        and lsi.CASE_ID = #{caseId, jdbcType=INTEGER}
+      </if>
+      <if test="sampleId != null">
+        and lsg.SAMPLE_ID = #{sampleId,jdbcType=INTEGER}
+      </if>
+      <if test="sampleNo != null">
+        and lsg.SAMPLE_NO like CONCAT('%', #{sampleNo,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="panelId != null">
+        and lsg.PANEL_ID = #{panelId,jdbcType=INTEGER}
+      </if>
+      <if test="reagentName != null">
+        and lsg.REAGENT_NAME = #{reagentName,jdbcType=VARCHAR}
+      </if>
+      <if test="auditStatus != null">
+        and lsg.AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="geneType != null">
+        and lsg.GENE_TYPE = #{geneType,jdbcType=VARCHAR}
+      </if>
+    order by lsg.AUDIT_DATETIME desc
+  </select>
+
+  <select id="selectAuditList" parameterType="com.bazl.hslims.manager.model.po.LimsSampleGene" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from lims_sample_gene lsg
+    where lsg.AUDIT_STATUS = 1 and lsg.DELETE_FLAG= 0
+    /*and  lsg.AUDIT_DATETIME >= (select sysdate-3 from dual))*/
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+        lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID=lsi.ID
+      and lsi.CASE_ID=#{caseId, jdbcType=INTEGER}
+    order by lsi.SAMPLE_FLAG desc,length(lsg.SAMPLE_NO),lsg.SAMPLE_NO asc
+  </select>
+
+  <select id="selectMixListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+    lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID=lsi.ID
+    and lsi.CASE_ID=#{caseId, jdbcType=INTEGER} and lsg.GENE_TYPE = '2' and lsg.AUDIT_STATUS = 1
+    order by lsi.SAMPLE_FLAG desc,length(lsg.SAMPLE_NO),lsg.SAMPLE_NO asc
+  </select>
+
+
+  <select id="selectAuditedListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG as SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+      lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID=lsi.ID
+           AND lsi.CASE_ID=#{caseId, jdbcType=INTEGER}
+           AND lsg.AUDIT_STATUS = '1'
+           AND lsg.GENE_TYPE = '1'
+    order by lsg.SAMPLE_ID asc
+  </select>
+
+
+  <select id="selectAuditedBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+      lsi.SAMPLE_NAME as SAMPLE_NAME, lsi.SAMPLE_TYPE, lsi.SAMPLE_FLAG, d.DICT_NAME as SAMPLE_TYPE_NAME
+    from lims_sample_gene lsg,
+      lims_sample_info lsi left join dict_item d on d.DICT_CODE=lsi.SAMPLE_TYPE and d.DICT_TYPE_CODE='SAMPLE_TYPE'
+    where lsg.SAMPLE_ID = lsi.ID
+    AND lsg.SAMPLE_ID=#{sampleId, jdbcType=INTEGER}
+    AND lsg.AUDIT_STATUS='1'
+    order by lsg.AUDIT_DATETIME desc
+  </select>
+
+
+  <sql id="VO_Query_Where_Clause">
+    <if test="entity.sampleId != null">
+      and lsg.SAMPLE_ID=#{entity.sampleId, jdbcType=INTEGER}
+    </if>
+    <if test="entity.sampleNo != null">
+      and lsg.SAMPLE_NO like CONCAT('%', #{entity.sampleNo,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="sampleName != null">
+      and lsi.SAMPLE_NAME like CONCAT('%', #{sampleName,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="caseId != null">
+      and lci.ID=#{caseId, jdbcType=INTEGER}
+    </if>
+    <if test="caseNo != null">
+      and lci.CASE_NO like CONCAT('%', #{caseNo,jdbcType=VARCHAR}, '%')
+    </if>
+  </sql>
+
+  <select id="selectVOPaginationList" parameterType="com.bazl.hslims.manager.model.vo.LimsSampleGeneVO" resultMap="VOBaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lsi.SAMPLE_NAME,
+    lsi.SAMPLE_TYPE,
+    lsi.SAMPLE_FLAG,
+    lci.CASE_NO,
+    lci.CASE_NAME
+    from lims_sample_gene lsg, lims_sample_info lsi, lims_case_info lci
+    where lsg.SAMPLE_ID=lsi.ID and lsi.CASE_ID=lci.ID and lsi.ACCEPT_STATUS='1'
+      and lsg.DELETE_FLAG='0' and lsi.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+    group by lsg.SAMPLE_NO
+    order by lci.CASE_NO,lsi.SAMPLE_FLAG desc,length(lsg.SAMPLE_NO),lsg.SAMPLE_NO asc
+    limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectVOCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(distinct lsg.SAMPLE_NO) from lims_sample_gene lsg, lims_sample_info lsi,lims_case_info lci
+    where lsg.SAMPLE_ID=lsi.ID and lsi.CASE_ID=lci.ID
+    and lsg.DELETE_FLAG='0' and lsi.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lims_sample_gene
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsSampleGene" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_sample_gene ( PANEL_ID,SAMPLE_ID, SAMPLE_NO, GENE_TYPE,
+      REAGENT_NAME, GENE_INFO, GENE_IMG_PATH, 
+      AUDIT_STATUS, AUDIT_PERSON, AUDIT_DATETIME, 
+      AUDIT_DENIED_REASON, INSTORED_FLAG,
+      CREATE_PERSON, UPDATE_PERSON,CODIS_FILE_NAME,GENE_COUNT,CRIMINAL_PERSON_ID,CRIMINAL_PERSON_NO)
+    values (#{panelId,jdbcType=INTEGER},#{sampleId,jdbcType=INTEGER}, #{sampleNo,jdbcType=VARCHAR}, #{geneType,jdbcType=VARCHAR},
+      #{reagentName,jdbcType=VARCHAR}, #{geneInfo,jdbcType=VARCHAR}, #{geneImgPath,jdbcType=VARCHAR}, 
+      #{auditStatus,jdbcType=VARCHAR}, #{auditPerson,jdbcType=VARCHAR}, #{auditDatetime,jdbcType=TIMESTAMP}, 
+      #{auditDeniedReason,jdbcType=VARCHAR}, #{instoredFlag,jdbcType=CHAR},
+      #{createPerson,jdbcType=VARCHAR}, #{updatePerson,jdbcType=VARCHAR},
+      #{codisFileName,jdbcType=VARCHAR}, #{geneCount,jdbcType=VARCHAR},
+      #{criminalPersonId,jdbcType=INTEGER}, #{criminalPersonNo,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateBySampleId" parameterType="java.lang.Integer">
+    update lims_sample_gene
+    set AUDIT_STATUS ='0',  AUDIT_DATETIME = now()
+    where SAMPLE_ID = #{sampleId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateById" parameterType="com.bazl.hslims.manager.model.po.LimsSampleGene">
+    update lims_sample_gene
+    set AUDIT_STATUS ='1', AUDIT_PERSON = #{auditPerson,jdbcType=VARCHAR},  AUDIT_DATETIME = now()
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsSampleGene">
+    update lims_sample_gene
+    set SAMPLE_ID = #{sampleId,jdbcType=INTEGER},
+      PANEL_ID = #{panelId,jdbcType=INTEGER},
+      SAMPLE_NO = #{sampleNo,jdbcType=VARCHAR},
+      GENE_TYPE = #{geneType,jdbcType=VARCHAR},
+      REAGENT_NAME = #{reagentName,jdbcType=VARCHAR},
+      GENE_INFO = #{geneInfo,jdbcType=VARCHAR},
+      GENE_IMG_PATH = #{geneImgPath,jdbcType=VARCHAR},
+      AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      AUDIT_PERSON = #{auditPerson,jdbcType=VARCHAR},
+      AUDIT_DATETIME = #{auditDatetime,jdbcType=TIMESTAMP},
+      AUDIT_DENIED_REASON = #{auditDeniedReason,jdbcType=VARCHAR},
+      INSTORED_FLAG = #{instoredFlag,jdbcType=CHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

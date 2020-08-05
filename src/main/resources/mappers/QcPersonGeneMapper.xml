@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.QcPersonGene">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.QcPersonGene">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="PANEL_ID" jdbcType="INTEGER" property="panelId" />
+    <result column="PANEL_NAME" jdbcType="VARCHAR" property="panelName" />
+    <result column="QC_PERSON_NO" jdbcType="VARCHAR" property="qcPersonNo" />
+    <result column="QC_PERSON_TYPE" jdbcType="VARCHAR" property="qcPersonType" />
+    <result column="QC_PERSON_NAME" jdbcType="VARCHAR" property="qcPersonName" />
+    <result column="QC_PERSON_GENDER" jdbcType="VARCHAR" property="qcPersonGender" />
+    <result column="QC_PERSON_CARD_ID" jdbcType="VARCHAR" property="qcPersonCardId" />
+    <result column="QC_PERSON_PHONENUM" jdbcType="VARCHAR" property="qcPersonPhonenum" />
+    <result column="QC_LAB_USER_FLAG" jdbcType="VARCHAR" property="qcLabUserFlag" />
+    <result column="QC_LAB_USER_ID" jdbcType="INTEGER" property="qcLabUserId" />
+    <result column="QC_PERSON_ORG_NAME" jdbcType="VARCHAR" property="qcPersonOrgName" />
+    <result column="QC_PERSON_STR_GENE" jdbcType="VARCHAR" property="qcPersonStrGene" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PANEL_ID, PANEL_NAME, QC_PERSON_NO, QC_PERSON_TYPE, QC_PERSON_NAME, QC_PERSON_GENDER, QC_PERSON_CARD_ID, QC_PERSON_PHONENUM, QC_LAB_USER_FLAG, QC_LAB_USER_ID, QC_PERSON_ORG_NAME, QC_PERSON_STR_GENE,
+    CREATE_DATETIME, CREATE_PERSON, UPDATE_DATETIME, UPDATE_PERSON, DELETE_FLAG
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qc_person_gene
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.QcPersonGene" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from qc_person_gene WHERE DELETE_FLAG = 0
+    <if test="_parameter != null">
+      <if test="id != null">
+        and ID = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="qcPersonName != null">
+        and QC_PERSON_NAME = #{qcPersonName,jdbcType=VARCHAR}
+      </if>
+      <if test="panelId != null">
+        and PANEL_ID = #{panelId,jdbcType=VARCHAR}
+      </if>
+      <if test="panelName != null">
+        and PANEL_NAME = #{panelName,jdbcType=VARCHAR}
+      </if>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update qc_person_gene set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.QcPersonGene" useGeneratedKeys="true" keyProperty="id">
+    insert into qc_person_gene (PANEL_ID, PANEL_NAME, QC_PERSON_NO, QC_PERSON_TYPE, QC_PERSON_NAME, QC_PERSON_GENDER, QC_PERSON_CARD_ID, QC_PERSON_PHONENUM,
+      QC_LAB_USER_FLAG, QC_LAB_USER_ID, QC_PERSON_ORG_NAME, QC_PERSON_STR_GENE, CREATE_PERSON
+    ) values (#{panelId,jdbcType=INTEGER}, #{panelName,jdbcType=VARCHAR}, #{qcPersonNo,jdbcType=VARCHAR}, #{qcPersonType,jdbcType=VARCHAR},
+    #{qcPersonName,jdbcType=VARCHAR},  #{qcPersonGender,jdbcType=VARCHAR}, #{qcPersonCardId,jdbcType=VARCHAR}, #{qcPersonPhonenum,jdbcType=VARCHAR},
+    #{qcLabUserFlag,jdbcType=VARCHAR}, #{qcLabUserId,jdbcType=INTEGER}, #{qcPersonOrgName,jdbcType=VARCHAR}, #{qcPersonStrGene,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.QcPersonGene">
+    update qc_person_gene
+    set PANEL_ID = #{panelId,jdbcType=INTEGER},
+      PANEL_NAME = #{panelName,jdbcType=VARCHAR},
+      QC_PERSON_NO = #{qcPersonNo,jdbcType=VARCHAR},
+      QC_PERSON_TYPE = #{qcPersonType,jdbcType=VARCHAR},
+      QC_PERSON_NAME = #{qcPersonName,jdbcType=VARCHAR},
+      QC_PERSON_GENDER = #{qcPersonGender,jdbcType=VARCHAR},
+      QC_PERSON_CARD_ID = #{qcPersonCardId,jdbcType=VARCHAR},
+      QC_PERSON_PHONENUM = #{qcPersonPhonenum,jdbcType=VARCHAR},
+      QC_LAB_USER_FLAG = #{qcLabUserFlag,jdbcType=VARCHAR},
+      QC_LAB_USER_ID = #{qcLabUserId,jdbcType=INTEGER},
+      QC_PERSON_ORG_NAME = #{qcPersonOrgName,jdbcType=VARCHAR},
+      QC_PERSON_STR_GENE = #{qcPersonStrGene,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

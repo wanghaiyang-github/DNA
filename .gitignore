@@ -1,0 +1,4 @@
+# Project exclude paths
+/build/
+/build/classes/
+/build/classes/main/

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.EquipmentRepairInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.EquipmentRepairInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="EQUIPMENT_INFO_ID" jdbcType="INTEGER" property="equipmentInfoId" />
+    <id column="EQUIPMENT_NAME_ID" jdbcType="INTEGER" property="equipmentNameId" />
+    <result column="EQUIPMENT_REPAIR_PERSON" jdbcType="VARCHAR" property="equipmentRepairPerson" />
+    <result column="EQUIPMENT_REPAIR_TIME" jdbcType="TIMESTAMP" property="equipmentRepairTime" />
+    <result column="FAILURE_CAUSE" jdbcType="VARCHAR" property="failureCause" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+
+    <result column="EQUIPMENT_NAME" jdbcType="VARCHAR" property="equipmentName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    eri.ID, eri.EQUIPMENT_INFO_ID, eri.EQUIPMENT_NAME_ID, eri.EQUIPMENT_REPAIR_PERSON, eri.EQUIPMENT_REPAIR_TIME,
+    eri.FAILURE_CAUSE, eri.CREATE_PERSON, eri.CREATE_DATETIME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment_repair_info eri
+    where ID = #{eri.id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    eni.EQUIPMENT_NAME as EQUIPMENT_NAME
+    from equipment_repair_info eri
+    left join equipment_name_info eni on eni.id = eri.EQUIPMENT_NAME_ID
+  </select>
+
+  <select id="selectEquipmentRepairInfoList" parameterType="com.bazl.hslims.manager.model.po.EquipmentRepairInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    eni.EQUIPMENT_NAME as EQUIPMENT_NAME
+    from equipment_repair_info eri
+    left join equipment_name_info eni on eni.id = eri.EQUIPMENT_NAME_ID
+    <if test="_parameter != null">
+      <where>
+        <if test="equipmentInfoId != null">
+          eri.EQUIPMENT_INFO_ID = #{equipmentInfoId, jdbcType=INTEGER}
+        </if>
+        <if test="equipmentNameId != null">
+          and eri.EQUIPMENT_NAME_ID = #{equipmentNameId, jdbcType=INTEGER}
+        </if>
+        <if test="equipmentRepairPerson != null">
+          and eri.EQUIPMENT_REPAIR_PERSON like CONCAT('%', #{equipmentRepairPerson,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="repairTimeDateStart != null">
+          and eri.CREATE_DATETIME &gt;=#{repairTimeDateStart, jdbcType=TIMESTAMP}
+        </if>
+        <if test="repairTimeDateEnd != null">
+          and eri.CREATE_DATETIME &lt;=#{repairTimeDateEnd, jdbcType=TIMESTAMP}
+        </if>
+      </where>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from equipment_repair_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.EquipmentRepairInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into equipment_repair_info (EQUIPMENT_INFO_ID, EQUIPMENT_NAME_ID, EQUIPMENT_REPAIR_PERSON, EQUIPMENT_REPAIR_TIME, FAILURE_CAUSE, CREATE_PERSON)
+    values (#{equipmentInfoId,jdbcType=INTEGER}, #{equipmentNameId,jdbcType=INTEGER}, #{equipmentRepairPerson,jdbcType=VARCHAR},
+    #{equipmentRepairTime,jdbcType=TIMESTAMP}, #{failureCause,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.EquipmentRepairInfo">
+    update equipment_info
+    set EQUIPMENT_INFO_ID = #{equipmentInfoId,jdbcType=INTEGER},
+      EQUIPMENT_NAME_ID = #{equipmentNameId,jdbcType=INTEGER},
+      EQUIPMENT_REPAIR_PERSON = #{equipmentRepairPerson,jdbcType=VARCHAR},
+      EQUIPMENT_REPAIR_TIME = #{equipmentRepairTime,jdbcType=TIMESTAMP},
+      FAILURE_CAUSE = #{failureCause,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

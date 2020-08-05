@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.IdentifyKernel">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.IdentifyKernel">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="IDENTIFY_KERNEL_NAME" jdbcType="VARCHAR" property="identifyKernelName" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ik.ID, ik.IDENTIFY_KERNEL_NAME, ik.CREATE_PERSON, ik.CREATE_DATETIME, ik.UPDATE_PERSON, ik.UPDATE_DATETIME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from identify_kernel ik
+    where ik.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from identify_kernel ik
+    where ik.IDENTIFY_KERNEL_NAME = #{identifyKernelName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from identify_kernel ik
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from identify_kernel
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.IdentifyKernel" useGeneratedKeys="true" keyProperty="id">
+    insert into identify_kernel (IDENTIFY_KERNEL_NAME, CREATE_PERSON, CREATE_DATETIME)
+    values (#{identifyKernelName,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.IdentifyKernel">
+    update identify_kernel
+    set IDENTIFY_KERNEL_NAME = #{identifyKernelName,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

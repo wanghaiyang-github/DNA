@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.QcPolluteRecord">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.QcPolluteRecord">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="QC_PERSON_ID" jdbcType="INTEGER" property="qcPersonId" />
+    <result column="POLLUTED_SAMPLE_GENE_ID" jdbcType="INTEGER" property="pollutedSampleGeneId" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+
+    <result column="QC_PERSON_NO" jdbcType="VARCHAR" property="qcPersonNo" />
+    <result column="QC_PERSON_NAME" jdbcType="VARCHAR" property="qcPersonName" />
+    <result column="QC_PERSON_GENE_INFO" jdbcType="VARCHAR" property="qcPersonGeneInfo" />
+    <result column="POLLUTED_SAMPLE_NO" jdbcType="VARCHAR" property="pollutedSampleNo" />
+    <result column="POLLUTED_SAMPLE_GENE_INFO" jdbcType="VARCHAR" property="pollutedSampleGeneInfo" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    qpr.ID, qpr.QC_PERSON_ID, qpr.POLLUTED_SAMPLE_GENE_ID, qpr.CREATE_DATETIME, qpr.CREATE_PERSON, qpr.DESCRIPTION, qpr.DELETE_FLAG
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />,
+    qpg.QC_PERSON_NO, qpg.QC_PERSON_NAME, qpg.QC_PERSON_STR_GENE as QC_PERSON_GENE_INFO,
+    lsg.SAMPLE_NO as POLLUTED_SAMPLE_NO, lsg.GENE_INFO as POLLUTED_SAMPLE_GENE_INFO
+    from qc_pollute_record qpr
+      left join qc_person_gene qpg on qpg.ID=qpr.QC_PERSON_ID
+      left join lims_sample_gene lsg on lsg.ID=qpr.POLLUTED_SAMPLE_GENE_ID
+    where ID = #{id,jdbcType=INTEGER} and DELETE_FLAG='0'
+  </select>
+
+
+  <select id="selectPaginationList" parameterType="com.bazl.hslims.manager.model.vo.QcPolluteRecordVO" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />,
+    qpg.QC_PERSON_NO, qpg.QC_PERSON_NAME, qpg.QC_PERSON_STR_GENE as QC_PERSON_GENE_INFO,
+    lsg.SAMPLE_NO as POLLUTED_SAMPLE_NO, lsg.GENE_INFO as POLLUTED_SAMPLE_GENE_INFO
+    from qc_pollute_record qpr
+      left join qc_person_gene qpg on qpg.ID=qpr.QC_PERSON_ID
+      left join lims_sample_gene lsg on lsg.ID=qpr.POLLUTED_SAMPLE_GENE_ID
+    <if test="_parameter != null">
+      <where>
+        <if test="entity.qcPersonId != null">
+          qpr.QC_PERSON_ID=#{entity.qcPersonId, jdbcType=INTEGER}
+        </if>
+      </where>
+    </if>
+    limit #{offset}, #{rows}
+  </select>
+
+
+  <select id="selectCount" parameterType="com.bazl.hslims.manager.model.vo.QcPolluteRecordVO" resultType="int">
+    SELECT count(qpr.ID)
+    from qc_pollute_record qpr
+    <if test="_parameter != null">
+      <where>
+        <if test="entity.qcPersonId != null">
+          qpr.QC_PERSON_ID=#{entity.qcPersonId, jdbcType=INTEGER}
+        </if>
+      </where>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update qc_pollute_record
+    set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.QcPolluteRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into qc_pollute_record (QC_PERSON_ID, POLLUTED_SAMPLE_GENE_ID,
+      CREATE_PERSON, DESCRIPTION)
+    values (#{qcPersonId,jdbcType=INTEGER}, #{pollutedSampleGeneId,jdbcType=INTEGER},
+      #{createPerson,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.QcPolluteRecord">
+    update qc_pollute_record
+    set QC_PERSON_ID = #{qcPersonId,jdbcType=INTEGER},
+      POLLUTED_SAMPLE_GENE_ID = #{pollutedSampleGeneId,jdbcType=INTEGER},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

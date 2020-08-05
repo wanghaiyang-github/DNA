@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LabRole">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LabRole">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="ROLE_LEVEL" jdbcType="INTEGER" property="roleLevel" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, ROLE_NAME, ROLE_LEVEL
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lab_role
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lab_role
+    order by ID
+  </select>
+
+
+  <select id="selectByLabUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    lr.ID, lr.ROLE_NAME, lr.ROLE_LEVEL
+    from lab_role lr, lab_user_role lur
+    where lr.ID=lur.ROLE_ID and lur.USER_ID=#{labUserId, jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lab_role
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LabRole" useGeneratedKeys="true" keyProperty="id">
+    insert into lab_role (ROLE_NAME, ROLE_LEVEL
+      )
+    values (#{roleName,jdbcType=VARCHAR}, #{roleLevel,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LabRole">
+    update lab_role
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_LEVEL = #{roleLevel,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

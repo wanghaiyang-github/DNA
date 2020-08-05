@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LabUser">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LabUser">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="LOGIN_PASSWORD" jdbcType="VARCHAR" property="loginPassword" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="CARD_ID" jdbcType="VARCHAR" property="cardId" />
+    <result column="PHONE_NUM" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="USER_TYPE" jdbcType="VARCHAR" property="userType" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, LOGIN_PASSWORD, USER_NAME, GENDER, CARD_ID, PHONE_NUM, USER_TYPE, 
+    DELETE_FLAG, CREATE_DATETIME, CREATE_PERSON, UPDATE_DATETIME, UPDATE_PERSON, REMARK,org_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lab_user
+    where ID = #{id,jdbcType=INTEGER} and DELETE_FLAG='0'
+  </select>
+
+  <select id="selectByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lab_user
+    where LOGIN_NAME=#{loginName,jdbcType=VARCHAR} and DELETE_FLAG='0'
+  </select>
+
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.LabUser" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lab_user where DELETE_FLAG='0'
+    <if test="_parameter != null">
+        <if test="id != null">
+          and ID=#{id, jdbcType=INTEGER}
+        </if>
+        <if test="loginName != null">
+          and LOGIN_NAME=#{loginName, jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null">
+          and USER_NAME=#{userName, jdbcType=VARCHAR}
+        </if>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lab_user set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LabUser" useGeneratedKeys="true" keyProperty="id">
+    insert into lab_user (ID, LOGIN_NAME, LOGIN_PASSWORD, 
+      USER_NAME, GENDER, CARD_ID, 
+      PHONE_NUM, USER_TYPE,DELETE_FLAG,CREATE_DATETIME,
+      CREATE_PERSON, REMARK,org_id)
+    values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR},
+      #{createDatetime,jdbcType=TIMESTAMP},#{createPerson,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LabUser">
+    update lab_user
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      CARD_ID = #{cardId,jdbcType=VARCHAR},
+      PHONE_NUM = #{phoneNum,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

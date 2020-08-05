@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LabPermission">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LabPermission">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="PERMISSION_NAME" jdbcType="VARCHAR" property="permissionName" />
+    <result column="PERMISSION_LINK" jdbcType="VARCHAR" property="permissionLink" />
+    <result column="ROOT_FLAG" jdbcType="CHAR" property="rootFlag" />
+    <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
+    <result column="ICON_STYLE" jdbcType="VARCHAR" property="iconStyle" />
+    <result column="ACTIVE_FLAG" jdbcType="CHAR" property="activeFlag" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, PERMISSION_NAME, PERMISSION_LINK, ROOT_FLAG, PARENT_ID, ICON_STYLE, ACTIVE_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lab_permission
+    where ID = #{id,jdbcType=INTEGER} and active_flag='1'
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lab_permission where active_flag='1'
+    order by ID, PARENT_ID
+  </select>
+
+
+  <select id="selectListByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    lp.ID, lp.PERMISSION_NAME, lp.PERMISSION_LINK, lp.ROOT_FLAG, lp.PARENT_ID, lp.ICON_STYLE
+    from lab_permission lp, lab_role_permission lrp
+    where lp.ID=lrp.PERMISSION_ID and lrp.ROLE_ID=#{roleId, jdbcType=INTEGER} and lp.active_flag='1'
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lab_permission
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LabPermission" useGeneratedKeys="true" keyProperty="id">
+    insert into lab_permission (ID, PERMISSION_NAME, PERMISSION_LINK, ROOT_FLAG, PARENT_ID, ICON_STYLE
+      )
+    values (#{id,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR}, #{permissionLink,jdbcType=VARCHAR},#{rootFlag,jdbcType=CHAR},#{parentId,jdbcType=INTEGER}, #{iconStyle,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LabPermission">
+    update lab_permission
+    set PERMISSION_NAME = #{permissionName,jdbcType=VARCHAR},
+      PERMISSION_LINK = #{permissionLink,jdbcType=VARCHAR},
+      ROOT_FLAG=#{rootFlag,jdbcType=CHAR},
+      PARENT_ID=#{parentId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

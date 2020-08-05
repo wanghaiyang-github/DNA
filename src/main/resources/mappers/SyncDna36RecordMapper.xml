@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.SyncDna36Record">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.SyncDna36Record">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="SAMPLE_ID" jdbcType="INTEGER" property="sampleId" />
+    <result column="OPERATE_TYPE" jdbcType="VARCHAR" property="operateType" />
+    <result column="OPERATE_DATE" jdbcType="TIMESTAMP" property="operateDate" />
+    <result column="OPERATE_PERSON" jdbcType="VARCHAR" property="operatePerson" />
+    <result column="SYNC_DATE" jdbcType="TIMESTAMP" property="syncDate" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    ID, CASE_ID,SAMPLE_ID, OPERATE_TYPE, OPERATE_DATE, OPERATE_PERSON, SYNC_DATE
+  </sql>
+
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.SyncDna36Record"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into sync_dna36_record (
+      CASE_ID,SAMPLE_ID, OPERATE_TYPE, OPERATE_DATE, OPERATE_PERSON, SYNC_DATE
+    ) values (
+      #{caseId,jdbcType=INTEGER},#{sampleId,jdbcType=INTEGER}, #{operateType,jdbcType=VARCHAR},
+      #{operateDate, jdbcType=TIMESTAMP}, #{operatePerson,jdbcType=VARCHAR},
+      #{syncDate, jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+</mapper>

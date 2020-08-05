@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsCaseInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsCaseInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_NO" jdbcType="VARCHAR" property="caseNo" />
+    <result column="CASE_XK_NO" jdbcType="VARCHAR" property="caseXkNo" />
+    <result column="CASE_XK_ANO" jdbcType="VARCHAR" property="caseXkAno" />
+    <result column="CASE_NAME" jdbcType="VARCHAR" property="caseName" />
+    <result column="ENTRUSTMENT_TYPE" jdbcType="VARCHAR" property="entrustmentType" />
+    <result column="CASE_DATETIME" jdbcType="TIMESTAMP" property="caseDatetime" />
+    <result column="CASE_LOCATION" jdbcType="VARCHAR" property="caseLocation" />
+    <result column="CASE_LOCATION_DESC" jdbcType="VARCHAR" property="caseLocationDesc" />
+    <result column="CASE_BRIEF" jdbcType="VARCHAR" property="caseBrief" />
+    <result column="CASE_TYPE" jdbcType="VARCHAR" property="caseType" />
+    <result column="CASE_PROPERTY" jdbcType="VARCHAR" property="caseProperty" />
+    <result column="CASE_LEVEL" jdbcType="VARCHAR" property="caseLevel" />
+    <result column="CASE_SPECIAL_REMARK" jdbcType="VARCHAR" property="caseSpecialRemark" />
+    <result column="CASE_STATUS" jdbcType="VARCHAR" property="caseStatus" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="instoredFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="deleteDatetime" />
+    <result column="JIAJI_FLAG" jdbcType="CHAR" property="jiajiFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <resultMap id="VOBaseResultMap" type="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO">
+    <result column="ID" jdbcType="INTEGER" property="entity.id" />
+    <result column="CASE_NO" jdbcType="VARCHAR" property="entity.caseNo" />
+    <result column="CASE_XK_NO" jdbcType="VARCHAR" property="entity.caseXkNo" />
+    <result column="CASE_NAME" jdbcType="VARCHAR" property="entity.caseName" />
+    <result column="ENTRUSTMENT_TYPE" jdbcType="VARCHAR" property="entity.entrustmentType" />
+    <result column="CASE_DATETIME" jdbcType="TIMESTAMP" property="entity.caseDatetime" />
+    <result column="CASE_LOCATION" jdbcType="VARCHAR" property="entity.caseLocation" />
+    <result column="CASE_LOCATION_DESC" jdbcType="VARCHAR" property="entity.caseLocationDesc" />
+    <result column="CASE_BRIEF" jdbcType="VARCHAR" property="entity.caseBrief" />
+    <result column="CASE_TYPE" jdbcType="VARCHAR" property="entity.caseType" />
+    <result column="CASE_PROPERTY" jdbcType="VARCHAR" property="entity.caseProperty" />
+    <result column="CASE_LEVEL" jdbcType="VARCHAR" property="entity.caseLevel" />
+    <result column="CASE_SPECIAL_REMARK" jdbcType="VARCHAR" property="entity.caseSpecialRemark" />
+    <result column="CASE_STATUS" jdbcType="VARCHAR" property="entity.caseStatus" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="entity.instoredFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="entity.createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="entity.createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="entity.updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="entity.updatePerson" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="entity.deleteFlag" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="entity.deleteDatetime" />
+    <result column="JIAJI_FLAG" jdbcType="CHAR" property="entity.jiajiFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="entity.remark" />
+
+    <result column="CONSIGNMENT_ID" jdbcType="INTEGER" property="consignmentId" />
+    <result column="DELEGATE_ORG" jdbcType="VARCHAR" property="delegateOrg" />
+    <result column="ENTRUSTING_SERIAL" jdbcType="VARCHAR" property="entrustingSerial" />
+    <result column="DELEGATE_ORG_NAME" jdbcType="VARCHAR" property="delegateOrgName" />
+    <result column="DELEGATOR1" jdbcType="VARCHAR" property="delegator1Name" />
+    <result column="DELEGATOR2" jdbcType="VARCHAR" property="delegator2Name" />
+    <result column="DELEGATE_DATETIME" jdbcType="TIMESTAMP" property="delegateDatetime" />
+    <result column="ACCEPTOR" jdbcType="VARCHAR" property="delegateAcceptor" />
+    <result column="ACCEPT_DATETIME" jdbcType="TIMESTAMP" property="delegateAcceptDate" />
+    <result column="REFUSE_REASON" jdbcType="VARCHAR" property="refuseReason" />
+
+    <result column="ADDITIONAL_FLAG" jdbcType="VARCHAR" property="additionalFlag" />
+    <result column="CASE_TYPE_NAME" jdbcType="VARCHAR" property="caseTypeName" />
+    <result column="CASE_PROPERTY_NAME" jdbcType="VARCHAR" property="casePropertyName" />
+    <result column="CASE_LEVEL_NAME" jdbcType="VARCHAR" property="caseLevelName" />
+    <result column="CASE_STATUS_NAME" jdbcType="VARCHAR" property="caseStatusName" />
+
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    lci.ID, lci.CASE_NO, lci.CASE_XK_NO,lci.CASE_XK_ANO, lci.CASE_NAME,lci.ENTRUSTMENT_TYPE, lci.CASE_DATETIME, lci.CASE_LOCATION, lci.CASE_LOCATION_DESC, lci.CASE_BRIEF,
+    lci.CASE_TYPE, lci.CASE_PROPERTY, lci.CASE_LEVEL, lci.CASE_SPECIAL_REMARK, lci.CASE_STATUS, lci.INSTORED_FLAG,
+    lci.CREATE_DATETIME, lci.CREATE_PERSON, lci.UPDATE_DATETIME, lci.UPDATE_PERSON, lci.DELETE_FLAG, lci.JIAJI_FLAG, lci.REMARK
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_case_info lci
+    where lci.ID = #{id,jdbcType=INTEGER} and DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListByCaseNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_case_info lci
+    where lci.CASE_NO = #{caseNo,jdbcType=VARCHAR} and lci.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListByCaseXkNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_case_info lci
+    where lci.CASE_XK_NO = #{caseXkNo,jdbcType=VARCHAR} and lci.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectByConsignmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_case_info lci, lims_consignment lc
+    where lc.CASE_ID=lci.ID and lc.ID = #{id,jdbcType=INTEGER} and lc.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListByConsignmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_case_info lci, lims_consignment lc
+    where lc.CASE_ID=lci.ID and lc.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <sql id="Query_Where_Clause">
+    <where>
+      <if test="entity.caseNo != null">
+        CASE_NO=#{entity.caseNo, jdbcType=VARCHAR}
+      </if>
+      <if test="entity.caseName != null">
+        and CASE_NAME=#{entity.caseName, jdbcType=VARCHAR}
+      </if>
+      <if test="entity.caseType != null">
+        and CASE_TYPE=#{entity.caseType, jdbcType=VARCHAR}
+      </if>
+      <if test="entity.caseProperty != null">
+        and CASE_PROPERTY=#{entity.caseProperty, jdbcType=VARCHAR}
+      </if>
+      <if test="entity.caseStatus != null">
+        and CASE_STATUS=#{entity.caseStatus, jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="selectPaginationList" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lims_case_info lci
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+    </if>
+    limit #{offset}, #{rows}
+  </select>
+
+
+  <sql id="VO_Query_Where_Clause">
+    <if test="entity.id != null">
+      and lci.ID = #{entity.id,jdbcType=INTEGER}
+    </if>
+
+    <if test="entity.caseXkNo != null">
+      and lci.CASE_XK_NO like CONCAT('%', #{entity.caseXkNo,jdbcType=VARCHAR}, '%')
+    </if>
+
+    <if test="entity.caseNo != null">
+      and lci.CASE_NO like CONCAT('%', #{entity.caseNo,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="entity.caseName != null">
+      and lci.CASE_NAME like CONCAT('%', #{entity.caseName,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="entity.caseType != null">
+      and lci.CASE_TYPE=#{entity.caseType, jdbcType=VARCHAR}
+    </if>
+    <if test="entity.entrustmentType != null">
+      and lci.ENTRUSTMENT_TYPE=#{entity.entrustmentType, jdbcType=VARCHAR}
+    </if>
+    <if test="entity.caseProperty != null">
+      and lci.CASE_PROPERTY=#{entity.caseProperty, jdbcType=VARCHAR}
+    </if>
+    <if test="entity.caseStatus != null">
+      and lci.CASE_STATUS=#{entity.caseStatus, jdbcType=VARCHAR}
+    </if>
+    <if test="caseDateStart != null">
+      and lci.CASE_DATETIME &gt;=#{caseDateStart, jdbcType=TIMESTAMP}
+    </if>
+    <if test="caseDateEnd != null">
+      and lci.CASE_DATETIME &lt;=#{caseDateEnd, jdbcType=TIMESTAMP}
+    </if>
+    <if test="caseStatusList != null">
+      and lci.CASE_STATUS in
+      <foreach collection="caseStatusList" item="status" open="(" close=")" separator=",">
+        #{status,jdbcType=VARCHAR}
+      </foreach>
+    </if>
+    <if test="additionalFlag != null">
+      and lc.ADDITIONAL_FLAG=#{additionalFlag,jdbcType=CHAR}
+    </if>
+    <if test="identifyBookStatus != null">
+      and exists (select lib.case_id from LIMS_IDENTIFY_BOOK lib where lib.CASE_ID=lci.ID and STATUS=#{identifyBookStatus,jdbcType=VARCHAR})
+    </if>
+    <if test="consignmentStatus != null">
+      and lc.STATUS=#{consignmentStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="consignmentStatusList != null">
+      and lc.STATUS in
+      <foreach collection="consignmentStatusList" item="status" open="(" close=")" separator=",">
+        #{status,jdbcType=VARCHAR}
+      </foreach>
+    </if>
+    <if test="delegatorName != null">
+      and (lc.DELEGATOR1 like CONCAT('%', #{delegatorName,jdbcType=VARCHAR}, '%') or lc.DELEGATOR2 like CONCAT('%', #{delegatorName,jdbcType=VARCHAR}, '%'))
+    </if>
+    <if test="delegateDatetimeStart != null">
+      and lc.DELEGATE_DATETIME &gt;=#{delegateDatetimeStart, jdbcType=TIMESTAMP}
+    </if>
+    <if test="delegateDatetimeEnd != null">
+      and lc.DELEGATE_DATETIME &lt;=#{delegateDatetimeEnd, jdbcType=TIMESTAMP}
+    </if>
+    <if test="delegateAcceptor != null">
+      and lc.ACCEPTOR like CONCAT('%', #{delegateAcceptor,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="acceptDateStart != null">
+      and lc.ACCEPT_DATETIME &gt;=#{acceptDateStart, jdbcType=TIMESTAMP}
+    </if>
+    <if test="acceptDateEnd != null">
+      and lc.ACCEPT_DATETIME &lt;=#{acceptDateEnd, jdbcType=TIMESTAMP}
+    </if>
+    <if test="delegateOrg != null">
+      and lc.DELEGATE_ORG=#{delegateOrg, jdbcType=VARCHAR}
+    </if>
+  </sql>
+
+  <select id="selectVOPaginationList" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    substring(lci.CASE_NO, 5, 4) as caseNo1, lpad(substring_index(lci.CASE_NO, '-', -1),4,'0000') as caseNo2,
+    <include refid="Base_Column_List"/>,
+    lc.ID as CONSIGNMENT_ID,
+    lc.ENTRUSTING_SERIAL,
+    lc.DELEGATE_ORG,
+    lc.DELEGATE_DATETIME,
+    lc.DELEGATOR1,
+    lc.DELEGATOR2,
+    lc.ADDITIONAL_FLAG,
+    lc.ACCEPTOR,
+    lc.ACCEPT_DATETIME,
+    lc.REFUSE_REASON as REFUSE_REASON,
+    di_1.dict_name as CASE_TYPE_NAME,
+    di_2.dict_name as CASE_PROPERTY_NAME,
+    di_3.dict_name as CASE_LEVEL_NAME,
+    di_4.dict_name as CASE_STATUS_NAME,
+    do.org_name as DELEGATE_ORG_NAME
+    from lims_consignment lc left join delegate_org do on do.org_code=lc.delegate_org,
+    lims_case_info lci
+    left join dict_item di_1 on lci.CASE_TYPE=di_1.dict_code and di_1.DICT_TYPE_CODE='CASE_TYPE'
+    left join dict_item di_2 on lci.CASE_PROPERTY=di_2.dict_code and di_2.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item di_3 on lci.CASE_LEVEL=di_3.dict_code and di_3.DICT_TYPE_CODE='CASE_LEVEL'
+    left join dict_item di_4 on lci.CASE_STATUS=di_4.dict_code and di_4.DICT_TYPE_CODE='CASE_STATUS'
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0' and lci.ENTRUSTMENT_TYPE is null
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="orderByClause == null">
+        order by lc.CREATE_DATETIME DESC
+      </if>
+      limit #{offset}, #{rows}
+    </if>
+    <if test="_parameter == null">
+      order by lc.CREATE_DATETIME DESC
+    </if>
+  </select>
+
+  <select id="selectVOAllList" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    substring(lci.CASE_NO, 5, 4) as caseNo1, lpad(substring_index(lci.CASE_NO, '-', -1),4,'0000') as caseNo2,
+    <include refid="Base_Column_List"/>,
+    lc.ID as CONSIGNMENT_ID,
+    lc.ENTRUSTING_SERIAL,
+    lc.DELEGATE_ORG,
+    lc.DELEGATE_DATETIME,
+    lc.DELEGATOR1,
+    lc.DELEGATOR2,
+    lc.ADDITIONAL_FLAG,
+    lc.ACCEPTOR,
+    lc.ACCEPT_DATETIME,
+    lc.REFUSE_REASON as REFUSE_REASON,
+    di_1.dict_name as CASE_TYPE_NAME,
+    di_2.dict_name as CASE_PROPERTY_NAME,
+    di_3.dict_name as CASE_LEVEL_NAME,
+    di_4.dict_name as CASE_STATUS_NAME,
+    do.org_name as DELEGATE_ORG_NAME
+    from lims_consignment lc left join delegate_org do on do.org_code=lc.delegate_org,
+    lims_case_info lci
+    left join dict_item di_1 on lci.CASE_TYPE=di_1.dict_code and di_1.DICT_TYPE_CODE='CASE_TYPE'
+    left join dict_item di_2 on lci.CASE_PROPERTY=di_2.dict_code and di_2.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item di_3 on lci.CASE_LEVEL=di_3.dict_code and di_3.DICT_TYPE_CODE='CASE_LEVEL'
+    left join dict_item di_4 on lci.CASE_STATUS=di_4.dict_code and di_4.DICT_TYPE_CODE='CASE_STATUS'
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="orderByClause == null">
+        order by lc.CREATE_DATETIME DESC
+      </if>
+      limit #{offset}, #{rows}
+    </if>
+    <if test="_parameter == null">
+      order by lc.CREATE_DATETIME DESC
+    </if>
+  </select>
+
+  <select id="selectVOList" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    substring(lci.CASE_NO, 5, 4) as caseNo1, lpad(substring_index(lci.CASE_NO, '-', -1),4,'0000') as caseNo2,
+    <include refid="Base_Column_List"/>,
+    lc.ID as CONSIGNMENT_ID,
+    lc.DELEGATE_ORG,
+    lc.DELEGATE_DATETIME,
+    lc.DELEGATOR1,
+    lc.DELEGATOR2,
+    lc.ADDITIONAL_FLAG,
+    lc.ACCEPTOR,
+    lc.ACCEPT_DATETIME,
+    lc.REFUSE_REASON as REFUSE_REASON,
+    di_1.dict_name as CASE_TYPE_NAME,
+    di_2.dict_name as CASE_PROPERTY_NAME,
+    di_3.dict_name as CASE_LEVEL_NAME,
+    di_4.dict_name as CASE_STATUS_NAME,
+    do.org_name as DELEGATE_ORG_NAME
+    from lims_consignment lc left join delegate_org do on do.org_code=lc.delegate_org,
+    lims_case_info lci
+    left join dict_item di_1 on lci.CASE_TYPE=di_1.dict_code and di_1.DICT_TYPE_CODE='CASE_TYPE'
+    left join dict_item di_2 on lci.CASE_PROPERTY=di_2.dict_code and di_2.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item di_3 on lci.CASE_LEVEL=di_3.dict_code and di_3.DICT_TYPE_CODE='CASE_LEVEL'
+    left join dict_item di_4 on lci.CASE_STATUS=di_4.dict_code and di_4.DICT_TYPE_CODE='CASE_STATUS'
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="orderByClause == null">
+        order by lc.CREATE_DATETIME DESC
+      </if>
+    </if>
+    <if test="_parameter == null">
+      order by lc.CREATE_DATETIME DESC
+    </if>
+  </select>
+
+  <select id="selectNotConsignmentNoList" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInfo"
+          resultMap="BaseResultMap">
+   SELECT <include refid="Base_Column_List"/>
+   from  lims_case_info lci ,lims_consignment lc
+   where  lci.ID = lc.CASE_ID and lc.DELEGATE_DATETIME >= '2019-04-01' and lci.CASE_XK_NO like '%K522%'
+   AND lci.DELETE_FLAG = '0' AND lc.DELETE_FLAG = '0' and lci.CASE_XK_ANO is null
+  </select>
+
+  <select id="selectVOCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lc.ID) from lims_consignment lc, lims_case_info lci
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0' and lci.ENTRUSTMENT_TYPE is null
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="selectVOCnt" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lc.ID) from lims_consignment lc, lims_case_info lci
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="selectVOIdentifyBookList" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    substring(lci.CASE_NO, 5, 4) as caseNo1, lpad(substring_index(lci.CASE_NO, '-', -1),4,'0000') as caseNo2,
+    <include refid="Base_Column_List"/>,
+    lc.ID as CONSIGNMENT_ID,
+    lc.DELEGATE_ORG,
+    lc.DELEGATE_DATETIME,
+    lc.DELEGATOR1,
+    lc.DELEGATOR2,
+    lc.ADDITIONAL_FLAG,
+    lc.ACCEPTOR,
+    lc.ACCEPT_DATETIME,
+    lc.REFUSE_REASON as REFUSE_REASON,
+    di_1.dict_name as CASE_TYPE_NAME,
+    di_2.dict_name as CASE_PROPERTY_NAME,
+    di_3.dict_name as CASE_LEVEL_NAME,
+    di_4.dict_name as CASE_STATUS_NAME,
+    do.org_name as DELEGATE_ORG_NAME,
+    lib.STATUS_NAME AS identifyBookStatusName,
+    lib.STATUS as identifyBookStatus
+    from lims_consignment lc left join delegate_org do on do.org_code=lc.delegate_org
+    left join lims_identify_book lib on lib.CASE_ID=lc.CASE_ID,
+    lims_case_info lci
+    left join dict_item di_1 on lci.CASE_TYPE=di_1.dict_code and di_1.DICT_TYPE_CODE='CASE_TYPE'
+    left join dict_item di_2 on lci.CASE_PROPERTY=di_2.dict_code and di_2.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item di_3 on lci.CASE_LEVEL=di_3.dict_code and di_3.DICT_TYPE_CODE='CASE_LEVEL'
+    left join dict_item di_4 on lci.CASE_STATUS=di_4.dict_code and di_4.DICT_TYPE_CODE='CASE_STATUS'
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="orderByClause == null">
+        order by lc.CREATE_DATETIME DESC
+      </if>
+      limit #{offset}, #{rows}
+    </if>
+    <if test="_parameter == null">
+      order by lc.CREATE_DATETIME DESC
+    </if>
+  </select>
+
+  <select id="selectVOIdentifyBookCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lc.ID) from lims_consignment lc, lims_case_info lci
+    where lci.ID=lc.CASE_ID and lci.DELETE_FLAG='0' and lc.DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="selectVOGeneralQueryList" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    substring(lci.CASE_NO, 5, 4) as caseNo1, LPAD(substring_index(lci.CASE_NO, '-', -1),4,'0000') as caseNo2,
+    <include refid="Base_Column_List"/>,
+    lc.ID as CONSIGNMENT_ID,
+    lc.DELEGATE_ORG,
+    lc.DELEGATE_DATETIME,
+    lc.DELEGATOR1,
+    lc.DELEGATOR2,
+    lc.ADDITIONAL_FLAG,
+    lc.ACCEPTOR,
+    lc.ACCEPT_DATETIME,
+    lc.REFUSE_REASON as REFUSE_REASON,
+    di_1.dict_name as CASE_TYPE_NAME,
+    di_2.dict_name as CASE_PROPERTY_NAME,
+    di_3.dict_name as CASE_LEVEL_NAME,
+    di_4.dict_name as CASE_STATUS_NAME,
+    do.org_name as DELEGATE_ORG_NAME
+    from lims_consignment lc left join delegate_org do on do.org_code=lc.delegate_org,
+    lims_case_info lci
+    left join dict_item di_1 on lci.CASE_TYPE=di_1.dict_code and di_1.DICT_TYPE_CODE='CASE_TYPE'
+    left join dict_item di_2 on lci.CASE_PROPERTY=di_2.dict_code and di_2.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item di_3 on lci.CASE_LEVEL=di_3.dict_code and di_3.DICT_TYPE_CODE='CASE_LEVEL'
+    left join dict_item di_4 on lci.CASE_STATUS=di_4.dict_code and di_4.DICT_TYPE_CODE='CASE_STATUS'
+    where lci.ID=lc.CASE_ID
+    <if test="entity.deleteFlag != null">
+      and lci.DELETE_FLAG=#{entity.deleteFlag,jdbcType=CHAR} and lc.DELETE_FLAG=#{entity.deleteFlag,jdbcType=CHAR}
+    </if>
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+      <if test="orderByClause != null">
+        order by ${orderByClause}
+      </if>
+      <if test="orderByClause == null">
+        order by lc.CREATE_DATETIME DESC
+      </if>
+      limit #{offset}, #{rows}
+    </if>
+    <if test="_parameter == null">
+      order by lc.CREATE_DATETIME DESC
+    </if>
+  </select>
+
+  <select id="selectVOGeneralQueryCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lc.ID) from lims_consignment lc, lims_case_info lci
+    where lci.ID=lc.CASE_ID
+    <if test="entity.deleteFlag != null">
+      and lci.DELETE_FLAG=#{entity.deleteFlag,jdbcType=CHAR} and lc.DELETE_FLAG=#{entity.deleteFlag,jdbcType=CHAR}
+    </if>
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    UPDATE lims_case_info lci
+    set lci.DELETE_FLAG='1',  lci.DELETE_DATETIME = now()
+    where lci.ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByConsignmentId" parameterType="java.lang.Integer">
+    UPDATE lims_case_info lci left join lims_consignment lc on lci.ID=lc.CASE_ID
+    set lci.DELETE_FLAG='1',  lci.DELETE_DATETIME = now()
+    where lc.ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_case_info (CASE_NO, CASE_XK_NO,CASE_XK_ANO,ENTRUSTMENT_TYPE, CASE_NAME,
+      CASE_DATETIME, CASE_LOCATION, CASE_LOCATION_DESC,
+      CASE_BRIEF, CASE_TYPE, CASE_PROPERTY,
+      CASE_LEVEL, CASE_SPECIAL_REMARK, CASE_STATUS,
+      INSTORED_FLAG, CREATE_PERSON,UPDATE_PERSON, JIAJI_FLAG, REMARK)
+    values (#{caseNo,jdbcType=VARCHAR}, #{caseXkNo,jdbcType=VARCHAR},#{caseXkAno,jdbcType=VARCHAR},#{entrustmentType,jdbcType=VARCHAR}, #{caseName,jdbcType=VARCHAR},
+      #{caseDatetime,jdbcType=TIMESTAMP}, #{caseLocation,jdbcType=VARCHAR}, #{caseLocationDesc,jdbcType=VARCHAR}, 
+      #{caseBrief,jdbcType=VARCHAR}, #{caseType,jdbcType=VARCHAR}, #{caseProperty,jdbcType=VARCHAR}, 
+      #{caseLevel,jdbcType=VARCHAR}, #{caseSpecialRemark,jdbcType=VARCHAR}, #{caseStatus,jdbcType=VARCHAR}, 
+      #{instoredFlag,jdbcType=CHAR}, #{createPerson,jdbcType=VARCHAR},
+      #{updatePerson,jdbcType=VARCHAR}, #{jiajiFlag,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInfo">
+    update lims_case_info
+    set CASE_NO = #{caseNo,jdbcType=VARCHAR},
+      ENTRUSTMENT_TYPE = #{entrustmentType,jdbcType=VARCHAR},
+      CASE_XK_NO = #{caseXkNo,jdbcType=VARCHAR},
+      CASE_NAME = #{caseName,jdbcType=VARCHAR},
+      CASE_DATETIME = #{caseDatetime,jdbcType=TIMESTAMP},
+      CASE_LOCATION = #{caseLocation,jdbcType=VARCHAR},
+      CASE_LOCATION_DESC = #{caseLocationDesc,jdbcType=VARCHAR},
+      CASE_BRIEF = #{caseBrief,jdbcType=VARCHAR},
+      CASE_TYPE = #{caseType,jdbcType=VARCHAR},
+      CASE_PROPERTY = #{caseProperty,jdbcType=VARCHAR},
+      CASE_LEVEL = #{caseLevel,jdbcType=VARCHAR},
+      CASE_SPECIAL_REMARK = #{caseSpecialRemark,jdbcType=VARCHAR},
+      CASE_STATUS = #{caseStatus,jdbcType=VARCHAR},
+      INSTORED_FLAG = #{instoredFlag,jdbcType=CHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      JIAJI_FLAG = #{jiajiFlag,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateCaseXkAno" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInfo">
+    update lims_case_info
+    set
+    CASE_XK_ANO = #{caseXkAno,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="refuseCase" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInfo">
+    update lims_case_info
+    set CASE_STATUS = #{caseStatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectNotFeedbackCaseList"
+    resultType="com.bazl.hslims.manager.model.XkFeedbackCaseInfo">
+    select
+      t.id as caseId,
+      c.id as consignmentId,
+      c.consignment_no as consignmentNo,
+      t.case_xk_no as caseXkNo,
+      t.case_status as caseStatus,
+      c.delegate_org as delegateOrg,
+      c.delegate_org_desc as delegateOrgName,
+      c.delegate_datetime as delegateDatetime,
+      from lims_case_info t,lims_consigment_info c
+      where t.id=c.case_id and t.case_datetime>=date_format('2019-01-01','%Y-%m-%d')
+        and t.CASE_XK_NO !='无'
+        and t.CASE_XK_NO like 'K5224%'
+  </select>
+
+</mapper>

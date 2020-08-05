@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.DnaNoSeq">
+    <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.DnaNoSeq">
+        <result column="CODE" jdbcType="VARCHAR" property="code" />
+        <result column="CURRENT_VAL" jdbcType="INTEGER" property="current_val" />
+        <result column="INCREMENT" jdbcType="INTEGER" property="increment" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        CODE, CURRENT_VAL, INCREMENT
+    </sql>
+
+    <select id="selectNextVal" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select nextdnaval(#{code, jdbcType=VARCHAR})
+    </select>
+
+    <delete id="deleteCode" parameterType="java.lang.String">
+        delete from dna_no_seq where CODE = #{code, jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.DnaNoSeq">
+        insert into dna_no_seq (CODE) values (#{code,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

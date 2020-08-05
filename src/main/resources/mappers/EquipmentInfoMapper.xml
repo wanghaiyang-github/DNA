@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.EquipmentInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.EquipmentInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="EQUIPMENT_NAME_ID" jdbcType="INTEGER" property="equipmentNameId" />
+    <result column="EQUIPMENT_NO" jdbcType="VARCHAR" property="equipmentNo" />
+    <result column="EQUIPMENT_SPECIFICATION" jdbcType="VARCHAR" property="equipmentSpecification" />
+    <result column="EQUIPMENT_STATUS" jdbcType="VARCHAR" property="equipmentStatus" />
+    <result column="EQUIPMENT_NUM" jdbcType="INTEGER" property="equipmentNum" />
+    <result column="USE_BLUE_WARN" jdbcType="INTEGER" property="useBlueWarn" />
+    <result column="USE_RED_WARN" jdbcType="INTEGER" property="useRedWarn" />
+    <result column="REPAIR_BLUE_WARN" jdbcType="INTEGER" property="repairBlueWarn" />
+    <result column="REPAIR_RED_WARN" jdbcType="INTEGER" property="repairRedWarn" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+
+    <result column="EQUIPMENT_NAME" jdbcType="VARCHAR" property="equipmentName" />
+    <result column="EQUIPMENT_STATUS_NAME" jdbcType="VARCHAR" property="equipmentStatusName"></result>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ei.ID, ei.EQUIPMENT_NAME_ID, ei.EQUIPMENT_NO, ei.EQUIPMENT_SPECIFICATION, ei.EQUIPMENT_STATUS, ei.EQUIPMENT_NUM, ei.USE_BLUE_WARN, ei.USE_RED_WARN,
+    ei.REPAIR_BLUE_WARN,ei.REPAIR_RED_WARN, ei.REMARK, ei.CREATE_PERSON, ei.CREATE_DATETIME, ei.UPDATE_PERSON, ei.UPDATE_DATETIME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment_info ei
+    where ei.ID = #{ei.id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d.DICT_NAME as EQUIPMENT_STATUS_NAME,
+    eni.EQUIPMENT_NAME as EQUIPMENT_NAME
+    from equipment_info ei
+    left join dict_item d on d.DICT_CODE = ei.EQUIPMENT_STATUS and d.DICT_TYPE_CODE = 'EQUIPMENT_STATUS'
+    left join equipment_name_info eni on eni.id = ei.EQUIPMENT_NAME_ID
+  </select>
+
+  <select id="selectEquipmentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from equipment_info ei
+    where ei.EQUIPMENT_NO = #{ei.equipmentNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEquipmentInfoList" parameterType="com.bazl.hslims.manager.model.po.EquipmentInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d.DICT_NAME as EQUIPMENT_STATUS_NAME,
+    eni.EQUIPMENT_NAME as EQUIPMENT_NAME
+    from equipment_info ei
+    left join dict_item d on d.DICT_CODE = ei.EQUIPMENT_STATUS and d.DICT_TYPE_CODE = 'EQUIPMENT_STATUS'
+    left join equipment_name_info eni on eni.id = ei.EQUIPMENT_NAME_ID
+    <if test="_parameter != null">
+      <where>
+        <if test="equipmentNo != null">
+          ei.EQUIPMENT_NO like CONCAT('%', #{equipmentNo,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="equipmentNameId != null">
+          and ei.EQUIPMENT_NAME_ID = #{equipmentNameId, jdbcType=INTEGER}
+        </if>
+        <if test="equipmentStatus != null">
+          and ei.EQUIPMENT_STATUS = #{equipmentStatus, jdbcType=VARCHAR}
+        </if>
+      </where>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from equipment_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.EquipmentInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into equipment_info (EQUIPMENT_NAME_ID, EQUIPMENT_NO, EQUIPMENT_SPECIFICATION, EQUIPMENT_STATUS, EQUIPMENT_NUM,
+    USE_BLUE_WARN, USE_RED_WARN, REPAIR_BLUE_WARN, REPAIR_RED_WARN, REMARK, CREATE_PERSON)
+    values (#{equipmentNameId,jdbcType=INTEGER}, #{equipmentNo,jdbcType=VARCHAR}, #{equipmentSpecification,jdbcType=VARCHAR}
+    , #{equipmentStatus,jdbcType=VARCHAR}, #{equipmentNum,jdbcType=INTEGER}, #{useBlueWarn,jdbcType=INTEGER}, #{useRedWarn,jdbcType=INTEGER}
+    , #{repairBlueWarn,jdbcType=INTEGER}, #{repairRedWarn,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+    , #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateEquipmentStatus" parameterType="java.lang.Integer">
+    update equipment_info set EQUIPMENT_STATUS = '02'
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.EquipmentInfo">
+    update equipment_info
+    set EQUIPMENT_NAME_ID = #{equipmentNameId,jdbcType=INTEGER},
+      EQUIPMENT_NO = #{equipmentNo,jdbcType=VARCHAR},
+      EQUIPMENT_SPECIFICATION = #{equipmentSpecification,jdbcType=VARCHAR},
+      EQUIPMENT_STATUS = #{equipmentStatus,jdbcType=VARCHAR},
+      EQUIPMENT_NUM = #{equipmentNum,jdbcType=INTEGER},
+      USE_BLUE_WARN = #{useBlueWarn,jdbcType=INTEGER},
+      USE_RED_WARN = #{useRedWarn,jdbcType=INTEGER},
+      REPAIR_BLUE_WARN = #{repairBlueWarn,jdbcType=INTEGER},
+      REPAIR_RED_WARN = #{repairRedWarn,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

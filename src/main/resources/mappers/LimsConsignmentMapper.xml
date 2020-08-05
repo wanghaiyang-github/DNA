@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsConsignment">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsConsignment">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="CONSIGNMENT_NO" jdbcType="VARCHAR" property="consignmentNo" />
+    <result column="ADDITIONAL_FLAG" jdbcType="CHAR" property="additionalFlag" />
+    <result column="ENTRUSTING_SERIAL" jdbcType="VARCHAR" property="entrustingSerial" />
+    <result column="DELEGATE_ORG" jdbcType="VARCHAR" property="delegateOrg" />
+    <result column="DELEGATE_ORG_DESC" jdbcType="VARCHAR" property="delegateOrgDesc" />
+    <result column="DELEGATE_ORG_PHONE" jdbcType="VARCHAR" property="delegateOrgPhone" />
+    <result column="DELEGATOR1" jdbcType="VARCHAR" property="delegator1" />
+    <result column="DELEGATOR1_CNO" jdbcType="VARCHAR" property="delegator1Cno" />
+    <result column="DELEGATOR1_PHONE" jdbcType="VARCHAR" property="delegator1Phone" />
+    <result column="DELEGATOR2" jdbcType="VARCHAR" property="delegator2" />
+    <result column="DELEGATOR2_CNO" jdbcType="VARCHAR" property="delegator2Cno" />
+    <result column="DELEGATOR2_PHONE" jdbcType="VARCHAR" property="delegator2Phone" />
+    <result column="DELEGATE_DATETIME" jdbcType="TIMESTAMP" property="delegateDatetime" />
+    <result column="PRE_IDENTIFY_DESC" jdbcType="VARCHAR" property="preIdentifyDesc" />
+    <result column="REIDENTIFY_REASON" jdbcType="VARCHAR" property="reidentifyReason" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ACCEPTOR" jdbcType="VARCHAR" property="acceptor" />
+    <result column="ACCEPT_DATETIME" jdbcType="TIMESTAMP" property="acceptDatetime" />
+    <result column="REFUSE_REASON" jdbcType="VARCHAR" property="refuseReason" />
+    <result column="IDENTIFY_REQUIREMENT" jdbcType="VARCHAR" property="identifyRequirement" />
+    <result column="MATCH_CASE_NO" jdbcType="VARCHAR" property="matchCaseNo" />
+    <result column="IDENTIFY_REQUIREMENT_OTHER" jdbcType="VARCHAR" property="identifyRequirementOther" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="instoredFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="deleteDatetime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="DELEGATOR1_POSITION" jdbcType="VARCHAR" property="delegator1Position" />
+    <result column="DELEGATOR2_POSITION" jdbcType="VARCHAR" property="delegator2Position" />
+    <result column="DELEGATOR1_CNAME" jdbcType="VARCHAR" property="delegator1Cname" />
+    <result column="DELEGATOR2_CNAME" jdbcType="VARCHAR" property="delegator2Cname" />
+    <result column="POSTAL_ADDRESS" jdbcType="VARCHAR" property="postalAddress" />
+    <result column="POST_NO" jdbcType="VARCHAR" property="postNo" />
+    <result column="FAX_NO" jdbcType="VARCHAR" property="faxNo" />
+    <result column="IDENTIFY_KERNEL_NAME" jdbcType="VARCHAR" property="identifyKernelName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, CASE_ID, CONSIGNMENT_NO, ADDITIONAL_FLAG,ENTRUSTING_SERIAL, DELEGATE_ORG, DELEGATE_ORG_DESC, DELEGATE_ORG_PHONE, DELEGATOR1, DELEGATOR1_CNO,
+    DELEGATOR1_PHONE, DELEGATOR2, DELEGATOR2_CNO, DELEGATOR2_PHONE, DELEGATE_DATETIME, PRE_IDENTIFY_DESC,
+    REIDENTIFY_REASON, STATUS, ACCEPTOR, ACCEPT_DATETIME, REFUSE_REASON, IDENTIFY_REQUIREMENT, MATCH_CASE_NO,
+    IDENTIFY_REQUIREMENT_OTHER, INSTORED_FLAG, CREATE_DATETIME, CREATE_PERSON, UPDATE_DATETIME, UPDATE_PERSON, DELETE_FLAG,
+    DELEGATOR1_POSITION,DELEGATOR2_POSITION,DELEGATOR1_CNAME,DELEGATOR2_CNAME,POSTAL_ADDRESS,POST_NO,FAX_NO,
+    REMARK, IDENTIFY_KERNEL_NAME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_consignment
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_consignment
+    where CASE_ID=#{case_id,jdbcType=INTEGER} and DELETE_FLAG='0'
+    order by ID asc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lims_consignment
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <update id="deleteByCaseId" parameterType="java.lang.Integer">
+    update lims_consignment
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </update>
+
+  <update id="refuseCase" parameterType="com.bazl.hslims.manager.model.po.LimsConsignment">
+    update lims_consignment
+    set STATUS = #{status,jdbcType=VARCHAR},
+    REFUSE_REASON = #{refuseReason,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsConsignment" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_consignment (CASE_ID, CONSIGNMENT_NO,ENTRUSTING_SERIAL,
+      ADDITIONAL_FLAG, DELEGATE_ORG, DELEGATE_ORG_DESC, DELEGATE_ORG_PHONE,
+      DELEGATOR1, DELEGATOR1_CNO, DELEGATOR1_PHONE, DELEGATOR2, DELEGATOR2_CNO,
+      DELEGATOR2_PHONE, DELEGATE_DATETIME, PRE_IDENTIFY_DESC, 
+      REIDENTIFY_REASON, STATUS, ACCEPTOR, 
+      ACCEPT_DATETIME, REFUSE_REASON, IDENTIFY_REQUIREMENT, MATCH_CASE_NO,
+      IDENTIFY_REQUIREMENT_OTHER, INSTORED_FLAG, CREATE_PERSON, UPDATE_PERSON,
+      DELEGATOR1_POSITION,DELEGATOR2_POSITION,
+      DELEGATOR1_CNAME,DELEGATOR2_CNAME,
+      POSTAL_ADDRESS,POST_NO,FAX_NO,
+      REMARK, IDENTIFY_KERNEL_NAME)
+    values (#{caseId,jdbcType=INTEGER}, #{consignmentNo,jdbcType=VARCHAR},#{entrustingSerial,jdbcType=VARCHAR},
+      #{additionalFlag,jdbcType=CHAR}, #{delegateOrg,jdbcType=VARCHAR}, #{delegateOrgDesc,jdbcType=VARCHAR}, #{delegateOrgPhone,jdbcType=VARCHAR},
+      #{delegator1,jdbcType=VARCHAR}, #{delegator1Cno,jdbcType=VARCHAR}, #{delegator1Phone,jdbcType=VARCHAR},
+      #{delegator2,jdbcType=VARCHAR}, #{delegator2Cno,jdbcType=VARCHAR}, #{delegator2Phone,jdbcType=VARCHAR},
+      #{delegateDatetime,jdbcType=TIMESTAMP}, #{preIdentifyDesc,jdbcType=VARCHAR},
+      #{reidentifyReason,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{acceptor,jdbcType=VARCHAR}, 
+      #{acceptDatetime,jdbcType=TIMESTAMP}, #{refuseReason,jdbcType=VARCHAR}, #{identifyRequirement,jdbcType=VARCHAR}, 
+      #{matchCaseNo,jdbcType=VARCHAR},#{identifyRequirementOther,jdbcType=VARCHAR},#{instoredFlag,jdbcType=CHAR}, #{createPerson,jdbcType=VARCHAR},
+      #{updatePerson,jdbcType=VARCHAR},
+      #{delegator1Position,jdbcType=VARCHAR}, #{delegator2Position,jdbcType=VARCHAR},
+      #{delegator1Cname,jdbcType=VARCHAR}, #{delegator2Cname,jdbcType=VARCHAR},
+      #{postalAddress,jdbcType=VARCHAR}, #{postNo,jdbcType=VARCHAR}, #{faxNo,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{identifyKernelName,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsConsignment">
+  update lims_consignment
+  set CASE_ID = #{caseId,jdbcType=INTEGER},
+  CONSIGNMENT_NO = #{consignmentNo,jdbcType=VARCHAR},
+  ENTRUSTING_SERIAL = #{entrustingSerial,jdbcType=VARCHAR},
+  ADDITIONAL_FLAG = #{additionalFlag,jdbcType=CHAR},
+  DELEGATE_ORG = #{delegateOrg,jdbcType=VARCHAR},
+  DELEGATE_ORG_DESC = #{delegateOrgDesc,jdbcType=VARCHAR},
+  DELEGATE_ORG_PHONE = #{delegateOrgPhone,jdbcType=VARCHAR},
+  DELEGATOR1 = #{delegator1,jdbcType=VARCHAR},
+  DELEGATOR1_CNO = #{delegator1Cno,jdbcType=VARCHAR},
+  DELEGATOR1_PHONE = #{delegator1Phone,jdbcType=VARCHAR},
+  DELEGATOR2 = #{delegator2,jdbcType=VARCHAR},
+  DELEGATOR2_CNO = #{delegator2Cno,jdbcType=VARCHAR},
+  DELEGATOR2_PHONE = #{delegator2Phone,jdbcType=VARCHAR},
+  DELEGATE_DATETIME = #{delegateDatetime,jdbcType=TIMESTAMP},
+  PRE_IDENTIFY_DESC = #{preIdentifyDesc,jdbcType=VARCHAR},
+  REIDENTIFY_REASON = #{reidentifyReason,jdbcType=VARCHAR},
+  STATUS = #{status,jdbcType=VARCHAR},
+  ACCEPTOR = #{acceptor,jdbcType=VARCHAR},
+  ACCEPT_DATETIME = #{acceptDatetime,jdbcType=TIMESTAMP},
+  REFUSE_REASON = #{refuseReason,jdbcType=VARCHAR},
+  IDENTIFY_REQUIREMENT = #{identifyRequirement,jdbcType=VARCHAR},
+  MATCH_CASE_NO = #{matchCaseNo,jdbcType=VARCHAR},
+  IDENTIFY_REQUIREMENT_OTHER = #{identifyRequirementOther,jdbcType=VARCHAR},
+  INSTORED_FLAG = #{instoredFlag,jdbcType=CHAR},
+  CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+  CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+  UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+  UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+  DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+  DELEGATOR1_POSITION = #{delegator1Position,jdbcType=VARCHAR},
+  DELEGATOR2_POSITION = #{delegator2Position,jdbcType=VARCHAR},
+  DELEGATOR1_CNAME = #{delegator1Cname,jdbcType=VARCHAR},
+  DELEGATOR2_CNAME = #{delegator2Cname,jdbcType=VARCHAR},
+  POSTAL_ADDRESS = #{postalAddress,jdbcType=VARCHAR},
+  POST_NO = #{postNo,jdbcType=VARCHAR},
+  FAX_NO = #{faxNo,jdbcType=VARCHAR},
+  IDENTIFY_KERNEL_NAME = #{identifyKernelName,jdbcType=VARCHAR},
+  REMARK = #{remark,jdbcType=VARCHAR}
+  where ID = #{id,jdbcType=INTEGER}
+</update>
+
+  <update id="updateByConsignmentNo" parameterType="com.bazl.hslims.manager.model.po.LimsConsignment">
+    update lims_consignment
+    set
+    CONSIGNMENT_NO = #{consignmentNo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

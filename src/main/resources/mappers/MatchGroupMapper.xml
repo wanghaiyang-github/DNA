@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.MatchGroup">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.MatchGroup">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="GROUP_NO" jdbcType="VARCHAR" property="groupNo" />
+    <result column="MATCHED_MODE" jdbcType="INTEGER" property="matchedMode" />
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    mg.ID,mg.GROUP_NO,mg.MATCHED_MODE
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />,
+    from match_group mg
+    where mr.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.MatchGroup" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    <include refid="Base_Column_List" />
+        FROM
+        match_group mg
+    LEFT JOIN (
+        SELECT
+            mr1.GROUP_ID AS GROUP_ID,
+            mr1.SAMPLE1_ID AS SAMPLE_ID
+        FROM
+            match_result mr1
+        UNION
+            SELECT
+                mr2.GROUP_ID AS GROUP_ID,
+                mr2.SAMPLE2_ID AS SAMPLE_ID
+            FROM
+                match_result mr2
+            UNION
+                SELECT
+                    mr3.GROUP_ID AS GROUP_ID,
+                    mr3.SAMPLE3_ID AS SAMPLE_ID
+                FROM
+                    match_result mr3
+    ) t1 ON t1.GROUP_ID = mg.ID left join lims_sample_info si on si.ID=t1.SAMPLE_ID left join lims_case_info ci on si.CASE_ID=ci.ID
+    <if test="_parameter != null">
+      <if test="caseName != null">
+        and ci.CASE_NAME = #{caseName,jdbcType=VARCHAR}
+      </if>
+      <if test="sampleName != null">
+        and si.SAMPLE_NAME = #{sampleName,jdbcType=INTEGER}
+      </if>
+      <if test="sampleNo != null">
+        and si.SAMPLE_NO = #{sampleNo,jdbcType=INTEGER}
+      </if>
+      <if test="sampleEntryType != null">
+        and si.SAMPLE_ENTRY_TYPE = #{sampleEntryType,jdbcType=INTEGER}
+      </if>
+        GROUP BY mg.ID DESC
+      limit #{offset}, #{rows}
+    </if>
+  </select>
+
+  <select id="selectListCount" parameterType="com.bazl.hslims.manager.model.po.MatchGroup" resultType="int">
+    SELECT count(DISTINCT mg.id)
+        FROM
+        match_group mg
+    LEFT JOIN (
+        SELECT
+            mr1.GROUP_ID AS GROUP_ID,
+            mr1.SAMPLE1_ID AS SAMPLE_ID
+        FROM
+            match_result mr1
+        UNION
+            SELECT
+                mr2.GROUP_ID AS GROUP_ID,
+                mr2.SAMPLE2_ID AS SAMPLE_ID
+            FROM
+                match_result mr2
+            UNION
+                SELECT
+                    mr3.GROUP_ID AS GROUP_ID,
+                    mr3.SAMPLE3_ID AS SAMPLE_ID
+                FROM
+                    match_result mr3
+    ) t1 ON t1.GROUP_ID = mg.ID left join lims_sample_info si on si.ID=t1.SAMPLE_ID left join lims_case_info ci on si.CASE_ID=ci.ID
+    <if test="_parameter != null">
+      <if test="caseName != null">
+        and ci.CASE_NAME = #{caseName,jdbcType=VARCHAR}
+      </if>
+      <if test="sampleName != null">
+        and si.SAMPLE_NAME = #{sampleName,jdbcType=INTEGER}
+      </if>
+      <if test="sampleNo != null">
+        and si.SAMPLE_NO = #{sampleNo,jdbcType=INTEGER}
+      </if>
+      <if test="sampleEntryType != null">
+        and si.SAMPLE_ENTRY_TYPE = #{sampleEntryType,jdbcType=INTEGER}
+      </if>
+    </if>
+
+  </select>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.MatchGroup" useGeneratedKeys="true" keyProperty="id">
+    insert into match_group (GROUP_NO, MATCHED_MODE)
+    values (#{groupNo,jdbcType=VARCHAR}, #{matchedMode,jdbcType=INTEGER})
+  </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE from  match_group
+        where ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

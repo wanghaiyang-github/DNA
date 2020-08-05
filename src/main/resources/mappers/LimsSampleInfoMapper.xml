@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CONSIGNMENT_ID" jdbcType="INTEGER" property="consignmentId" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="SAMPLE_TYPE" jdbcType="VARCHAR" property="sampleType" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="SAMPLE_NO" jdbcType="VARCHAR" property="sampleNo" />
+    <result column="SAMPLE_PACKING" jdbcType="VARCHAR" property="samplePacking" />
+    <result column="SAMPLE_PROPERTIES" jdbcType="VARCHAR" property="sampleProperties" />
+    <result column="OTHER_PROPERTIES_DESC" jdbcType="VARCHAR" property="otherPropertiesDesc" />
+    <result column="SAMPLE_DESC" jdbcType="VARCHAR" property="sampleDesc" />
+    <result column="SAMPLE_FLAG" jdbcType="CHAR" property="sampleFlag" />
+    <result column="REF_PERSON_ID" jdbcType="INTEGER" property="refPersonId" />
+    <result column="REF_PERSON_NAME" jdbcType="VARCHAR" property="refPersonName" />
+    <result column="ATOM_FLAG" jdbcType="CHAR" property="atomFlag" />
+    <result column="URGENT_FLAG" jdbcType="CHAR" property="urgentFlag" />
+    <result column="DIFFICULT_FLAG" jdbcType="CHAR" property="difficultFlag" />
+    <result column="EXTRACT_DATETIME" jdbcType="TIMESTAMP" property="extractDatetime" />
+    <result column="EXTRACT_PERSON" jdbcType="VARCHAR" property="extractPerson" />
+    <result column="ACCEPT_STATUS" jdbcType="CHAR" property="acceptStatus" />
+    <result column="ACCEPT_DATETIME" jdbcType="TIMESTAMP" property="acceptDatetime" />
+    <result column="ACCEPT_PERSON" jdbcType="VARCHAR" property="acceptPerson" />
+    <result column="REFUSE_REASON" jdbcType="VARCHAR" property="refuseReason" />
+    <result column="SAMPLE_STATE" jdbcType="VARCHAR" property="sampleState" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="instoredFlag" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="deleteDatetime" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="PHOTO_PATH" jdbcType="VARCHAR" property="photoPath" />
+
+    <result column="SUBMIT_FLAG" jdbcType="VARCHAR" property="submitFlag" />
+    <result column="SUBMIT_DATETIME" jdbcType="TIMESTAMP" property="submitDatetime" />
+    <result column="SUBMIT_PERSON" jdbcType="VARCHAR" property="submitPerson" />
+    <result column="SAMPLE_ENTRY_TYPE" jdbcType="VARCHAR" property="sampleEntryType" />
+    <result column="TARGET_SAMPLE_ROLE" jdbcType="VARCHAR" property="targetSampleRole" />
+    <result column="SAME_GROUP_SAMPLE" jdbcType="INTEGER" property="sameGroupSample" />
+    <result column="SAME_GROUP_SAMPLE_ROLE" jdbcType="VARCHAR" property="sameGroupSampleRole" />
+
+    <result column="SAMPLE_TYPE_NAME" jdbcType="VARCHAR" property="sampleTypeName" />
+    <result column="SAMPLE_PROPERTIES_NAME" jdbcType="VARCHAR" property="samplePropertiesName" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="SAMPLE_GENE_ID" jdbcType="INTEGER" property="sampleGeneId" />
+    <result column="EVIDENCE_NO" jdbcType="VARCHAR" property="evidenceNo" />
+
+  </resultMap>
+
+  <resultMap id="VOBaseResultMap" type="com.bazl.hslims.manager.model.vo.LimsSampleInfoVO">
+    <result column="ID" jdbcType="INTEGER" property="entity.id" />
+    <result column="CONSIGNMENT_ID" jdbcType="INTEGER" property="entity.consignmentId" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="entity.caseId" />
+    <result column="SAMPLE_TYPE" jdbcType="VARCHAR" property="entity.sampleType" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="entity.sampleName" />
+    <result column="SAMPLE_NO" jdbcType="VARCHAR" property="entity.sampleNo" />
+    <result column="SAMPLE_PACKING" jdbcType="VARCHAR" property="entity.samplePacking" />
+    <result column="SAMPLE_PROPERTIES" jdbcType="VARCHAR" property="entity.sampleProperties" />
+    <result column="OTHER_PROPERTIES_DESC" jdbcType="VARCHAR" property="entity.otherPropertiesDesc" />
+    <result column="SAMPLE_DESC" jdbcType="VARCHAR" property="entity.sampleDesc" />
+    <result column="SAMPLE_FLAG" jdbcType="CHAR" property="entity.sampleFlag" />
+    <result column="REF_PERSON_ID" jdbcType="INTEGER" property="entity.refPersonId" />
+    <result column="REF_PERSON_NAME" jdbcType="VARCHAR" property="entity.refPersonName" />
+    <result column="ATOM_FLAG" jdbcType="CHAR" property="entity.atomFlag" />
+    <result column="URGENT_FLAG" jdbcType="CHAR" property="entity.urgentFlag" />
+    <result column="DIFFICULT_FLAG" jdbcType="CHAR" property="entity.difficultFlag" />
+    <result column="EXTRACT_DATETIME" jdbcType="TIMESTAMP" property="entity.extractDatetime" />
+    <result column="EXTRACT_PERSON" jdbcType="VARCHAR" property="entity.extractPerson" />
+    <result column="ACCEPT_STATUS" jdbcType="CHAR" property="entity.acceptStatus" />
+    <result column="ACCEPT_DATETIME" jdbcType="TIMESTAMP" property="entity.acceptDatetime" />
+    <result column="ACCEPT_PERSON" jdbcType="VARCHAR" property="entity.acceptPerson" />
+    <result column="REFUSE_REASON" jdbcType="VARCHAR" property="entity.refuseReason" />
+    <result column="SAMPLE_STATE" jdbcType="VARCHAR" property="entity.sampleState" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="entity.instoredFlag" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="entity.deleteFlag" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="entity.deleteDatetime" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="entity.createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="entity.createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="entity.updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="entity.updatePerson" />
+    <result column="REMARK" jdbcType="VARCHAR" property="entity.remark" />
+    <result column="PHOTO_PATH" jdbcType="VARCHAR" property="entity.photoPath" />
+    <result column="EVIDENCE_NO" jdbcType="VARCHAR" property="entity.evidenceNo" />
+
+    <result column="CASE_NO" jdbcType="VARCHAR" property="caseNo" />
+    <result column="CASE_NAME" jdbcType="VARCHAR" property="caseName" />
+
+    <result column="SAMPLE_TYPE_NAME" jdbcType="VARCHAR" property="sampleTypeName" />
+    <result column="GENE_INFO" jdbcType="VARCHAR" property="geneInfo" />
+    <result column="REAGENT_NAME" jdbcType="VARCHAR" property="reagentName" />
+
+    <result column="CASE_PROPERTY" jdbcType="VARCHAR" property="caseProperty" />
+    <result column="PERSON_TYPE_NAME" jdbcType="VARCHAR" property="personTypeName" />
+    <result column="PERSON_IDCARD_NO" jdbcType="VARCHAR" property="personIdcardNo" />
+    <result column="PERSON_GENDER" jdbcType="VARCHAR" property="personGender" />
+    <result column="PERSON_NAME" jdbcType="VARCHAR" property="personName" />
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    lsi.ID, lsi.CONSIGNMENT_ID, lsi.CASE_ID, lsi.SAMPLE_TYPE, lsi.SAMPLE_NAME, lsi.SAMPLE_NO, lsi.SAMPLE_PACKING,
+    lsi.SAMPLE_PROPERTIES, lsi.OTHER_PROPERTIES_DESC, lsi.SAMPLE_DESC, lsi.SAMPLE_FLAG, lsi.REF_PERSON_ID, lsi.REF_PERSON_NAME,
+    lsi.ATOM_FLAG, lsi.URGENT_FLAG, lsi.DIFFICULT_FLAG, lsi.EXTRACT_DATETIME, lsi.EXTRACT_PERSON,
+    lsi.ACCEPT_STATUS, lsi.ACCEPT_DATETIME, lsi.ACCEPT_PERSON,
+    lsi.REFUSE_REASON, lsi.SAMPLE_STATE, lsi.INSTORED_FLAG, lsi.DELETE_FLAG, lsi.CREATE_DATETIME, lsi.CREATE_PERSON,
+    lsi.UPDATE_DATETIME, lsi.UPDATE_PERSON, lsi.REMARK,lsi.PHOTO_PATH,lsi.SUBMIT_FLAG,
+    lsi.SUBMIT_PERSON,lsi.SAMPLE_ENTRY_TYPE,lsi.TARGET_SAMPLE_ROLE,lsi.SAME_GROUP_SAMPLE,lsi.SAME_GROUP_SAMPLE_ROLE,lsi.EVIDENCE_NO
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.ID = #{id,jdbcType=INTEGER} and lsi.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListBySampleNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+      left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+      left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.SAMPLE_NO=#{sampleNo,jdbcType=VARCHAR} and lsi.DELETE_FLAG='0'
+    order by lsi.ID, lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectListByCaseNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+            left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+            left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES',
+          lims_case_info lci
+    where lsi.CASE_ID=lci.ID and lci.CASE_NO=#{caseNo,jdbcType=VARCHAR} and lsi.DELETE_FLAG='0'
+    order by lsi.ID, lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+      left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+      left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CASE_ID=#{caseId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0'
+    order by lsi.SAMPLE_FLAG desc,length(lsi.SAMPLE_NO),lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectAcceptStatusListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CASE_ID=#{caseId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    order by lsi.SAMPLE_FLAG desc,length(lsi.SAMPLE_NO),lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectAcceptStatusSortListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    right(lsi.SAMPLE_NO, 3) AS sampleNo,
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CASE_ID=#{caseId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    order by lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo" resultMap="BaseResultMap">
+    select
+    right(lsi.SAMPLE_NO, 3) AS sampleNo,
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CONSIGNMENT_ID=#{consignmentId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1' and lsi.SAMPLE_FLAG=#{sampleFlag, jdbcType=CHAR}
+    order by lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectAuditStatusListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    sy.SAMPLE_POSTION,
+    lsg.AUDIT_STATUS,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    left join lims_sy_record_sample sy on sy.SAMPLE_ID=lsi.ID
+    left join lims_sample_gene lsg on lsg.SAMPLE_ID=lsi.ID
+    where lsi.CASE_ID=#{caseId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    order by lsi.SAMPLE_FLAG desc,length(lsi.SAMPLE_NO),lsi.SAMPLE_NO
+  </select>
+
+  <select id="selectListBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_sample_info lsi
+    where lsi.ID=#{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectHasGeneListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CASE_ID=#{caseId,jdbcType=INTEGER}
+      and lsi.DELETE_FLAG='0'
+      and exists (select lsg.SAMPLE_ID from lims_sample_gene lsg where lsg.SAMPLE_ID=lsi.ID)
+    order by lsi.ID, lsi.SAMPLE_NO
+  </select>
+
+
+  <select id="selectListByConsignmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME,
+    lsg.ID as SAMPLE_GENE_ID,
+    lsg.AUDIT_STATUS as AUDIT_STATUS
+    from lims_sample_info lsi
+      left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+      left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+      left join lims_sample_gene lsg on lsi.ID = lsg.SAMPLE_ID
+    where lsi.CONSIGNMENT_ID=#{consignmentId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0'
+    order by  lsi.SAMPLE_FLAG desc,lsi.SAMPLE_NO ASC , length(lsi.SAMPLE_NO), lsi.ID
+  </select>
+
+  <select id="selectAcceptStatusListByConsignmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME,
+    lsg.ID as SAMPLE_GENE_ID,
+    lsg.AUDIT_STATUS as AUDIT_STATUS
+    from lims_sample_info lsi
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    left join lims_sample_gene lsg on lsi.ID = lsg.SAMPLE_ID
+    where lsi.CONSIGNMENT_ID=#{consignmentId,jdbcType=INTEGER} and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    order by  lsi.SAMPLE_FLAG desc, length(lsi.SAMPLE_NO),lsi.SAMPLE_NO , lsi.ID
+  </select>
+
+  <sql id="VO_Query_Where_Clause">
+    <if test="entity.id != null">
+      and lsi.ID=#{entity.id, jdbcType=INTEGER}
+    </if>
+    <if test="entity.sampleNo != null">
+      and lsi.SAMPLE_NO like CONCAT('%',#{entity.sampleNo, jdbcType=VARCHAR},'%')
+    </if>
+    <if test="entity.sampleName != null">
+      and lsi.SAMPLE_NAME=#{entity.sampleName, jdbcType=VARCHAR}
+    </if>
+    <if test="entity.acceptStatus != null">
+      and lsi.ACCEPT_STATUS=#{entity.acceptStatus, jdbcType=CHAR}
+    </if>
+    <if test="entity.sampleType != null">
+      and lsi.SAMPLE_TYPE=#{entity.sampleType, jdbcType=VARCHAR}
+    </if>
+
+    <if test="entity.sampleFlag != null">
+      and lsi.SAMPLE_FLAG = #{entity.sampleFlag, jdbcType=VARCHAR}
+    </if>
+
+    <if test="caseNo != null">
+      and lci.CASE_NO like CONCAT('%',#{caseNo, jdbcType=VARCHAR},'%')
+    </if>
+    <if test="caseName != null">
+      and lci.CASE_NAME=#{caseName, jdbcType=VARCHAR}
+    </if>
+
+    <if test="entity.acceptPerson != null">
+      and lsi.ACCEPT_PERSON=#{entity.acceptPerson, jdbcType=VARCHAR}
+    </if>
+
+    <if test="entity.acceptPerson != null">
+      and lsi.ACCEPT_PERSON=#{entity.acceptPerson, jdbcType=VARCHAR}
+    </if>
+
+    <if test="acceptDatetimeStart != null">
+      and lsi.ACCEPT_DATETIME &gt;=#{acceptDatetimeStart, jdbcType=TIMESTAMP}
+    </if>
+    <if test="acceptDatetimeEnd != null">
+      and lsi.ACCEPT_DATETIME &lt;=#{acceptDatetimeEnd, jdbcType=TIMESTAMP}
+    </if>
+
+    <if test="personName != null">
+      and lpi.PERSON_NAME=#{personName, jdbcType=VARCHAR}
+    </if>
+    <if test="personIdcardNo != null">
+      and lpi.PERSON_IDCARD_NO=#{personIdcardNo, jdbcType=VARCHAR}
+    </if>
+    <if test="personGender != null">
+      and lpi.PERSON_GENDER=#{personGender, jdbcType=VARCHAR}
+    </if>
+    <if test="personType != null">
+      and lpi.PERSON_TYPE=#{personType, jdbcType=VARCHAR}
+    </if>
+  </sql>
+
+  <select id="selectVOPaginationList" parameterType="com.bazl.hslims.manager.model.vo.LimsSampleInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    lci.id as CASE_ID,
+    lci.CASE_NO,
+    lci.CASE_NAME,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME,
+    d3.DICT_NAME as CASE_PROPERTY
+    from lims_sample_info lsi
+    left join lims_case_info lci on lci.ID = lsi.CASE_ID
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d3 on d3.DICT_CODE=lci.CASE_PROPERTY and d3.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CASE_ID=lci.ID and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+    order by lci.CASE_NO desc
+    limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectVOSampleInfoList" parameterType="com.bazl.hslims.manager.model.vo.LimsSampleInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    lsi.CASE_ID,
+    lsi.CONSIGNMENT_ID,
+    lsi.SAMPLE_NO,
+    lsi.SAMPLE_NAME,
+    lci.id as CASE_ID,
+    lci.CASE_NO,
+    lci.CASE_NAME,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as SAMPLE_PROPERTIES_NAME,
+    d3.DICT_NAME as CASE_PROPERTY
+    from lims_sample_info lsi
+    left join lims_case_info lci on lci.ID = lsi.CASE_ID
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d3 on d3.DICT_CODE=lci.CASE_PROPERTY and d3.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item d2 on d2.DICT_CODE=lsi.SAMPLE_PROPERTIES and d2.DICT_TYPE_CODE='SAMPLE_PROPERTIES'
+    where lsi.CASE_ID=lci.ID and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+    order by lci.CASE_NO desc
+    limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectVOPersonSampleList" parameterType="com.bazl.hslims.manager.model.vo.LimsSampleInfoVO" resultMap="VOBaseResultMap">
+    SELECT
+    lsi.CASE_ID,
+    lsi.CONSIGNMENT_ID,
+    lsi.SAMPLE_NO,
+    lsi.SAMPLE_NAME,
+    lci.id as CASE_ID,
+    lci.CASE_NO,
+    lci.CASE_NAME,
+    d1.DICT_NAME as SAMPLE_TYPE_NAME,
+    d2.DICT_NAME as PERSON_GENDER,
+    d3.DICT_NAME as CASE_PROPERTY,
+    d4.DICT_NAME as PERSON_TYPE_NAME,
+    lpi.PERSON_NAME,lpi.person_type,lpi.PERSON_IDCARD_NO
+    from lims_sample_info lsi
+    left join lims_case_info lci on lci.ID = lsi.CASE_ID
+    left join lims_person_info lpi on lpi.id = lsi.REF_PERSON_ID
+    left join dict_item d1 on d1.DICT_CODE=lsi.SAMPLE_TYPE and d1.DICT_TYPE_CODE='SAMPLE_TYPE'
+    left join dict_item d3 on d3.DICT_CODE=lci.CASE_PROPERTY and d3.DICT_TYPE_CODE='CASE_PROPERTY'
+    left join dict_item d2 on d2.DICT_CODE=lpi.PERSON_GENDER and d2.DICT_TYPE_CODE='PERSON_GENDER'
+    left join dict_item d4 on d4.DICT_CODE=lpi.PERSON_TYPE and d4.DICT_TYPE_CODE='PERSON_TYPE'
+    where lsi.CASE_ID=lci.ID and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS = '1'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+    order by lci.CASE_NO desc
+    limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectVOCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lsi.ID)
+    from lims_sample_info lsi,
+        lims_case_info lci
+    where lsi.CASE_ID=lci.ID and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS='1'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="selectVOSampleCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lsi.ID)
+    from lims_sample_info lsi
+    left join lims_case_info lci on lci.ID = lsi.CASE_ID
+    where lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS='1'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="selectVOPersonSampleCount" parameterType="com.bazl.hslims.manager.model.vo.LimsCaseInfoVO" resultType="int">
+    SELECT count(lpi.ID)
+    from lims_sample_info lsi
+    left join lims_case_info lci on lci.ID = lsi.CASE_ID
+    left join lims_person_info lpi on lpi.id = lsi.REF_PERSON_ID
+    where lsi.CASE_ID=lci.ID and lpi.CASE_ID = lci.ID  and lsi.DELETE_FLAG='0' and lsi.ACCEPT_STATUS='1'
+    <if test="_parameter != null">
+      <include refid="VO_Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lims_sample_info
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <update id="deleteByCaseId" parameterType="java.lang.Integer">
+    update lims_sample_info
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByConsignmentId" parameterType="java.lang.Integer">
+    update lims_sample_info
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where CONSIGNMENT_ID = #{consignmentId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updatePhotoPath" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    update lims_sample_info
+    set PHOTO_PATH = #{photoPath, jdbcType=VARCHAR}
+    where ID = #{id, jdbcType=INTEGER}
+  </update>
+
+  <update id="updateSubmitFlag" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    update lims_sample_info
+    set
+    SUBMIT_FLAG = #{submitFlag,jdbcType=VARCHAR},
+    SUBMIT_DATETIME = #{submitDatetime,jdbcType=TIMESTAMP},
+    SUBMIT_PERSON = #{submitPerson,jdbcType=VARCHAR},
+    SAMPLE_ENTRY_TYPE = #{sampleEntryType,jdbcType=VARCHAR},
+    TARGET_SAMPLE_ROLE = #{targetSampleRole,jdbcType=VARCHAR},
+    SAME_GROUP_SAMPLE=#{sameGroupSample,jdbcType=INTEGER},
+    SAME_GROUP_SAMPLE_ROLE = #{sameGroupSampleRole,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_sample_info (CONSIGNMENT_ID, CASE_ID,
+      SAMPLE_TYPE, SAMPLE_NAME, SAMPLE_NO, 
+      SAMPLE_PACKING, SAMPLE_PROPERTIES, OTHER_PROPERTIES_DESC, SAMPLE_DESC,
+      SAMPLE_FLAG, REF_PERSON_ID, REF_PERSON_NAME, ATOM_FLAG, URGENT_FLAG, DIFFICULT_FLAG, EXTRACT_DATETIME, EXTRACT_PERSON,
+      ACCEPT_STATUS, ACCEPT_DATETIME, ACCEPT_PERSON, REFUSE_REASON, SAMPLE_STATE,
+      INSTORED_FLAG,  CREATE_PERSON, UPDATE_PERSON, REMARK,EVIDENCE_NO)
+    values (#{consignmentId,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER},
+      #{sampleType,jdbcType=VARCHAR}, #{sampleName,jdbcType=VARCHAR}, #{sampleNo,jdbcType=VARCHAR}, 
+      #{samplePacking,jdbcType=VARCHAR}, #{sampleProperties,jdbcType=VARCHAR}, #{otherPropertiesDesc,jdbcType=VARCHAR}, #{sampleDesc,jdbcType=VARCHAR},
+      #{sampleFlag,jdbcType=CHAR}, #{refPersonId,jdbcType=INTEGER}, #{refPersonName,jdbcType=VARCHAR},
+      #{atomFlag,jdbcType=CHAR}, #{urgentFlag,jdbcType=CHAR}, #{difficultFlag,jdbcType=CHAR},
+      #{extractDatetime,jdbcType=TIMESTAMP}, #{extractPerson, jdbcType=VARCHAR}, #{acceptStatus,jdbcType=CHAR}, #{acceptDatetime,jdbcType=TIMESTAMP},
+      #{acceptPerson,jdbcType=VARCHAR}, #{refuseReason,jdbcType=VARCHAR}, #{sampleState,jdbcType=VARCHAR}, 
+      #{instoredFlag,jdbcType=CHAR}, #{createPerson,jdbcType=VARCHAR}, #{updatePerson,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},#{evidenceNo,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="deleteByPersonId" parameterType="java.lang.Integer">
+    update lims_sample_info
+    set ref_person_id=NULL, ref_person_name=NULL,  DELETE_DATETIME = now()
+    where ref_person_id=#{refPersonId, jdbcType=INTEGER}
+  </update>
+
+  <update id="updateById" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    update lims_sample_info
+    set
+    SAMPLE_TYPE = #{sampleType,jdbcType=VARCHAR},
+    SAMPLE_NAME = #{sampleName,jdbcType=VARCHAR},
+    SAMPLE_PACKING = #{samplePacking,jdbcType=VARCHAR},
+    SAMPLE_DESC = #{sampleDesc,jdbcType=VARCHAR},
+    SAMPLE_PROPERTIES = #{sampleProperties,jdbcType=VARCHAR},
+    EXTRACT_DATETIME=#{extractDatetime,jdbcType=TIMESTAMP},
+    EXTRACT_PERSON = #{extractPerson,jdbcType=VARCHAR},
+    REF_PERSON_NAME = #{refPersonName,jdbcType=VARCHAR},
+    SAMPLE_FLAG = #{sampleFlag,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateSampleType" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    update lims_sample_info
+    set
+    SAMPLE_TYPE = #{sampleType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    update lims_sample_info
+    set CONSIGNMENT_ID = #{consignmentId,jdbcType=INTEGER},
+      CASE_ID = #{caseId,jdbcType=INTEGER},
+      SAMPLE_TYPE = #{sampleType,jdbcType=VARCHAR},
+      SAMPLE_NAME = #{sampleName,jdbcType=VARCHAR},
+      SAMPLE_NO = #{sampleNo,jdbcType=VARCHAR},
+      SAMPLE_PACKING = #{samplePacking,jdbcType=VARCHAR},
+      SAMPLE_PROPERTIES = #{sampleProperties,jdbcType=VARCHAR},
+      OTHER_PROPERTIES_DESC = #{otherPropertiesDesc,jdbcType=VARCHAR},
+      SAMPLE_DESC = #{sampleDesc,jdbcType=VARCHAR},
+      SAMPLE_FLAG = #{sampleFlag,jdbcType=INTEGER},
+      REF_PERSON_ID = #{refPersonId,jdbcType=INTEGER},
+      REF_PERSON_NAME = #{refPersonName,jdbcType=VARCHAR},
+      ATOM_FLAG = #{atomFlag,jdbcType=CHAR},
+      URGENT_FLAG = #{urgentFlag,jdbcType=CHAR},
+      DIFFICULT_FLAG = #{difficultFlag,jdbcType=CHAR},
+      EXTRACT_DATETIME=#{extractDatetime,jdbcType=TIMESTAMP},
+      EXTRACT_PERSON = #{extractPerson,jdbcType=VARCHAR},
+      ACCEPT_STATUS = #{acceptStatus,jdbcType=CHAR},
+      ACCEPT_DATETIME = #{acceptDatetime,jdbcType=TIMESTAMP},
+      ACCEPT_PERSON = #{acceptPerson,jdbcType=VARCHAR},
+      REFUSE_REASON = #{refuseReason,jdbcType=VARCHAR},
+      SAMPLE_STATE = #{sampleState,jdbcType=VARCHAR},
+      INSTORED_FLAG = #{instoredFlag,jdbcType=CHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByEvidenceNo" parameterType="com.bazl.hslims.manager.model.po.LimsSampleInfo">
+    update lims_sample_info
+    set EVIDENCE_NO = #{evidenceNo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

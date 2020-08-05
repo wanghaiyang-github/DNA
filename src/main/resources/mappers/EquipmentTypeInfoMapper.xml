@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.EquipmentTypeInfo">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.EquipmentTypeInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="EQUIPMENT_TYPE_NAME" jdbcType="VARCHAR" property="equipmentTypeName" />
+    <result column="EQUIPMENT_TYPE_NO" jdbcType="VARCHAR" property="equipmentTypeNo" />
+    <result column="EXPERIMENTAL_STAGE" jdbcType="VARCHAR" property="experimentalStage" />
+    <result column="USE_BLUE_WARN" jdbcType="INTEGER" property="useBlueWarn" />
+    <result column="USE_RED_WARN" jdbcType="INTEGER" property="useRedWarn" />
+    <result column="REPAIR_BLUE_WARN" jdbcType="INTEGER" property="repairBlueWarn" />
+    <result column="REPAIR_RED_WARN" jdbcType="INTEGER" property="repairRedWarn" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+
+    <result column="EXPERIMENTAL_STAGE_NAME" jdbcType="VARCHAR" property="experimentalStageName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    eti.ID, eti.EQUIPMENT_TYPE_NO, eti.EQUIPMENT_TYPE_NAME, eti.EXPERIMENTAL_STAGE, eti.USE_BLUE_WARN, eti.USE_RED_WARN,
+    eti.REPAIR_BLUE_WARN,eti.REPAIR_RED_WARN, eti.REMARK, eti.CREATE_PERSON, eti.CREATE_DATETIME, eti.UPDATE_PERSON, eti.UPDATE_DATETIME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from equipment_type_info eti
+    where eti.ID = #{eti.id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as EXPERIMENTAL_STAGE_NAME
+    from equipment_type_info eti
+    left join dict_item d1 on d1.DICT_CODE = eti.EXPERIMENTAL_STAGE and d1.DICT_TYPE_CODE = 'EXPERIMENTAL_STAGE'
+  </select>
+
+  <select id="selectEquipmentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from equipment_type_info eti
+    where eti.EQUIPMENT_NO = #{eti.equipmentNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectEquipmentTypeInfoList" parameterType="com.bazl.hslims.manager.model.po.EquipmentTypeInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from equipment_type_info eti
+    <if test="_parameter != null">
+      <where>
+        <if test="equipmentNo != null">
+          eti.EQUIPMENT_NO like CONCAT('%', #{equipmentNo,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="equipmentName != null">
+          and eti.EQUIPMENT_NAME = #{equipmentName, jdbcType=VARCHAR}
+        </if>
+      </where>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from equipment_type_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.EquipmentTypeInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into equipment_type_info (EQUIPMENT_TYPE_NO, EQUIPMENT_TYPE_NAME, EXPERIMENTAL_STAGE,
+    USE_BLUE_WARN, USE_RED_WARN, REPAIR_BLUE_WARN, REPAIR_RED_WARN, REMARK, CREATE_PERSON)
+    values (#{equipmentTypeNo,jdbcType=VARCHAR}, #{equipmentTypeName,jdbcType=VARCHAR}, #{experimentalStage,jdbcType=VARCHAR}
+    , #{useBlueWarn,jdbcType=INTEGER}, #{useRedWarn,jdbcType=INTEGER}, #{repairBlueWarn,jdbcType=INTEGER}
+    , #{repairRedWarn,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.EquipmentTypeInfo">
+    update equipment_type_info
+    set EQUIPMENT_TYPE_NO = #{equipmentTypeNo,jdbcType=VARCHAR},
+      EQUIPMENT_TYPE_NAME = #{equipmentTypeName,jdbcType=VARCHAR},
+      EXPERIMENTAL_STAGE = #{experimentalStage,jdbcType=VARCHAR},
+      USE_BLUE_WARN = #{useBlueWarn,jdbcType=INTEGER},
+      USE_RED_WARN = #{useRedWarn,jdbcType=INTEGER},
+      REPAIR_BLUE_WARN = #{repairBlueWarn,jdbcType=INTEGER},
+      REPAIR_RED_WARN = #{repairRedWarn,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

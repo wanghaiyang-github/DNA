@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsEntrustmentInformation">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsEntrustmentInformation">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_INFORMATION_ID" jdbcType="INTEGER" property="caseInformationId" />
+    <result column="ACCEPTANCE_NO" jdbcType="VARCHAR" property="acceptanceNo" />
+    <result column="ACCEPTANCE_DATETIME" jdbcType="TIMESTAMP" property="acceptanceDatetime" />
+    <result column="APPRAISAL_COMPANY" jdbcType="VARCHAR" property="appraisalCompany" />
+    <result column="ACCEPTANCE_PEOPLE" jdbcType="VARCHAR" property="acceptancePeople" />
+    <result column="ENTRUST_COMPANY_CODE" jdbcType="VARCHAR" property="entrustCompanyCode" />
+    <result column="ENTRUST_COMPANY" jdbcType="VARCHAR" property="entrustCompany" />
+    <result column="POSTAL_ADDRESS" jdbcType="VARCHAR" property="postalAddress" />
+    <result column="POSTAL_NO" jdbcType="VARCHAR" property="postalNo" />
+    <result column="CENSORSHIP1" jdbcType="VARCHAR" property="censorship1" />
+    <result column="CENSORSHIP1_PHONE" jdbcType="VARCHAR" property="censorship1Phone" />
+    <result column="CENSORSHIP1_CNO_NAME" jdbcType="VARCHAR" property="censorship1CnoName" />
+    <result column="CENSORSHIP1_CNO" jdbcType="VARCHAR" property="censorship1Cno" />
+    <result column="CENSORSHIP2" jdbcType="VARCHAR" property="censorship2" />
+    <result column="CENSORSHIP2_PHONE" jdbcType="VARCHAR" property="censorship2Phone" />
+    <result column="CENSORSHIP2_CNO_NAME" jdbcType="VARCHAR" property="censorship2CnoName" />
+    <result column="CENSORSHIP2_CNO" jdbcType="VARCHAR" property="censorship2Cno" />
+    <result column="ADMISSIBILITY" jdbcType="VARCHAR" property="admissibility" />
+    <result column="DELETE_FLAG" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="ENTRUST_COMPANY_PHONE" jdbcType="VARCHAR" property="entruustCompanyPhone" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ENTRUSTING_SERIAL" jdbcType="VARCHAR" property="entrustingSerial" />
+    <result column="FAX_NO" jdbcType="VARCHAR" property="faxNo" />
+    <result column="ENTRUSTMENT_DATETIME" jdbcType="TIMESTAMP" property="entrustmentDatetime" />
+    <result column="POST" jdbcType="VARCHAR" property="post" />
+    <result column="APPRAISAL_POINTS" jdbcType="TIMESTAMP" property="appraisalPoints" />
+    <result column="ENTRUST_DETAILS" jdbcType="VARCHAR" property="entrustDetails" />
+    <result column="ORIGINAL_IDENTIFICATION" jdbcType="TIMESTAMP" property="originalIdentification" />
+    <result column="RE_JUSTIFICATION" jdbcType="VARCHAR" property="reJustification" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CASE_INFORMATION_ID, ACCEPTANCE_NO, ACCEPTANCE_DATETIME, APPRAISAL_COMPANY, ACCEPTANCE_PEOPLE,ENTRUST_COMPANY_CODE,ENTRUST_COMPANY, POSTAL_ADDRESS, POSTAL_NO,
+    CENSORSHIP1, CENSORSHIP1_PHONE, CENSORSHIP1_CNO_NAME, CENSORSHIP1_CNO,CENSORSHIP2, CENSORSHIP2_PHONE, CENSORSHIP2_CNO_NAME, CENSORSHIP2_CNO,
+    ADMISSIBILITY, DELETE_FLAG, ENTRUST_COMPANY_PHONE, ENTRUSTING_SERIAL, STATUS,FAX_NO, ENTRUSTMENT_DATETIME, POST,
+    APPRAISAL_POINTS, ENTRUST_DETAILS, ORIGINAL_IDENTIFICATION, RE_JUSTIFICATION, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_entrustment_information
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByCaseInformationId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_entrustment_information
+    where CASE_INFORMATION_ID=#{caseInformationId,jdbcType=INTEGER} and DELETE_FLAG='0'
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lims_entrustment_information
+    set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <update id="deleteByCaseId" parameterType="java.lang.Integer">
+    update lims_consignment
+    set DELETE_FLAG='1'
+    where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </update>
+
+  <update id="refuseCase" parameterType="com.bazl.hslims.manager.model.po.LimsEntrustmentInformation">
+    update lims_consignment
+    set STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsEntrustmentInformation" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_entrustment_information (CASE_INFORMATION_ID, ACCEPTANCE_NO, ACCEPTANCE_DATETIME, APPRAISAL_COMPANY, ACCEPTANCE_PEOPLE,ENTRUST_COMPANY_CODE, ENTRUST_COMPANY, POSTAL_ADDRESS, POSTAL_NO,
+    CENSORSHIP1, CENSORSHIP1_PHONE, CENSORSHIP1_CNO_NAME, CENSORSHIP1_CNO,CENSORSHIP2, CENSORSHIP2_PHONE, CENSORSHIP2_CNO_NAME, CENSORSHIP2_CNO,
+    ADMISSIBILITY, DELETE_FLAG, ENTRUST_COMPANY_PHONE, ENTRUSTING_SERIAL,FAX_NO,STATUS,ENTRUSTMENT_DATETIME, POST,
+    APPRAISAL_POINTS, ENTRUST_DETAILS, ORIGINAL_IDENTIFICATION, RE_JUSTIFICATION, REMARK)
+    values (#{caseInformationId,jdbcType=INTEGER}, #{acceptanceNo,jdbcType=VARCHAR},
+      #{acceptanceDatetime,jdbcType=TIMESTAMP}, #{appraisalCompany,jdbcType=VARCHAR}, #{acceptancePeople,jdbcType=VARCHAR},#{entrustCompanyCode,jdbcType=VARCHAR}, #{entrustCompany,jdbcType=VARCHAR},
+      #{postalAddress,jdbcType=VARCHAR}, #{postalNo,jdbcType=VARCHAR}, #{censorship1,jdbcType=VARCHAR},
+      #{censorship1Phone,jdbcType=VARCHAR}, #{censorship1CnoName,jdbcType=VARCHAR}, #{censorship1Cno,jdbcType=VARCHAR},
+      #{censorship2,jdbcType=VARCHAR}, #{censorship2Phone,jdbcType=VARCHAR},#{censorship2CnoName,jdbcType=VARCHAR},
+      #{censorship2Cno,jdbcType=VARCHAR}, #{admissibility,jdbcType=VARCHAR},#{deleteFlag,jdbcType=VARCHAR},
+      #{entruustCompanyPhone,jdbcType=VARCHAR}, #{entrustingSerial,jdbcType=VARCHAR},#{faxNo,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR},#{entrustmentDatetime,jdbcType=TIMESTAMP}, #{post,jdbcType=VARCHAR},#{appraisalPoints,jdbcType=VARCHAR},
+      #{entrustDetails,jdbcType=VARCHAR}, #{originalIdentification,jdbcType=VARCHAR},#{reJustification,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsEntrustmentInformation">
+    update lims_entrustment_information
+    set CASE_INFORMATION_ID = #{caseInformationId,jdbcType=INTEGER},
+      ACCEPTANCE_NO = #{acceptanceNo,jdbcType=VARCHAR},
+      ACCEPTANCE_DATETIME = #{acceptanceDatetime,jdbcType=TIMESTAMP},
+      APPRAISAL_COMPANY = #{appraisalCompany,jdbcType=VARCHAR},
+      ACCEPTANCE_PEOPLE = #{acceptancePeople,jdbcType=VARCHAR},
+      ENTRUST_COMPANY = #{entrustCompany,jdbcType=VARCHAR},
+      POSTAL_ADDRESS = #{postalAddress,jdbcType=VARCHAR},
+      POSTAL_NO = #{postalNo,jdbcType=VARCHAR},
+      CENSORSHIP1 = #{censorship1,jdbcType=VARCHAR},
+      CENSORSHIP1_PHONE = #{censorship1Phone,jdbcType=VARCHAR},
+      CENSORSHIP1_CNO_NAME = #{censorship1CnoName,jdbcType=VARCHAR},
+      CENSORSHIP1_CNO = #{censorship1Cno,jdbcType=VARCHAR},
+      CENSORSHIP2 = #{censorship2,jdbcType=VARCHAR},
+      CENSORSHIP2_PHONE = #{censorship2Phone,jdbcType=VARCHAR},
+      CENSORSHIP2_CNO_NAME = #{censorship2CnoName,jdbcType=VARCHAR},
+      CENSORSHIP2_CNO = #{censorship2Cno,jdbcType=VARCHAR},
+      ADMISSIBILITY = #{admissibility,jdbcType=VARCHAR},
+      ENTRUST_COMPANY_PHONE = #{entruustCompanyPhone,jdbcType=VARCHAR},
+      ENTRUSTING_SERIAL = #{entrustingSerial,jdbcType=VARCHAR},
+      STATUS = #{faxNo,jdbcType=VARCHAR},
+      FAX_NO = #{status,jdbcType=VARCHAR},
+      ENTRUSTMENT_DATETIME = #{entrustmentDatetime,jdbcType=TIMESTAMP},
+      APPRAISAL_POINTS = #{appraisalPoints,jdbcType=VARCHAR},
+      ENTRUST_DETAILS = #{entrustDetails,jdbcType=TIMESTAMP},
+      ORIGINAL_IDENTIFICATION = #{originalIdentification,jdbcType=VARCHAR},
+      RE_JUSTIFICATION = #{reJustification,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

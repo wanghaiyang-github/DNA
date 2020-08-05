@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.CaseCompareResultInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.CaseCompareResultInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="FATHER_SAMPLE_NO" jdbcType="VARCHAR" property="fatherSampleNo" />
+    <result column="MOTHER_SAMPLE_NO" jdbcType="VARCHAR" property="motherSampleNo" />
+    <result column="CHILD_SAMPLE_NO" jdbcType="VARCHAR" property="childSampleNo" />
+    <result column="COMPARE_GENE_SUM" jdbcType="INTEGER" property="compareGeneNum" />
+    <result column="COMPARE_TOTAL_PROBABILITY" jdbcType="VARCHAR" property="compareTotalProbability" />
+    <result column="COMPARE_POPULATION_ID" jdbcType="INTEGER" property="comparePopulationId" />
+    <result column="COMPARE_POPULATION_NAME" jdbcType="VARCHAR" property="comparePopulationName" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="REFERENCE_ID" jdbcType="VARCHAR" property="referenceId" />
+    <result column="SAME_COUNT" jdbcType="INTEGER" property="sameCount" />
+    <result column="DIFF_COUNT" jdbcType="INTEGER" property="diffCount" />
+    <result column="MATCHED_MODE" jdbcType="INTEGER" property="matchedMode" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    c.ID, c.CASE_ID, c.FATHER_SAMPLE_NO, c.MOTHER_SAMPLE_NO, c.CHILD_SAMPLE_NO, c.COMPARE_GENE_SUM, c.COMPARE_TOTAL_PROBABILITY, c.COMPARE_POPULATION_ID,
+    c.CREATE_DATETIME, c.CREATE_PERSON, c.REFERENCE_ID, c.SAME_COUNT, c.DIFF_COUNT, c.MATCHED_MODE
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from case_compare_result_info c
+    where c.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    r.RACE_NAME as COMPARE_POPULATION_NAME
+    from case_compare_result_info c
+    left join race r on c.COMPARE_POPULATION_ID = r.ID
+    where c.CASE_ID = #{caseId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from case_compare_result_info where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByCaseId" parameterType="java.lang.Integer">
+    delete from case_compare_result_info where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.CaseCompareResultInfo">
+    insert into case_compare_result_info (CASE_ID, FATHER_SAMPLE_NO, MOTHER_SAMPLE_NO, CHILD_SAMPLE_NO, COMPARE_GENE_SUM, COMPARE_TOTAL_PROBABILITY,
+     COMPARE_POPULATION_ID, CREATE_PERSON, REFERENCE_ID, SAME_COUNT, DIFF_COUNT, MATCHED_MODE)
+    values (#{caseId,jdbcType=INTEGER}, #{fatherSampleNo,jdbcType=VARCHAR}, #{motherSampleNo,jdbcType=VARCHAR}, #{childSampleNo,jdbcType=VARCHAR},
+      #{compareGeneNum,jdbcType=INTEGER}, #{compareTotalProbability,jdbcType=VARCHAR}, #{comparePopulationId,jdbcType=INTEGER}, #{createPerson,jdbcType=VARCHAR},
+      #{referenceId,jdbcType=VARCHAR}, #{sameCount,jdbcType=INTEGER}, #{diffCount,jdbcType=INTEGER}, #{matchedMode,jdbcType=INTEGER})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.CaseCompareResultInfo">
+    update case_compare_result_info
+    set CASE_ID = #{caseId,jdbcType=INTEGER},
+      FATHER_SAMPLE_NO = #{fatherSampleNo,jdbcType=VARCHAR},
+      MOTHER_SAMPLE_NO = #{motherSampleNo,jdbcType=VARCHAR},
+      CHILD_SAMPLE_NO = #{childSampleNo,jdbcType=VARCHAR},
+      COMPARE_GENE_SUM = #{compareGeneNum,jdbcType=INTEGER},
+      COMPARE_TOTAL_PROBABILITY = #{compareTotalProbability,jdbcType=VARCHAR},
+      COMPARE_POPULATION_ID = #{comparePopulationId,jdbcType=INTEGER},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+      REFERENCE_ID = #{referenceId,jdbcType=VARCHAR},
+      SAME_COUNT = #{sameCount,jdbcType=INTEGER},
+      DIFF_COUNT = #{diffCount,jdbcType=INTEGER},
+      MATCHED_MODE = #{matchedMode,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.StorageRecordInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.StorageRecordInfo">
+      <id column="ID" jdbcType="INTEGER" property="id"/>
+      <result column="REAGENT_SUPPLIES_INFO_ID" jdbcType="INTEGER" property="reagentSuppliesInfoId"/>
+      <result column="BARCODE" jdbcType="VARCHAR" property="barcode"/>
+      <result column="RECORD_TYPE" jdbcType="VARCHAR" property="recordType"/>
+      <result column="STORAGE_NUM" jdbcType="INTEGER" property="storageNum"/>
+      <result column="STORAGE_PERSON" jdbcType="VARCHAR" property="storagePerson"/>
+      <result column="STORAGE_DATETIME" jdbcType="TIMESTAMP" property="storageDatetime"/>
+      <result column="EFFECTIVE_DATETIME" jdbcType="TIMESTAMP" property="effectiveDatetime"/>
+      <result column="STORAGE_REMARK" jdbcType="VARCHAR" property="storageRemark"/>
+
+      <result column="REAGENT_NO" jdbcType="VARCHAR" property="reagentNo" />
+      <result column="REAGENT_NAME" jdbcType="VARCHAR" property="reagentName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    s.ID, s.REAGENT_SUPPLIES_INFO_ID, s.BARCODE, s.RECORD_TYPE, s.STORAGE_NUM, s.STORAGE_PERSON, s.STORAGE_DATETIME,
+    s.EFFECTIVE_DATETIME, s.STORAGE_REMARK
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from STORAGE_RECORD_INFO s
+        where s.ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <sql id="VO_Query_Where_Clause">
+        <if test="reagentSuppliesInfoId != null">
+            s.REAGENT_SUPPLIES_INFO_ID = #{reagentSuppliesInfoId,jdbcType=INTEGER}
+        </if>
+        <if test="barcode != null">
+            and s.BARCODE = #{barcode,jdbcType=VARCHAR}
+        </if>
+        <if test="storagePerson != null">
+            and s.STORAGE_PERSON like CONCAT('%',#{storagePerson,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="recordType != null">
+            and s.RECORD_TYPE = #{recordType,jdbcType=VARCHAR}
+        </if>
+        <if test="storageDatetimeStart != null">
+            and s.STORAGE_DATETIME &gt;=#{storageDatetimeStart, jdbcType=TIMESTAMP}
+        </if>
+        <if test="storageDatetimeEnd != null">
+            and s.STORAGE_DATETIME &lt;=#{storageDatetimeEnd, jdbcType=TIMESTAMP}
+        </if>
+        <if test="effectiveDatetimeStart != null">
+            and s.EFFECTIVE_DATETIME &gt;=#{effectiveDatetimeStart, jdbcType=TIMESTAMP}
+        </if>
+        <if test="effectiveDatetimeEnd != null">
+            and s.EFFECTIVE_DATETIME &lt;=#{effectiveDatetimeEnd, jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.StorageRecordInfo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>,
+    g.REAGENT_NO as REAGENT_NO,
+    g.REAGENT_NAME as REAGENT_NAME
+    from STORAGE_RECORD_INFO s
+    left join REAGENT_SUPPLIES_INFO g on s.reagent_supplies_info_id = g.id
+    <if test="_parameter != null">
+      <where>
+          <include refid="VO_Query_Where_Clause"/>
+      </where>
+    </if>
+  </select>
+
+    <select id="selectCount" parameterType="com.bazl.hslims.manager.model.po.StorageRecordInfo" resultType="int">
+        select count(s.ID)
+        from STORAGE_RECORD_INFO s
+        <if test="_parameter != null">
+            <where>
+                <include refid="VO_Query_Where_Clause"/>
+            </where>
+        </if>
+    </select>
+
+    <select id="selectPaginationList" parameterType="com.bazl.hslims.manager.model.po.StorageRecordInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,
+        g.REAGENT_NO as REAGENT_NO,
+        g.REAGENT_NAME as REAGENT_NAME
+        from STORAGE_RECORD_INFO s
+        left join REAGENT_SUPPLIES_INFO g on s.reagent_supplies_info_id = g.id
+        <if test="_parameter != null">
+            <where>
+                <include refid="VO_Query_Where_Clause"/>
+            </where>
+        </if>
+        order by s.STORAGE_DATETIME desc
+        limit #{offset}, #{rows}
+    </select>
+
+    <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.StorageRecordInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into STORAGE_RECORD_INFO (REAGENT_SUPPLIES_INFO_ID, BARCODE, RECORD_TYPE, STORAGE_NUM, STORAGE_PERSON,
+        STORAGE_DATETIME, EFFECTIVE_DATETIME, STORAGE_REMARK)
+        values (#{reagentSuppliesInfoId,jdbcType=INTEGER}, #{barcode,jdbcType=VARCHAR}, #{recordType,jdbcType=VARCHAR},#{storageNum,jdbcType=INTEGER},
+        #{storagePerson,jdbcType=VARCHAR}, #{storageDatetime,jdbcType=TIMESTAMP}, #{effectiveDatetime,jdbcType=TIMESTAMP}, #{storageRemark,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.StorageRecordInfo">
+        update STORAGE_RECORD_INFO
+        set REAGENT_SUPPLIES_INFO_ID = #{reagentSuppliesInfoId,jdbcType=INTEGER},
+        BARCODE = #{barcode,jdbcType=VARCHAR},
+        STORAGE_NUM = #{storageNum,jdbcType=INTEGER},
+        STORAGE_PERSON = #{storagePerson,jdbcType=VARCHAR},
+        STORAGE_DATETIME = #{storageDatetime,jdbcType=TIMESTAMP},
+        EFFECTIVE_DATETIME = #{effectiveDatetime,jdbcType=TIMESTAMP},
+        STORAGE_REMARK = #{storageRemark,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

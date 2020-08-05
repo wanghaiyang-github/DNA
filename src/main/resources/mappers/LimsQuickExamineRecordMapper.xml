@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsQuickExamineRecord">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsQuickExamineRecord">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId"/>
+    <result column="LIMS_EXTRACT_RECORD_ID" jdbcType="INTEGER" property="limsExtractRecordId"/>
+    <result column="LIMS_PCR_RECORD_ID" jdbcType="INTEGER" property="limsPcrRecordId"/>
+    <result column="LIMS_SY_RECORD_ID" jdbcType="VARCHAR" property="limsSyRecordId"/>
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, CASE_ID, LIMS_EXTRACT_RECORD_ID, LIMS_PCR_RECORD_ID,
+    LIMS_SY_RECORD_ID, CREATE_PERSON, CREATE_DATETIME, UPDATE_PERSON, UPDATE_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_quick_examine_record
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from lims_quick_examine_record
+    where CASE_ID=#{caseId,jdbcType=INTEGER} order by UPDATE_DATETIME,CREATE_DATETIME desc
+  </select>
+
+  <select id="selectCountByCaseId" parameterType="java.lang.Integer" resultType="int">
+    select COUNT(id) from lims_quick_examine_record where CASE_ID=#{caseId, jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lims_quick_examine_record
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsQuickExamineRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_quick_examine_record (CASE_ID, LIMS_EXTRACT_RECORD_ID, LIMS_PCR_RECORD_ID,
+      LIMS_SY_RECORD_ID, CREATE_PERSON)
+    values (#{caseId,jdbcType=INTEGER}, #{limsExtractRecordId,jdbcType=INTEGER}, #{limsPcrRecordId,jdbcType=INTEGER},
+    #{limsSyRecordId,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsQuickExamineRecord">
+    update lims_quick_examine_record
+    set CASE_ID = #{caseId,jdbcType=VARCHAR},
+      LIMS_EXTRACT_RECORD_ID = #{limsExtractRecordId,jdbcType=VARCHAR},
+      LIMS_PCR_RECORD_ID = #{limsPcrRecordId,jdbcType=INTEGER},
+      LIMS_SY_RECORD_ID = #{limsSyRecordId,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

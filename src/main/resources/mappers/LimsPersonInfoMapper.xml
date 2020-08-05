@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsPersonInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsPersonInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CONSIGNMENT_ID" jdbcType="INTEGER" property="consignmentId" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="PERSON_TYPE" jdbcType="VARCHAR" property="personType" />
+    <result column="PERSON_NO" jdbcType="VARCHAR" property="personNo" />
+    <result column="PERSON_NAME" jdbcType="VARCHAR" property="personName" />
+    <result column="PERSON_ALIAS" jdbcType="VARCHAR" property="personAlias" />
+    <result column="PERSON_GENDER" jdbcType="CHAR" property="personGender" />
+    <result column="PERSON_IDCARD_NO" jdbcType="VARCHAR" property="personIdcardNo" />
+    <result column="NO_IDCARD_REMARK" jdbcType="VARCHAR" property="noIdcardRemark" />
+    <result column="PERSON_COUNTRY" jdbcType="VARCHAR" property="personCountry" />
+    <result column="PERSON_RACE" jdbcType="VARCHAR" property="personRace" />
+    <result column="PERSON_HEIGHT" jdbcType="VARCHAR" property="personHeight" />
+    <result column="PERSON_WEIGHT" jdbcType="VARCHAR" property="personWeight" />
+    <result column="HOMETOWN_ADDRESS" jdbcType="VARCHAR" property="hometownAddress" />
+    <result column="PRESENT_ADDRESS" jdbcType="VARCHAR" property="presentAddress" />
+    <result column="RELATIVE_IDENTIFY" jdbcType="VARCHAR" property="relativeIdentify" />
+    <result column="INSTORED_FLAG" jdbcType="CHAR" property="instoredFlag" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETEIME" jdbcType="TIMESTAMP" property="updateDateteime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="deleteDatetime" />
+    <result column="PERSON_TYPE_NAME" jdbcType="VARCHAR" property="personTypeName" />
+    <result column="RELATIVE_IDENTIFY_NAME" jdbcType="VARCHAR" property="relativeIdentifyName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    p.ID, p.CONSIGNMENT_ID, p.CASE_ID, p.PERSON_TYPE, p.PERSON_NO, p.PERSON_NAME, p.PERSON_ALIAS, p.PERSON_GENDER,
+    p.PERSON_IDCARD_NO, p.NO_IDCARD_REMARK, p.PERSON_COUNTRY, p.PERSON_RACE, p.PERSON_HEIGHT, p.PERSON_WEIGHT, p.HOMETOWN_ADDRESS,
+    p.PRESENT_ADDRESS, p.RELATIVE_IDENTIFY, p.INSTORED_FLAG, p.CREATE_DATETIME, p.CREATE_PERSON,
+    p.UPDATE_DATETEIME, p.UPDATE_PERSON, p.REMARK, p.DELETE_FLAG
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as PERSON_TYPE_NAME,
+    d2.DICT_NAME as RELATIVE_IDENTIFY_NAME
+    from lims_person_info p
+      left join dict_item d1 on d1.DICT_CODE=p.PERSON_TYPE and d1.DICT_TYPE_CODE='PERSON_TYPE'
+      left join dict_item d2 on d2.DICT_CODE=p.RELATIVE_IDENTIFY and d2.DICT_TYPE_CODE='PERSON_RELATION'
+    where p.ID = #{id,jdbcType=INTEGER} and p.DELETE_FLAG='0'
+  </select>
+
+  <select id="selectListByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as PERSON_TYPE_NAME,
+    d2.DICT_NAME as RELATIVE_IDENTIFY_NAME
+    from lims_person_info p
+    left join dict_item d1 on d1.DICT_CODE=p.PERSON_TYPE and d1.DICT_TYPE_CODE='PERSON_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=p.RELATIVE_IDENTIFY and d2.DICT_TYPE_CODE='PERSON_RELATION'
+    where p.CASE_ID=#{caseId,jdbcType=INTEGER} and p.DELETE_FLAG='0'
+  </select>
+
+
+  <select id="selectListByConsignmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as PERSON_TYPE_NAME,
+    d2.DICT_NAME as RELATIVE_IDENTIFY_NAME
+    from lims_person_info p
+    left join dict_item d1 on d1.DICT_CODE=p.PERSON_TYPE and d1.DICT_TYPE_CODE='PERSON_TYPE'
+    left join dict_item d2 on d2.DICT_CODE=p.RELATIVE_IDENTIFY and d2.DICT_TYPE_CODE='PERSON_RELATION'
+    where p.CONSIGNMENT_ID=#{consignmentId,jdbcType=INTEGER} and p.DELETE_FLAG='0'
+    order by p.ID
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lims_person_info
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <update id="deleteByCaseId" parameterType="java.lang.Integer">
+    update lims_person_info
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where CASE_ID = #{caseId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByConsignmentId" parameterType="java.lang.Integer">
+    update lims_person_info
+    set DELETE_FLAG='1',  DELETE_DATETIME = now()
+    where CONSIGNMENT_ID = #{consignmentId,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsPersonInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_person_info (CONSIGNMENT_ID, CASE_ID,
+      PERSON_TYPE, PERSON_NO, PERSON_NAME, PERSON_ALIAS,
+      PERSON_GENDER, PERSON_IDCARD_NO, NO_IDCARD_REMARK, PERSON_COUNTRY,
+      PERSON_RACE, PERSON_HEIGHT, PERSON_WEIGHT, 
+      HOMETOWN_ADDRESS, PRESENT_ADDRESS, RELATIVE_IDENTIFY, 
+      INSTORED_FLAG, CREATE_PERSON,
+       UPDATE_PERSON, REMARK
+      )
+    values (#{consignmentId,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER},
+      #{personType,jdbcType=VARCHAR}, #{personNo,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, #{personAlias,jdbcType=VARCHAR},
+      #{personGender,jdbcType=CHAR}, #{personIdcardNo,jdbcType=VARCHAR}, #{noIdcardRemark,jdbcType=VARCHAR}, #{personCountry,jdbcType=VARCHAR},
+      #{personRace,jdbcType=VARCHAR}, #{personHeight,jdbcType=VARCHAR}, #{personWeight,jdbcType=VARCHAR}, 
+      #{hometownAddress,jdbcType=VARCHAR}, #{presentAddress,jdbcType=VARCHAR}, #{relativeIdentify,jdbcType=VARCHAR}, 
+      #{instoredFlag,jdbcType=CHAR}, #{createPerson,jdbcType=VARCHAR},
+       #{updatePerson,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsPersonInfo">
+    update lims_person_info
+    set CONSIGNMENT_ID = #{consignmentId,jdbcType=INTEGER},
+      CASE_ID = #{caseId,jdbcType=INTEGER},
+      PERSON_TYPE = #{personType,jdbcType=VARCHAR},
+      PERSON_NO = #{personNo,jdbcType=VARCHAR},
+      PERSON_NAME = #{personName,jdbcType=VARCHAR},
+      PERSON_ALIAS = #{personAlias,jdbcType=VARCHAR},
+      PERSON_GENDER = #{personGender,jdbcType=CHAR},
+      PERSON_IDCARD_NO = #{personIdcardNo,jdbcType=VARCHAR},
+      NO_IDCARD_REMARK = #{noIdcardRemark,jdbcType=VARCHAR},
+      PERSON_COUNTRY = #{personCountry,jdbcType=VARCHAR},
+      PERSON_RACE = #{personRace,jdbcType=VARCHAR},
+      PERSON_HEIGHT = #{personHeight,jdbcType=VARCHAR},
+      PERSON_WEIGHT = #{personWeight,jdbcType=VARCHAR},
+      HOMETOWN_ADDRESS = #{hometownAddress,jdbcType=VARCHAR},
+      PRESENT_ADDRESS = #{presentAddress,jdbcType=VARCHAR},
+      RELATIVE_IDENTIFY = #{relativeIdentify,jdbcType=VARCHAR},
+      INSTORED_FLAG = #{instoredFlag,jdbcType=CHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

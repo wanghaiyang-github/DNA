@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="REAGENT_TYPE" jdbcType="VARCHAR" property="reagentType" />
+    <result column="REAGENT_NAME" jdbcType="VARCHAR" property="reagentName" />
+    <result column="REAGENT_NO" jdbcType="VARCHAR" property="reagentNo" />
+    <result column="EXPERIMENTAL_STAGE" jdbcType="VARCHAR" property="experimentalStage" />
+    <result column="REAGENT_BRAND" jdbcType="VARCHAR" property="reagentBrand" />
+    <result column="REAGENT_MODEL" jdbcType="VARCHAR" property="reagentModel" />
+    <result column="REAGENT_PRICE" jdbcType="VARCHAR" property="reagentPrice"/>
+    <result column="REAGENT_FIRM" jdbcType="VARCHAR" property="reagentFirm"/>
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="EFFECTIVE_DATETIME" jdbcType="TIMESTAMP" property="effectiveDatetime" />
+
+    <result column="EXPERIMENTAL_STAGE_NAME" jdbcType="VARCHAR" property="experimentalStageName" />
+    <result column="STORAGE_NUM" jdbcType="INTEGER" property="storageNum"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    r.ID, r.REAGENT_TYPE, r.REAGENT_NAME, r.REAGENT_NO,r.EXPERIMENTAL_STAGE, r.REAGENT_BRAND, r.REAGENT_MODEL,
+    r.REAGENT_PRICE, r.REAGENT_FIRM, r.REMARK,r.CREATE_PERSON,r.CREATE_DATETIME,r.UPDATE_PERSON, r.UPDATE_DATETIME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from REAGENT_SUPPLIES_INFO r
+    where r.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from REAGENT_SUPPLIES_INFO r
+    <if test="_parameter != null">
+      <where>
+        <include refid="VO_Query_Where_Clause"/>
+      </where>
+    </if>
+  </select>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into REAGENT_SUPPLIES_INFO(REAGENT_TYPE, REAGENT_NAME, REAGENT_NO, EXPERIMENTAL_STAGE, REAGENT_BRAND, REAGENT_MODEL, REAGENT_PRICE,
+    REAGENT_FIRM, REMARK, CREATE_PERSON)
+    values (#{reagentType,jdbcType=VARCHAR},#{reagentName,jdbcType=VARCHAR}, #{reagentNo,jdbcType=VARCHAR}, #{experimentalStage,jdbcType=VARCHAR},
+      #{reagentBrand,jdbcType=VARCHAR}, #{reagentModel,jdbcType=VARCHAR}, #{reagentPrice,jdbcType=VARCHAR}, #{reagentFirm, jdbcType=VARCHAR},
+      #{remark, jdbcType=VARCHAR}, #{createPerson, jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo">
+    update REAGENT_SUPPLIES_INFO r
+    set
+      REAGENT_TYPE = #{reagentType,jdbcType=VARCHAR},
+      REAGENT_NAME = #{reagentName,jdbcType=VARCHAR},
+      REAGENT_NO = #{reagentNo,jdbcType=VARCHAR},
+      EXPERIMENTAL_STAGE = #{experimentalStage,jdbcType=VARCHAR},
+      REAGENT_BRAND = #{reagentBrand,jdbcType=DOUBLE},
+      REAGENT_MODEL = #{reagentModel,jdbcType=VARCHAR},
+      REAGENT_PRICE = #{reagentPrice,jdbcType=VARCHAR},
+      REAGENT_FIRM = #{reagentFirm,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <sql id="VO_Query_Where_Clause">
+    <if test="reagentType != null">
+      r.REAGENT_TYPE=#{reagentType,jdbcType=VARCHAR}
+    </if>
+    <if test="reagentName != null">
+      and r.REAGENT_NAME like CONCAT('%',#{reagentName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="reagentNo != null">
+      and r.REAGENT_NO like CONCAT('%',#{reagentNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="experimentalStage != null">
+      and r.EXPERIMENTAL_STAGE = #{experimentalStage,jdbcType=VARCHAR}
+    </if>
+    <if test="reagentModel != null">
+      and r.REAGENT_MODEL like CONCAT('%',#{reagentModel,jdbcType=VARCHAR},'%')
+    </if>
+  </sql>
+
+  <select id="selectCount" parameterType="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo" resultType="int">
+    select count(r.ID)
+    from REAGENT_SUPPLIES_INFO r
+    <if test="_parameter != null">
+      <where>
+        <include refid="VO_Query_Where_Clause"/>
+      </where>
+    </if>
+  </select>
+
+  <select id="selectPaginationList" parameterType="com.bazl.hslims.manager.model.po.ReagentSuppliesInfo" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>,
+      d.DICT_NAME as EXPERIMENTAL_STAGE_NAME,
+      si.STORAGE_NUM as STORAGE_NUM
+      from REAGENT_SUPPLIES_INFO r
+      left join dict_item d on d.DICT_CODE = r.EXPERIMENTAL_STAGE and d.DICT_TYPE_CODE = 'EXPERIMENTAL_STAGE'
+      left join STORAGE_INFO si on si.REAGENT_SUPPLIES_INFO_ID = r.id
+      <if test="_parameter != null">
+        <where>
+          <include refid="VO_Query_Where_Clause"/>
+        </where>
+      </if>
+      limit #{offset}, #{rows}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from REAGENT_SUPPLIES_INFO where ID = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

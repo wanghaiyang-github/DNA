@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsIdentifyBook">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsIdentifyBook">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="CASE_NO" jdbcType="VARCHAR" property="caseNo" />
+    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="STATUS_NAME" jdbcType="VARCHAR" property="statusName" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <!--<result column="CREATE_PERSON_ID" jdbcType="VARCHAR" property="createPersonId" />-->
+    <result column="CREATE_PERSON_NAME" jdbcType="VARCHAR" property="createPersonName" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <!--<result column="UPDATE_PERSON_ID" jdbcType="VARCHAR" property="updatePersonId" />-->
+    <result column="UPDATE_PERSON_NAME" jdbcType="VARCHAR" property="updatePersonName" />
+    <result column="SIGNED_DATETIME" jdbcType="TIMESTAMP" property="signedDatetime" />
+    <result column="SIGNED_PERSON" jdbcType="VARCHAR" property="signedPerson" />
+    <result column="SEND_NOTICE_FLAG" jdbcType="CHAR" property="sendNoticeFlag" />
+    <result column="SEND_NOTICE_DATETIME" jdbcType="TIMESTAMP" property="sendNoticeDatetime" />
+    <result column="SEND_NOTICE_PERSON" jdbcType="VARCHAR" property="sendNoticePerson" />
+    <result column="FETCHED_DATETIME" jdbcType="TIMESTAMP" property="fetchedDatetime" />
+    <result column="FETCHED_BY" jdbcType="VARCHAR" property="fetchedBy" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="UPLOAD_PATH" jdbcType="VARCHAR" property="uploadPath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CASE_ID, CASE_NO, FILE_PATH, STATUS, STATUS_NAME, CREATE_DATETIME, CREATE_PERSON_NAME,
+    UPDATE_DATETIME, UPDATE_PERSON_NAME, SIGNED_PERSON, SIGNED_DATETIME,SEND_NOTICE_FLAG, SEND_NOTICE_DATETIME,
+    SEND_NOTICE_PERSON, FETCHED_DATETIME, FETCHED_BY, DELETE_FLAG, UPlOAD_PATH
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_identify_book
+    where ID = #{id,jdbcType=INTEGER} and DELETE_FLAG='0'
+  </select>
+
+  <select id="selectCount" resultType="int">
+    select count(lib.ID) from lims_identify_book lib where lib.STATUS not in ( '01')
+  </select>
+
+  <select id="selectByCaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lims_identify_book
+    where CASE_ID = #{caseId,jdbcType=INTEGER} and DELETE_FLAG='0'
+  </select>
+
+  <sql id="Query_Where_Clause">
+    <if test="caseId != null">
+      and CASE_ID = #{caseId,jdbcType=INTEGER}
+    </if>
+    <if test="caseNo != null">
+      and CASE_NO = #{caseNo, jdbcType=VARCHAR}
+    </if>
+  </sql>
+
+  <select id="selectIdentifyBookList" resultMap="BaseResultMap" parameterType="com.bazl.hslims.manager.model.po.LimsIdentifyBook">
+    select
+    <include refid="Base_Column_List" />
+    from lims_identify_book
+    where DELETE_FLAG='0'
+    <if test="_parameter != null">
+      <include refid="Query_Where_Clause"/>
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update lims_identify_book
+    set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsIdentifyBook" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_identify_book (CASE_ID, CASE_NO, FILE_PATH,
+      STATUS, STATUS_NAME, CREATE_PERSON_NAME, UPDATE_PERSON_NAME, SIGNED_PERSON, SIGNED_DATETIME,SEND_NOTICE_FLAG,
+      SEND_NOTICE_DATETIME, SEND_NOTICE_PERSON, 
+      FETCHED_DATETIME, FETCHED_BY
+      )
+    values (#{caseId,jdbcType=INTEGER}, #{caseNo,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR}, #{statusName,jdbcType=VARCHAR}, #{createPersonName,jdbcType=VARCHAR},
+      #{updatePersonName,jdbcType=VARCHAR}, #{signedPerson,jdbcType=VARCHAR}, #{signedDatetime,jdbcType=TIMESTAMP}, #{sendNoticeFlag,jdbcType=CHAR},
+      #{sendNoticeDatetime,jdbcType=TIMESTAMP}, #{sendNoticePerson,jdbcType=VARCHAR}, 
+      #{fetchedDatetime,jdbcType=TIMESTAMP}, #{fetchedBy,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsIdentifyBook">
+    update lims_identify_book
+    set CASE_ID = #{caseId,jdbcType=INTEGER},
+      CASE_NO=#{caseNo,jdbcType=VARCHAR},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      STATUS_NAME = #{statusName,jdbcType=VARCHAR},
+      UPDATE_PERSON_NAME = #{updatePersonName,jdbcType=VARCHAR},
+      SIGNED_PERSON=#{signedPerson,jdbcType=VARCHAR},
+      SIGNED_DATETIME=#{signedDatetime,jdbcType=TIMESTAMP},
+      SEND_NOTICE_FLAG = #{sendNoticeFlag,jdbcType=CHAR},
+      SEND_NOTICE_DATETIME = #{sendNoticeDatetime,jdbcType=TIMESTAMP},
+      SEND_NOTICE_PERSON = #{sendNoticePerson,jdbcType=VARCHAR},
+      FETCHED_DATETIME = #{fetchedDatetime,jdbcType=TIMESTAMP},
+      FETCHED_BY = #{fetchedBy,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      UPLOAD_PATH = #{uploadPath,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

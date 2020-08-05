@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.MatchResult">
+
+    <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.MatchResult">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="GROUP_ID" jdbcType="INTEGER" property="groupId"/>
+        <result column="MATCHED_MODE" jdbcType="INTEGER" property="matchedMode"/>
+        <result column="MATCHED_MODE_NAME" jdbcType="VARCHAR" property="matchedModeName"/>
+        <result column="SAMPLE1_ID" jdbcType="INTEGER" property="sample1Id"/>
+        <result column="SAMPLE2_ID" jdbcType="INTEGER" property="sample2Id"/>
+        <result column="SAMPLE3_ID" jdbcType="INTEGER" property="sample3Id"/>
+        <result column="SAME_COUNT" jdbcType="INTEGER" property="sameCount"/>
+        <result column="DIFF_COUNT" jdbcType="INTEGER" property="diffCount"/>
+        <result column="TOTAL_PROBABILITY" jdbcType="VARCHAR" property="totalProbability"/>
+        <result column="MATCH_RESULT_STRING" jdbcType="VARCHAR" property="matchResultString"/>
+
+        <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+        <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson"/>
+
+        <result column="SAMPLE1_NO" jdbcType="VARCHAR" property="sample1No"/>
+        <result column="SAMPLE2_NO" jdbcType="VARCHAR" property="sample2No"/>
+        <result column="SAMPLE3_NO" jdbcType="VARCHAR" property="sample3No"/>
+        <result column="SAMPLE1_NAME" jdbcType="VARCHAR" property="sample1Name"/>
+        <result column="SAMPLE2_NAME" jdbcType="VARCHAR" property="sample2Name"/>
+        <result column="SAMPLE3_NAME" jdbcType="VARCHAR" property="sample3Name"/>
+        <result column="SOURCE_CASE_NAME" jdbcType="VARCHAR" property="sourceCaseName"/>
+        <result column="TARGET_CASE_NAME" jdbcType="VARCHAR" property="targetCaseName"/>
+
+        <result column="SAMPLE_TYPE" jdbcType="VARCHAR" property="sampleType"/>
+        <result column="SAMPLE_ENTRY_TYPE" jdbcType="VARCHAR" property="sampleEntryType"/>
+        <result column="DELEGATE_ORG_DESC" jdbcType="VARCHAR" property="delegateOrgDesc"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      mr.ID,mr.GROUP_ID,mr.MATCHED_MODE,mr.SAMPLE1_ID,mr.SAMPLE2_ID,mr.SAMPLE3_ID,mr.SAME_COUNT,mr.DIFF_COUNT,
+      mr.TOTAL_PROBABILITY,mr.MATCH_RESULT_STRING,mr.CREATE_DATETIME,mr.CREATE_PERSON
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from match_result mr
+        where mr.ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByGroupId" parameterType="com.bazl.hslims.manager.model.po.MatchResult" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,
+                t1.SAMPLE_NO AS SAMPLE1_NO,
+                t2.SAMPLE_NO AS SAMPLE2_NO,
+                t3.SAMPLE_NO AS SAMPLE3_NO,
+                t1.SAMPLE_NAME AS SAMPLE1_NAME,
+                t2.SAMPLE_NAME AS SAMPLE2_NAME,
+                t3.SAMPLE_NAME AS SAMPLE3_NAME,
+                t1.CASE_NAME AS SOURCE_CASE_NAME,
+                t2.CASE_NAME AS TARGET_CASE_NAME,
+                (select d.DICT_NAME from dict_item d where d.DICT_CODE=mr.MATCHED_MODE and d.DICT_TYPE_CODE='MATCH_TYPE') as MATCHED_MODE_NAME
+            FROM
+                match_result mr
+            LEFT JOIN (
+                SELECT
+                    si.ID,
+                    si.SAMPLE_NO,
+                    si.SAMPLE_NAME,
+                    si.SAMPLE_ENTRY_TYPE,
+                    ci.CASE_NAME
+                FROM
+                    lims_sample_info si
+                LEFT JOIN lims_case_info ci ON si.CASE_ID = ci.ID
+            ) t1 ON mr.SAMPLE1_ID = t1.ID
+            LEFT JOIN (
+                SELECT
+                    si.ID,
+                    si.SAMPLE_NO,
+                    si.SAMPLE_NAME,
+                    ci.CASE_NAME
+                FROM
+                    lims_sample_info si
+                LEFT JOIN lims_case_info ci ON si.CASE_ID = ci.ID
+            ) t2 ON mr.SAMPLE2_ID = t2.ID
+            LEFT JOIN (
+                SELECT
+                    si.ID,
+                    si.SAMPLE_NO,
+                    si.SAMPLE_NAME
+                FROM
+                    lims_sample_info si
+            ) t3 ON mr.SAMPLE3_ID = t3.ID
+        where mr.GROUP_ID = #{groupId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByMatchId" parameterType="com.bazl.hslims.manager.model.po.MatchResult" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,
+        lsi.SAMPLE_NAME,ls.SAMPLE_NAME
+        from match_result mr
+        left join lims_sample_info lsi on lsi.ID=mr.SAMPLE1_ID
+        left join lims_sample_info ls on ls.ID=mr.SAMPLE2_ID
+        where mr.ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.MatchResult" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from match_result mr
+    </select>
+
+    <select id="selectListByGroupId" parameterType="com.bazl.hslims.manager.model.po.MatchResult" resultMap="BaseResultMap">
+        SELECT DISTINCT
+            t1.*, lsi1.SAMPLE_NAME AS SAMPLE1_NAME,
+            lsi1.SAMPLE_NO AS SAMPLE1_NO,
+            lsi1.SAMPLE_ENTRY_TYPE AS SAMPLE_ENTRY_TYPE,
+            lci1.CASE_NAME AS SOURCE_CASE_NAME,
+            lc1.DELEGATE_ORG_DESC AS DELEGATE_ORG_DESC
+        FROM
+            (
+                SELECT
+                    m.ID AS ID,
+                    m.GROUP_ID AS GROUP_ID,
+                    m.MATCHED_MODE AS MATCHED_MODE,
+                    m.SAMPLE1_ID AS SAMPLE1_ID,
+                    m.SAME_COUNT AS SAME_COUNT,
+                    m.DIFF_COUNT AS DIFF_COUNT,
+                    m.TOTAL_PROBABILITY AS TOTAL_PROBABILITY,
+                    m.MATCH_RESULT_STRING AS MATCH_RESULT_STRING,
+                    m.CREATE_DATETIME AS CREATE_DATETIME,
+                    m.CREATE_PERSON AS CREATE_PERSON
+
+                FROM
+                    match_result m
+                UNION ALL
+                    SELECT
+                        m1.ID AS ID,
+                        m1.GROUP_ID AS GROUP_ID,
+                        m1.MATCHED_MODE AS MATCHED_MODE,
+                        m1.SAMPLE2_ID AS SAMPLE1_ID,
+                        m1.SAME_COUNT AS SAME_COUNT,
+                        m1.DIFF_COUNT AS DIFF_COUNT,
+                        m1.TOTAL_PROBABILITY AS TOTAL_PROBABILITY,
+                        m1.MATCH_RESULT_STRING AS MATCH_RESULT_STRING,
+                        m1.CREATE_DATETIME AS CREATE_DATETIME,
+                        m1.CREATE_PERSON AS CREATE_PERSON
+
+                    FROM
+                        match_result m1
+                    UNION ALL
+                        SELECT
+                            m2.ID AS ID,
+                            m2.GROUP_ID AS GROUP_ID,
+                            m2.MATCHED_MODE AS MATCHED_MODE,
+                            m2.SAMPLE3_ID AS SAMPLE1_ID,
+                            m2.SAME_COUNT AS SAME_COUNT,
+                            m2.DIFF_COUNT AS DIFF_COUNT,
+                            m2.TOTAL_PROBABILITY AS TOTAL_PROBABILITY,
+                            m2.MATCH_RESULT_STRING AS MATCH_RESULT_STRING,
+                            m2.CREATE_DATETIME AS CREATE_DATETIME,
+                            m2.CREATE_PERSON AS CREATE_PERSON
+
+                        FROM
+                            match_result m2
+            ) t1
+        LEFT JOIN match_group mg1 ON mg1.ID = t1.GROUP_ID
+        LEFT JOIN lims_sample_info lsi1 ON lsi1.ID = t1.SAMPLE1_ID
+        LEFT JOIN lims_case_info lci1 ON lci1.ID = lsi1.CASE_ID
+        LEFT JOIN lims_consignment lc1 ON lc1.CASE_ID = lci1.ID
+        WHERE
+            1 = 1
+        <if test="groupId != null">
+            and t1.GROUP_ID=#{groupId, jdbcType=INTEGER}
+        </if>
+        and t1.SAMPLE1_ID is not null
+        order by t1.CREATE_DATETIME desc
+    </select>
+
+    <select id="selectListBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from match_result mr
+        where mr.SAMPLE1_ID = #{sampleId,jdbcType=INTEGER} or mr.SAMPLE2_ID = #{sampleId,jdbcType=INTEGER} or mr.SAMPLE3_ID = #{sampleId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectListBySampleIdAndMatchMode" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from match_result mr
+        where (mr.SAMPLE1_ID = #{sampleId,jdbcType=INTEGER} or mr.SAMPLE2_ID = #{sampleId,jdbcType=INTEGER} or mr.SAMPLE3_ID = #{sampleId,jdbcType=INTEGER}) and mr.MATCHED_MODE = #{matchMode,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.MatchResult" useGeneratedKeys="true" keyProperty="id">
+        insert into match_result (GROUP_ID, MATCHED_MODE, SAMPLE1_ID, SAMPLE2_ID, SAMPLE3_ID, SAME_COUNT, DIFF_COUNT,
+       TOTAL_PROBABILITY, MATCH_RESULT_STRING, CREATE_DATETIME, CREATE_PERSON)
+        values (#{groupId,jdbcType=INTEGER}, #{matchedMode,jdbcType=INTEGER}, #{sample1Id,jdbcType=INTEGER},
+        #{sample2Id,jdbcType=INTEGER}, #{sample3Id,jdbcType=INTEGER}, #{sameCount,jdbcType=INTEGER},
+        #{diffCount,jdbcType=INTEGER}, #{totalProbability,jdbcType=VARCHAR}, #{matchResultString,jdbcType=VARCHAR},
+        #{createDatetime,jdbcType=TIMESTAMP}, #{createPerson,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE from match_result
+        where ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

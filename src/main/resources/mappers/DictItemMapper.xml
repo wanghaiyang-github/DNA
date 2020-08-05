@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.DictItem">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.DictItem">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DICT_TYPE_CODE" jdbcType="VARCHAR" property="dictTypeCode" />
+    <result column="DICT_CODE" jdbcType="VARCHAR" property="dictCode" />
+    <result column="DICT_NAME" jdbcType="VARCHAR" property="dictName" />
+    <result column="DICT_DESC" jdbcType="VARCHAR" property="dictDesc" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, DICT_TYPE_CODE, DICT_CODE, DICT_NAME, DICT_DESC, CREATE_DATETIME, CREATE_PERSON
+  </sql>
+
+  <select id="selectRepeatDictItemQuery" parameterType="com.bazl.hslims.manager.model.po.DictItem" resultType="int">
+    select count(*) from dict_item
+        where DICT_CODE=#{dictCode,jdbcType=VARCHAR}
+        AND DICT_TYPE_CODE=#{dictTypeCode, jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dict_item
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectListByDictType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from dict_item
+    where DICT_TYPE_CODE=#{dictTypeCode,jdbcType=VARCHAR}
+    order by DICT_CODE ASC
+  </select>
+
+  <select id="selectByParentDictTypeCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from dict_item
+    where DICT_TYPE_CODE=#{dictTypeCode, jdbcType=VARCHAR}
+    order by length(DICT_CODE),DICT_CODE,CREATE_DATETIME
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dict_item
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByDictTypeCode" parameterType="java.lang.String">
+    delete from dict_item
+    where DICT_TYPE_CODE = #{dictTypeCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.DictItem">
+    insert into dict_item (ID, DICT_TYPE_CODE, DICT_CODE, 
+      DICT_NAME, DICT_DESC, CREATE_DATETIME, 
+      CREATE_PERSON)
+    values (#{id,jdbcType=INTEGER}, #{dictTypeCode,jdbcType=VARCHAR}, #{dictCode,jdbcType=VARCHAR}, 
+      #{dictName,jdbcType=VARCHAR}, #{dictDesc,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.DictItem">
+    update dict_item
+    set DICT_TYPE_CODE = #{dictTypeCode,jdbcType=VARCHAR},
+      DICT_CODE = #{dictCode,jdbcType=VARCHAR},
+      DICT_NAME = #{dictName,jdbcType=VARCHAR},
+      DICT_DESC = #{dictDesc,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

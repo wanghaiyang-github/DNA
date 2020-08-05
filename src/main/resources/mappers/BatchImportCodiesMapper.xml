@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.BatchImportCodies">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.BatchImportCodies">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="COIDIES_NAME" jdbcType="VARCHAR" property="codiesName" />
+    <result column="SAMPLE_BARCODE" jdbcType="VARCHAR" property="sampleBarcode" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="IMPORT_REASON" jdbcType="VARCHAR" property="importReason" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.BatchImportCodies">
+    insert into batch_import_coidies (COIDIES_NAME, SAMPLE_BARCODE,STATUS,IMPORT_REASON)
+    values (#{codiesName,jdbcType=VARCHAR}, #{sampleBarcode,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{importReason,jdbcType=VARCHAR})
+  </insert>
+
+
+</mapper>

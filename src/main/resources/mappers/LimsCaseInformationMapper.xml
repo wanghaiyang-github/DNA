@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsCaseInformation">
+    <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsCaseInformation">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="CASE_NO" jdbcType="VARCHAR" property="caseNo"/>
+        <result column="CASE_NAME" jdbcType="VARCHAR" property="caseName"/>
+        <result column="CASE_BRIEF" jdbcType="VARCHAR" property="caseBrief"/>
+        <result column="CASE_DATETIME" jdbcType="TIMESTAMP" property="caseDatetime"/>
+        <result column="CASE_LOCATION_DESC" jdbcType="VARCHAR" property="caseLocationDesc"/>
+        <result column="ENTRUSTMENT_TYPE" jdbcType="VARCHAR" property="entrustmentType"/>
+        <result column="DELETE_FLAG" jdbcType="VARCHAR" property="deleteFlag"/>
+
+        <result column="ENTRUST_COMPANY_CODE" jdbcType="VARCHAR" property="entrustCompanyCode" />
+        <result column="ENTRUST_COMPANY" jdbcType="VARCHAR" property="entrustCompany" />
+        <result column="ENTRUSTING_SERIAL" jdbcType="VARCHAR" property="entrustingSerial" />
+        <result column="ENTRUSTMENT_DATETIME" jdbcType="TIMESTAMP" property="entrustmentDatetime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    lci.ID,lci.CASE_NO,lci.CASE_NAME,lci.CASE_BRIEF,lci.CASE_DATETIME,
+    lci.CASE_LOCATION_DESC,lci.ENTRUSTMENT_TYPE,lci.DELETE_FLAG
+   </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lims_case_information lci
+        where lci.ID = #{id,jdbcType=INTEGER} and lci.DELETE_FLAG='0'
+    </select>
+
+    <select id="selectByCaseNo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lims_case_information lci
+        where lci.CASE_NO = #{caseNo,jdbcType=VARCHAR} and lci.DELETE_FLAG='0'
+    </select>
+
+    <select id="selectByEntrustmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lims_case_information lci, lims_entrustment_information lei
+        where lei.CASE_INFORMATION_ID=lci.ID and lei.ID = #{id,jdbcType=INTEGER} and lc.DELETE_FLAG='0'
+    </select>
+
+    <select id="selectListByEntrustmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from lims_case_information lci, lims_entrustment_information lei
+        where lei.CASE_INFORMATION_ID=lci.ID and lei.ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <sql id="Query_Where_Clause">
+            <if test="caseNo != null">
+                AND lci.CASE_NO=#{caseNo, jdbcType=VARCHAR}
+            </if>
+            <if test="caseName != null">
+                and lci.CASE_NAME=#{caseName, jdbcType=VARCHAR}
+            </if>
+            <if test="entrustmentType != null">
+                and lci.ENTRUSTMENT_TYPE=#{entrustmentType, jdbcType=VARCHAR}
+            </if>
+            <if test="entrustCompanyCode != null">
+                and  lei.ENTRUST_COMPANY_CODE =#{entrustCompanyCode, jdbcType=VARCHAR}
+            </if>
+            <if test="entrustingSerial != null">
+                and  lei.ENTRUSTING_SERIAL =#{entrustingSerial, jdbcType=VARCHAR}
+            </if>
+            <if test="entrustmentDateStart != null">
+                and lei.ENTRUSTMENT_DATETIME &gt;=#{entrustmentDateStart, jdbcType=TIMESTAMP}
+            </if>
+            <if test="entrustmentDateEnd != null">
+                and lei.ENTRUSTMENT_DATETIME &lt;=#{entrustmentDateEnd, jdbcType=TIMESTAMP}
+            </if>
+    </sql>
+
+    <select id="selectPaginationList" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInformation"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>,
+        lei.ENTRUST_COMPANY_CODE,
+        lei.ENTRUST_COMPANY,
+        lei.ENTRUSTING_SERIAL,
+        lei.ENTRUSTMENT_DATETIME
+        from lims_case_information lci left join lims_entrustment_information lei on lci.ID=lei.CASE_INFORMATION_ID
+        where lci.DELETE_FLAG='0' and lei.DELETE_FLAG='0'
+        <if test="_parameter != null">
+            <include refid="Query_Where_Clause"/>
+        </if>
+        limit #{offset}, #{rows}
+    </select>
+
+    <select id="selectCount" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInformation" resultType="int">
+        SELECT count(lci.ID) from lims_case_information lci left join lims_entrustment_information lei on lci.ID=lei.CASE_INFORMATION_ID
+        where lci.DELETE_FLAG='0' and lei.DELETE_FLAG='0'
+        <if test="_parameter != null">
+            <include refid="Query_Where_Clause"/>
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    UPDATE lims_case_information lci
+    set lci.DELETE_FLAG='1'
+    where lci.ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteByEntrustmentId" parameterType="java.lang.Integer">
+    UPDATE lims_case_information lci left join lims_entrustment_information lei on lci.ID=lei.CASE_INFORMATION_ID
+    set lci.DELETE_FLAG='1'
+    where lei.ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInformation" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into lims_case_information (CASE_NO, CASE_NAME,
+      CASE_BRIEF, CASE_DATETIME, CASE_LOCATION_DESC,
+      ENTRUSTMENT_TYPE, DELETE_FLAG)
+    values (#{caseNo,jdbcType=VARCHAR}, #{caseName,jdbcType=VARCHAR},#{caseBrief,jdbcType=VARCHAR},
+      #{caseDatetime,jdbcType=TIMESTAMP}, #{caseLocationDesc,jdbcType=VARCHAR}, #{entrustmentType,jdbcType=VARCHAR},#{deleteFlag,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInformation">
+    update lims_case_information
+    set CASE_NAME = #{caseName,jdbcType=VARCHAR},
+      CASE_BRIEF = #{caseBrief,jdbcType=VARCHAR},
+      CASE_DATETIME = #{caseDatetime,jdbcType=TIMESTAMP},
+      CASE_LOCATION_DESC = #{caseLocationDesc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="refuseCase" parameterType="com.bazl.hslims.manager.model.po.LimsCaseInformation">
+    update lims_case_information
+    set ENTRUSTMENT_TYPE = #{entrustmentType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

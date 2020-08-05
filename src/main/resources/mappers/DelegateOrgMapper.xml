@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.DelegateOrg">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.DelegateOrg">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="ROOT_FLAG" jdbcType="CHAR" property="rootFlag" />
+    <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
+    <result column="LOGIN_PASSWORD" jdbcType="VARCHAR" property="loginPassword" />
+    <result column="IPADDR_RANGE" jdbcType="VARCHAR" property="ipaddrRange" />
+    <result column="CONTACT_PHONENUM" jdbcType="VARCHAR" property="contactPhonenum" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, ORG_NAME, ORG_CODE, ROOT_FLAG, PARENT_ID, LOGIN_PASSWORD, IPADDR_RANGE, CONTACT_PHONENUM, UPDATE_DATETIME,
+    UPDATE_PERSON, DELETE_FLAG, REMARK
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from delegate_org
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from delegate_org where DELETE_FLAG='0'
+  </select>
+
+  <select id="selectByDelegateOrgCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from delegate_org
+    where ORG_CODE = #{orgCode, jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByOrgCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from delegate_org
+    where ORG_NAME = #{orgName, jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByOrgName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from delegate_org
+    where ORG_NAME = #{orgName, jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update delegate_org set DELETE_FLAG='1'
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.DelegateOrg">
+    insert into delegate_org (ORG_NAME, ORG_CODE,
+      ROOT_FLAG, PARENT_ID, LOGIN_PASSWORD, 
+      IPADDR_RANGE, CONTACT_PHONENUM, UPDATE_DATETIME, UPDATE_PERSON,
+      DELETE_FLAG, REMARK)
+    values (#{orgName,jdbcType=VARCHAR}, #{orgCode,jdbcType=VARCHAR},
+      #{rootFlag,jdbcType=CHAR}, #{parentId,jdbcType=INTEGER}, #{loginPassword,jdbcType=VARCHAR}, 
+      #{ipaddrRange,jdbcType=VARCHAR}, #{contactPhonenum,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, #{updatePerson,jdbcType=VARCHAR},
+      #{deleteFlag,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.DelegateOrg">
+    update delegate_org
+    set ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      ROOT_FLAG = #{rootFlag,jdbcType=CHAR},
+      PARENT_ID = #{parentId,jdbcType=INTEGER},
+      LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
+      IPADDR_RANGE = #{ipaddrRange,jdbcType=VARCHAR},
+      CONTACT_PHONENUM=#{contactPhonenum,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

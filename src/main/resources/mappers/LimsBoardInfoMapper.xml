@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsBoardInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsBoardInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="BOARD_NO" jdbcType="VARCHAR" property="boardNo" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BOARD_NO, CREATE_DATETIME, CREATE_PERSON, UPDATE_DATETIME, UPDATE_PERSON, DELETE_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_board_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lims_board_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsBoardInfo">
+    insert into lims_board_info (ID, BOARD_NO, CREATE_DATETIME, 
+      CREATE_PERSON, UPDATE_DATETIME, UPDATE_PERSON, 
+      DELETE_FLAG)
+    values (#{id,jdbcType=INTEGER}, #{boardNo,jdbcType=VARCHAR}, #{createDatetime,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{updateDatetime,jdbcType=TIMESTAMP}, #{updatePerson,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsBoardInfo">
+    update lims_board_info
+    set BOARD_NO = #{boardNo,jdbcType=VARCHAR},
+      CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+      UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=CHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

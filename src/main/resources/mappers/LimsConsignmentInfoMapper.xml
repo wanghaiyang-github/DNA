@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.LimsConsignmentInfo">
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.LimsConsignmentInfo">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DELEGATE_ORG_ID" jdbcType="INTEGER" property="delegateOrgId" />
+    <result column="DELEGATE_ORG_NAME" jdbcType="VARCHAR" property="delegateOrgName" />
+    <result column="DELEGATOR" jdbcType="VARCHAR" property="delegator" />
+    <result column="DELEGATOR_DUTY" jdbcType="VARCHAR" property="delegatorDuty" />
+    <result column="DELEGATOR_CERTIFICATE" jdbcType="VARCHAR" property="delegatorCertificate" />
+    <result column="DELEGATOR_CERTIFICATE_NO" jdbcType="VARCHAR" property="delegatorCertificateNo" />
+    <result column="DELEGATOR_PHONE" jdbcType="VARCHAR" property="delegatorPhone" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+    <result column="DELETE_FLAG" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="DELETE_PERSON" jdbcType="VARCHAR" property="deletePerson" />
+    <result column="DELETE_DATETIME" jdbcType="TIMESTAMP" property="deleteDatetime" />
+
+    <result column="DELEGATOR_DUTY_NAME" jdbcType="VARCHAR" property="delegatorDutyName" />
+    <result column="DELEGATOR_CERTIFICATE_NAME" jdbcType="VARCHAR" property="delegatorCertificateName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    lci.ID, lci.DELEGATE_ORG_ID, lci.DELEGATE_ORG_NAME, lci.DELEGATOR, lci.DELEGATOR_DUTY, lci.DELEGATOR_CERTIFICATE, lci.DELEGATOR_CERTIFICATE_NO,
+    lci.DELEGATOR_PHONE,lci.CREATE_PERSON, lci.CREATE_DATETIME, lci.UPDATE_PERSON, lci.UPDATE_DATETIME, lci.DELETE_FLAG, lci.DELETE_PERSON, lci.DELETE_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lims_consignment_info lci
+    where lci.ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectLimsConsignmentInfoList" parameterType="com.bazl.hslims.manager.model.po.LimsConsignmentInfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as DELEGATOR_DUTY_NAME,
+    d2.DICT_NAME as DELEGATOR_CERTIFICATE_NAME
+    from lims_consignment_info lci
+    left join dict_item d1 on d1.DICT_CODE = lci.DELEGATOR_DUTY and d1.DICT_TYPE_CODE='DUTY'
+    left join dict_item d2 on d2.DICT_CODE = lci.DELEGATOR_CERTIFICATE and d2.DICT_TYPE_CODE='CERTIFICATE_TYPE'
+    <where>
+      <if test="_parameter != null">
+        <if test="delegateOrgId != null">
+         DELEGATE_ORG_ID = #{delegateOrgId, jdbcType=INTEGER}
+        </if>
+        <if test="delegator != null">
+          and DELEGATOR = #{delegator, jdbcType=VARCHAR}
+        </if>
+        <if test="deleteFlag != null">
+          and DELETE_FLAG = #{deleteFlag, jdbcType=VARCHAR}
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <select id="selectListByDelegateOrgId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    d1.DICT_NAME as DELEGATOR_DUTY_NAME,
+    d2.DICT_NAME as DELEGATOR_CERTIFICATE_NAME
+    from lims_consignment_info lci
+    left join dict_item d1 on d1.DICT_CODE = lci.DELEGATOR_DUTY and d1.DICT_TYPE_CODE='DUTY'
+    left join dict_item d2 on d2.DICT_CODE = lci.DELEGATOR_CERTIFICATE and d2.DICT_TYPE_CODE='CERTIFICATE_TYPE'
+    where lci.DELEGATE_ORG_ID = #{delegateOrgId,jdbcType=INTEGER}
+    order by lci.ID asc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lims_consignment_info where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <update id="deleteById" parameterType="com.bazl.hslims.manager.model.po.LimsConsignmentInfo">
+    update lims_consignment_info
+    set DELETE_FLAG = #{deleteFlag,jdbcType=VARCHAR},
+      DELETE_PERSON = #{deletePerson,jdbcType=VARCHAR},
+      DELETE_DATETIME = now()
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.LimsConsignmentInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into lims_consignment_info (DELEGATE_ORG_ID, DELEGATE_ORG_NAME, DELEGATOR, DELEGATOR_DUTY, DELEGATOR_CERTIFICATE,
+    DELEGATOR_CERTIFICATE_NO, DELEGATOR_PHONE, CREATE_PERSON)
+    values (#{delegateOrgId,jdbcType=INTEGER}, #{delegateOrgName,jdbcType=VARCHAR},
+      #{delegator,jdbcType=VARCHAR}, #{delegatorDuty,jdbcType=VARCHAR}, #{delegatorCertificate,jdbcType=VARCHAR},
+      #{delegatorCertificateNo,jdbcType=VARCHAR}, #{delegatorPhone,jdbcType=VARCHAR}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.LimsConsignmentInfo">
+    update lims_consignment_info
+    set DELEGATE_ORG_ID = #{delegateOrgId,jdbcType=INTEGER},
+      DELEGATE_ORG_NAME = #{delegateOrgName,jdbcType=VARCHAR},
+      DELEGATOR = #{delegator,jdbcType=VARCHAR},
+      DELEGATOR_DUTY = #{delegatorDuty,jdbcType=VARCHAR},
+      DELEGATOR_CERTIFICATE = #{delegatorCertificate,jdbcType=VARCHAR},
+      DELEGATOR_CERTIFICATE_NO = #{delegatorCertificateNo,jdbcType=VARCHAR},
+      DELEGATOR_PHONE = #{delegatorPhone,jdbcType=VARCHAR},
+      UPDATE_PERSON = #{updatePerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

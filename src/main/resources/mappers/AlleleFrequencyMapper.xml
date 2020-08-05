@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.AlleleFrequency">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.AlleleFrequency">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="RACE_ID" jdbcType="INTEGER" property="raceId" />
+    <result column="RACE_NAME" jdbcType="VARCHAR" property="raceName" />
+    <result column="MARKER_NAME" jdbcType="VARCHAR" property="markerName" />
+    <result column="ALLELE_NAME" jdbcType="VARCHAR" property="alleleName" />
+    <result column="ALLELE_FREQUENCY" jdbcType="FLOAT" property="alleleFrequency" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    af.ID, af.RACE_ID,af.RACE_NAME, af.MARKER_NAME, af.ALLELE_NAME, af.ALLELE_FREQUENCY, af.CREATE_PERSON,af.CREATE_DATETIME
+  </sql>
+
+  <select id="selectAlleleFrequencyList" parameterType="com.bazl.hslims.manager.model.po.AlleleFrequency" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from allele_frequency af
+    <where>
+      <if test="_parameter != null">
+        <if test="raceName !=null">
+          and af.RACE_NAME like CONCAT('%',#{raceName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="markerName !=null">
+          and af.MARKER_NAME like CONCAT('%',#{markerName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="alleleName !=null">
+          and  af.ALLELE_NAME like CONCAT('%',#{alleleName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="alleleFrequency != 0">
+          and  format(af.ALLELE_FREQUENCY ,4) = format(#{alleleFrequency,jdbcType=FLOAT} ,4)
+        </if>
+        <if test="createPerson !=null">
+          and  af.CREATE_PERSON like CONCAT('%',#{createPerson,jdbcType=VARCHAR},'%')
+        </if>
+      </if>
+    </where>
+    order by af.MARKER_NAME,(af.ALLELE_NAME + 0)
+    limit #{offset}, #{rows}
+  </select>
+
+  <select id="selectAlleleFrequencyRepeatList" parameterType="com.bazl.hslims.manager.model.po.AlleleFrequency" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from allele_frequency af
+    <where>
+      <if test="_parameter != null">
+        <if test="raceName !=null">
+          and af.RACE_NAME=#{raceName,jdbcType=VARCHAR}
+        </if>
+        <if test="markerName !=null">
+          and af.MARKER_NAME=#{markerName,jdbcType=VARCHAR}
+        </if>
+        <if test="alleleName !=null">
+          and  af.ALLELE_NAME=#{alleleName,jdbcType=VARCHAR}
+        </if>
+        <if test="createPerson !=null">
+          and  af.CREATE_PERSON=#{createPerson,jdbcType=VARCHAR}
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <select id="selectAlleleFrequencyCount" parameterType="com.bazl.hslims.manager.model.po.AlleleFrequency" resultType="int">
+   select count(af.ID) from allele_frequency af
+    <where>
+      <if test="_parameter != null">
+        <if test="raceName !=null">
+          and af.RACE_NAME=#{raceName,jdbcType=VARCHAR}
+        </if>
+        <if test="markerName !=null">
+          and af.MARKER_NAME=#{markerName,jdbcType=VARCHAR}
+        </if>
+        <if test="alleleName !=null">
+          and  af.ALLELE_NAME=#{alleleName,jdbcType=VARCHAR}
+        </if>
+        <if test="createPerson !=null">
+          and  af.CREATE_PERSON=#{createPerson,jdbcType=VARCHAR}
+        </if>
+      </if>
+    </where>
+    order by af.MARKER_NAME,(af.ALLELE_NAME + 0)
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from allele_frequency where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.AlleleFrequency">
+    insert into allele_frequency (RACE_ID,RACE_NAME,MARKER_NAME,ALLELE_NAME,ALLELE_FREQUENCY,CREATE_PERSON)
+    values
+    ( #{raceId,jdbcType=INTEGER}, #{raceName,jdbcType=VARCHAR}, #{markerName,jdbcType=VARCHAR}, #{alleleName,jdbcType=VARCHAR},
+    #{alleleFrequency,jdbcType=FLOAT}, #{createPerson,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.AlleleFrequency">
+    update allele_frequency
+    set RACE_ID = #{raceId,jdbcType=INTEGER},
+    RACE_NAME = #{raceName,jdbcType=VARCHAR},
+    MARKER_NAME = #{markerName,jdbcType=VARCHAR},
+    ALLELE_NAME = #{alleleName,jdbcType=VARCHAR},
+    ALLELE_FREQUENCY = #{alleleFrequency,jdbcType=FLOAT},
+    CREATE_PERSON = #{createPerson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

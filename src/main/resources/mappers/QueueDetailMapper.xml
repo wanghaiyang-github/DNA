@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bazl.hslims.manager.model.po.QueueDetail">
+
+  <resultMap id="BaseResultMap" type="com.bazl.hslims.manager.model.po.QueueDetail">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="QUEUE_ID" jdbcType="INTEGER" property="queueId" />
+    <result column="CASE_ID" jdbcType="INTEGER" property="caseId" />
+    <result column="SAMPLE_ID" jdbcType="VARCHAR" property="sampleId" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATE_PERSON" jdbcType="VARCHAR" property="createPerson" />
+    <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime" />
+    <result column="UPDATE_PERSON" jdbcType="VARCHAR" property="updatePerson" />
+    <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    ID, QUEUE_ID, CASE_ID, SAMPLE_ID, STATUS, CREATE_PERSON, CREATE_DATETIME, UPDATE_PERSON, UPDATE_DATETIME
+  </sql>
+
+
+  <select id="selectListByQueueId" resultType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from queue_detail
+    where QUEUE_ID = #{queueId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectFailedCaseIdList" resultType="int">
+    select CASE_ID
+    from queue_detail
+    where SYNC_FAILED_FLAG='1'
+  </select>
+
+  <select id="selectList" parameterType="com.bazl.hslims.manager.model.po.QueueDetail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from queue_detail
+    <if test="_parameter != null">
+      <where>
+        <if test="syncFailedFlag != null">
+          SYNC_FAILED_FLAG=#{syncFailedFlag, jdbcType=CHAR}
+        </if>
+        <if test="caseId != null">
+          AND CASE_ID=#{caseId, jdbcType=INTEGER}
+        </if>
+        <if test="sampleId != null">
+          AND SAMPLE_ID=#{sampleId, jdbcType=VARCHAR}
+        </if>
+      </where>
+    </if>
+    order by case_id, operate_type
+  </select>
+
+  <select id="selectListBySampleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from queue_detail where SAMPLE_ID=#{sampleId, jdbcType=VARCHAR}
+    order by STATUS desc , UPDATE_DATETIME desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="int">
+    delete from queue_detail where ID=#{id, jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByCaseId" parameterType="int">
+    delete from queue_detail where CASE_ID=#{caseId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bazl.hslims.manager.model.po.QueueDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into queue_detail (
+     QUEUE_ID, CASE_ID, SAMPLE_ID, STATUS, CREATE_PERSON
+    ) values (
+    #{queueId,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, #{sampleId,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+    #{createPerson,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.bazl.hslims.manager.model.po.QueueDetail">
+    update queue_detail
+    set
+      QUEUE_ID=#{queueId, jdbcType=INTEGER},
+      CASE_ID=#{caseId, jdbcType=INTEGER},
+      SAMPLE_ID=#{sampleId, jdbcType=VARCHAR},
+      STATUS=#{status, jdbcType=CHAR},
+      UPDATE_PERSON=#{updatePerson, jdbcType=VARCHAR}
+    where ID=#{id, jdbcType=INTEGER}
+  </update>
+
+</mapper>
